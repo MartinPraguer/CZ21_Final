@@ -1,0 +1,17 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># CZ21_Final\r\n\r\n321
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision ca13c4e985071d76cd2c284ae496e6e9f62a3d12)
++++ b/README.md	(date 1727203662526)
+@@ -1,3 +1,3 @@
+ # CZ21_Final
+ 
+-321
+\ No newline at end of file
++[] 
+\ No newline at end of file
