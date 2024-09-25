@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
-def mypage(request):
+def base(request):
     return render(
         request,
-        "mypage.html",
+        "base.html",
         context={}
     )
