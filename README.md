@@ -9,4 +9,4 @@ Aukce obrazů:
 [ ] záložka aukce
 [ ] vytvoření aukce
 [ ] vytvořit robota s fiktivními jmény a aukcemi
-[ ] 12345
+[ ] 123
