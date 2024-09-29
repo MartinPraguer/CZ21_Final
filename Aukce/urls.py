@@ -18,6 +18,12 @@ from django.contrib import admin
 from django.urls import path
 
 from viewer.views import base, hello
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category
+
+admin.site.register(AccountStatus)
+admin.site.register(AccountType)
+admin.site.register(UserAccounts)
+admin.site.register(Category)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
