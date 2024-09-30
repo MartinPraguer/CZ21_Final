@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="nahrávání nové index.html">
-      <change afterPath="$PROJECT_DIR$/viewer/static/90fc53c9.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/static/default-image-7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/static/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/static/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/static/nicepage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/static/nicepage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/templates/index.html" afterDir="false" />
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="překopávání index.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/static/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/static/scripts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/static/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +128,23 @@
       <option name="project" value="LOCAL" />
       <updated>1727623209688</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="překopávání index.html">
+      <option name="closed" value="true" />
+      <created>1727720678843</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727720678843</updated>
+    </task>
+    <task id="LOCAL-00006" summary="překopávání index.html">
+      <option name="closed" value="true" />
+      <created>1727720690181</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727720690181</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +179,7 @@
     <MESSAGE value="vytvoreni base.html+js+css+favicon+urls path+views" />
     <MESSAGE value="zkouška README" />
     <MESSAGE value="nahrávání nové index.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="nahrávání nové index.html" />
+    <MESSAGE value="překopávání index.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="překopávání index.html" />
   </component>
 </project>
