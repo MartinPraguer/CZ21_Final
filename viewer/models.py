@@ -51,18 +51,17 @@ class Auction(Model):
     price = IntegerField()
     buy_now = BooleanField(default=False)
     promotion = BooleanField(default=False)
-    # localities
     auction_start_date = DateField()
     auction_end_date = DateField()
     number_of_views = IntegerField()
-#
-#     def __str__(self):
-#         return f"{self.name} - {self.category} - {self.description}}"
-#
-#
-# class TransactionEvalution(Model):
-#     auction = ForeignKey(Auction, on_delete=DO_NOTHING)
-#     seller_rating = IntegerField()
-#     sellers_comment = TextField()
-#     buyer_rating = IntegerField()
-#     buyers_comment = TextField()
+
+    def __str__(self):
+        return f"{self.name} - {self.category} - {self.description}"
+
+
+class TransactionEvalution(Model):
+    auction = ForeignKey(Auction, on_delete=DO_NOTHING)
+    seller_rating = IntegerField()
+    sellers_comment = TextField()
+    buyer_rating = IntegerField()
+    buyers_comment = TextField()

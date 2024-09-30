@@ -9,6 +9,7 @@ def hello(request, s):
 def base(request):
     return render(
         request,
-        "base.html",
+        "index.html",
         context={}
     )
+

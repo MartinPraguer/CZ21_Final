@@ -116,9 +116,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL prefix pro statické soubory
+STATIC_URL = '/static/'
+
+# Cesta ke složkám s vlastními statickými soubory (např. CSS, JS, obrázky)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # nebo os.path.join(BASE_DIR, 'static') v závislosti na verzi Django
+]
+
+# Konečné místo, kam se zkopírují všechny statické soubory při spuštění příkazu collectstatic
+STATIC_ROOT = BASE_DIR / "staticfiles"  # nebo os.path.join(BASE_DIR, 'staticfiles')

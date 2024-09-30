@@ -4,16 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="zkouška README" />
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="nahrávání nové index.html">
+      <change afterPath="$PROJECT_DIR$/viewer/static/90fc53c9.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/static/default-image-7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/static/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/static/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/static/nicepage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/static/nicepage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/scripts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,15 +59,20 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2mWqbAAp597eL2ZZ9wLFUk1ytuw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "django.template.preview.state": "SHOW_EDITOR",
     "git-widget-placeholder": "develop-Martin",
+    "last_opened_file_path": "Z:/SDA_pycharm/SDAcia",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -52,6 +81,16 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
+      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates" />
+      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -113,7 +152,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop-Martin" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -124,6 +175,7 @@
     <MESSAGE value="zkouska text 55" />
     <MESSAGE value="vytvoreni base.html+js+css+favicon+urls path+views" />
     <MESSAGE value="zkouška README" />
-    <option name="LAST_COMMIT_MESSAGE" value="zkouška README" />
+    <MESSAGE value="nahrávání nové index.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="nahrávání nové index.html" />
   </component>
 </project>

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from viewer.views import base, hello
+from viewer.views import base, hello, base
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category
 
 admin.site.register(AccountStatus)
@@ -28,5 +28,5 @@ admin.site.register(Category)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('base/', base, name='base'),
-    path('hello/<s>', hello),
+
 ]
