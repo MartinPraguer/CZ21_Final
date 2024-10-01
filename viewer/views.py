@@ -6,10 +6,10 @@ from viewer.forms import AdvertisementForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 
-def hello(request, s):
-    return HttpResponse(f'AHOJ {s}')
-
-# Create your views here.
+# def hello(request, s):
+#     return HttpResponse(f'AHOJ {s}')
+#
+# # Create your views here.
 def base(request):
     return render(
         request,
@@ -18,14 +18,14 @@ def base(request):
     )
 
 
-def pridat_inzerat(request):
-
-
-    return render(
-         request,
-         "pridat_inzerat.html",
-         context={}
-    )
+# def pridat_inzerat(request):
+#
+#
+#     return render(
+#          request,
+#          "pridat_inzerat.html",
+#          context={}
+#     )
 
 
     template_name = 'form.html'
