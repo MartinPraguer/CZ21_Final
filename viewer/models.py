@@ -18,6 +18,8 @@ class AccountType(Model): #běžný/prémium
         return f"typ účtu: {self.account_type}"
 
 class UserAccounts(Model):
+    pass
+    '''
     email = CharField(max_length=128)
     password = CharField(max_length=128)
     nickname = CharField(max_length=128)
@@ -34,7 +36,7 @@ class UserAccounts(Model):
 
     def __str__(self):
         return f"{self.nickname}"
-
+'''
 class Category(Model):
     name = CharField(max_length=128)
 
@@ -43,6 +45,7 @@ class Category(Model):
 
 class Auction(Model):
     name = CharField(max_length=128)
+    '''
     category = ForeignKey(Category, on_delete=DO_NOTHING)
     description = TextField()
     # fotky
@@ -54,10 +57,11 @@ class Auction(Model):
     auction_start_date = DateField()
     auction_end_date = DateField()
     number_of_views = IntegerField()
+    
 
     def __str__(self):
         return f"{self.name} - {self.category} - {self.description}"
-
+    '''
 
 class TransactionEvalution(Model):
     auction = ForeignKey(Auction, on_delete=DO_NOTHING)
@@ -69,10 +73,12 @@ class TransactionEvalution(Model):
     def __str__(self):
         return f"{self.auction} - {self.sell_rating} - {self.buyer_rating}"
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class Advertisement(Model):
     name = CharField(max_length=128)
-    user = ForeignKey(UserAccounts, on_delete=DO_NOTHING)
+    user = ForeignKey(User, on_delete=DO_NOTHING)
     category = ForeignKey(Category, on_delete=DO_NOTHING)
     description = TextField()
 
