@@ -76,11 +76,14 @@ class TransactionEvalution(Model):
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-class Advertisement(Model):
-    name = CharField(max_length=128)
-    user = ForeignKey(User, on_delete=DO_NOTHING)
-    category = ForeignKey(Category, on_delete=DO_NOTHING)
-    description = TextField()
+from django.db import models
+
+class Advertisement(models.Model):
+    name = models.CharField(max_length=128)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    description = models.TextField()
+    photo = models.ImageField(upload_to='advertisement_photos/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} - {self.user} -{self.category} - {self.description}"

@@ -20,12 +20,14 @@ from viewer.views import AdvertisementView, AdvertisementCreateView, Advertiseme
 from viewer.views import base
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement
 
+# Registrace modelů do administrace
 admin.site.register(AccountStatus)
 admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
 admin.site.register(Advertisement)
 
+# Definice URL vzorů
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("base/", base, name='base'),
@@ -35,6 +37,11 @@ urlpatterns = [
     path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
     path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),
     path('advertisement/delete/<pk>', AdvertisementDeleteView.as_view(), name='advertisement_delete'),
-
-
 ]
+
+# Přidání URL pro obsluhu mediálních souborů během vývoje
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
