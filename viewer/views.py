@@ -18,20 +18,20 @@ def base(request):
     )
 
 
-# def pridat_inzerat(request):
-#
-#
-#     return render(
-#         request,
-#         "pridat_inzerat.html",
-#         context={}
-#     )
+def pridat_inzerat(request):
+
+
+    return render(
+         request,
+         "pridat_inzerat.html",
+         context={}
+    )
 
 
     template_name = 'form.html'
 class AdvertisementView(TemplateView):
     template_name = 'advertisement.html'
-    extra_context = {'advertisement': Advertisement.objects.all()}
+    extra_context = {'advertisements': Advertisement.objects.all()}
 class AdvertisementCreateView(CreateView):
     template_name = 'advertisement_form.html'
     form_class = AdvertisementForm

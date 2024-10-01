@@ -18,12 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
 from viewer.views import base, hello, base, pridat_inzerat
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement
 
 admin.site.register(AccountStatus)
 admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
+admin.site.register(Advertisement)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
