@@ -13,3 +13,12 @@ def base(request):
         context={}
     )
 
+
+def pridat_inzerat(request):
+
+
+    return render(
+        request,
+        "pridat_inzerat.html",
+        context={}
+    )

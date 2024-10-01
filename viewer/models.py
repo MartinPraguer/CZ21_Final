@@ -65,3 +65,6 @@ class TransactionEvalution(Model):
     sellers_comment = TextField()
     buyer_rating = IntegerField()
     buyers_comment = TextField()
+
+class Inzerát(Model):
+    název = CharField(max_length=128)
