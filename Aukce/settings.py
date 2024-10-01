@@ -133,3 +133,7 @@ STATICFILES_DIRS = [
 
 # Konečné místo, kam se zkopírují všechny statické soubory při spuštění příkazu collectstatic
 STATIC_ROOT = BASE_DIR / "staticfiles"  # nebo os.path.join(BASE_DIR, 'staticfiles')
+
+
+MEDIA_URL = '/media/'  # URL pro přístup k mediálním souborům (např. obrázkům)
+MEDIA_ROOT = BASE_DIR / 'media'  # Fyzická cesta k uložení mediálních souborů

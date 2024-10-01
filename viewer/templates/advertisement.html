@@ -4,11 +4,21 @@
 
 {% block content %}
 <h1>Stránka přidání inzerátu</h1>
-{#    <p>{{ advertisements }}</p>#}
+
 <a href="{% url 'advertisement_add' %}">Přidat inzerát</a>
+
 {% for advertisement in advertisements %}
-<p>Inzerát: {{advertisement.name}} - {{advertisement.user}} - {{advertisement.category}} - {{advertisement.description}}
-    <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
-    <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a></p>
+    <p>
+        Inzerát: {{ advertisement.name }} - {{ advertisement.user }} - {{ advertisement.category }} - {{ advertisement.description }}
+        {% if advertisement.photo %}
+            <!-- Zobrazení obrázku pomocí <img> tagu -->
+            <img src="{{ advertisement.photo.url }}" alt="{{ advertisement.name }}" style="max-width: 200px; height: auto;">
+        {% else %}
+            <!-- Pokud není obrázek dostupný -->
+            <em>Žádný obrázek</em>
+        {% endif %}
+        <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
+        <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
+    </p>
 {% endfor %}
 {% endblock %}
