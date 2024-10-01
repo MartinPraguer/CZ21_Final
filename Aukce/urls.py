@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
 from viewer.views import base, hello, base, pridat_inzerat
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category
 
@@ -28,5 +28,12 @@ admin.site.register(Category)
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("base/", base, name='base'),
-    path("pridat_inzerat", pridat_inzerat)
+    # path("pridat_inzerat", pridat_inzerat)
+
+    path('advertisement', AdvertisementView.as_view(), name='advertisement'),
+    path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
+    path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),
+    path('advertisement/delete/<pk>', AdvertisementDeleteView.as_view(), name='advertisement_delete'),
+
+
 ]

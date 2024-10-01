@@ -1,7 +1,10 @@
 from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from viewer.models import Advertisement
+from viewer.forms import AdvertisementForm
+from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.urls import reverse_lazy
 
 def hello(request, s):
     return HttpResponse(f'AHOJ {s}')
@@ -15,14 +18,57 @@ def base(request):
     )
 
 
-def pridat_inzerat(request):
+# def pridat_inzerat(request):
+#
+#
+#     return render(
+#         request,
+#         "pridat_inzerat.html",
+#         context={}
+#     )
 
 
-    return render(
-        request,
-        "pridat_inzerat.html",
-        context={}
-    )
+    template_name = 'form.html'
+class AdvertisementView(TemplateView):
+    template_name = 'advertisement.html'
+    extra_context = {'advertisement': Advertisement.objects.all()}
+class AdvertisementCreateView(CreateView):
+    template_name = 'advertisement_form.html'
+    form_class = AdvertisementForm
+    success_url = reverse_lazy('advertisement')
+class AdvertisementUpdateView(UpdateView):
+    template_name = 'advertisement_form.html'
+    model = Advertisement
+    form_class = AdvertisementForm
+    success_url = reverse_lazy('advertisement')
+class AdvertisementDeleteView(DeleteView):
+    template_name = 'advertisement_form.html'
+    model = Advertisement
+    success_url = reverse_lazy('building')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # STÁHNUTO OD MARTINA Z SDACIA

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Stránka přidání inzerátu</h1>
+<a href="{% url 'advertisement_add' %}">Přidat inzerát</a>
+{% for advertisement in advertisements %}
+<p>Budova: {{advertisement.name}} - {{advertisement.user}} - {{advertisement.category}} - {{advertisement.description}}
+    <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
+    <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a></p>
+{% endfor %}
+{% endblock %}
