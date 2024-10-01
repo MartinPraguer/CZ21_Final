@@ -66,5 +66,15 @@ class TransactionEvalution(Model):
     buyer_rating = IntegerField()
     buyers_comment = TextField()
 
-class Inzerát(Model):
-    název = CharField(max_length=128)
+    def __str__(self):
+        return f"{self.auction} - {self.sell_rating} - {self.buyer_rating}"
+
+
+class Advertisement(Model):
+    name = CharField(max_length=128)
+    user = ForeignKey(UserAccounts, on_delete=DO_NOTHING)
+    category = ForeignKey(Category, on_delete=DO_NOTHING)
+    description = TextField()
+
+    def __str__(self):
+        return f"{self.name} - {self.user} -{self.category} - {self.description}"

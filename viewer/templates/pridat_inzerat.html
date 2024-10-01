@@ -5,6 +5,20 @@
             <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
               <div class="u-container-layout u-similar-container u-container-layout-8">
                 <img class="u-expanded-width u-image u-image-default u-image-8" alt="" data-image-width="2000" data-image-height="1333" src="{% static "default-image-7.jpg" %}">
+                  
+
+
+<form method="POST">
+    {% csrf_token %}
+    <table id="building_form">
+        {{form}}
+    </table>
+    <input type="submit" value="Hotovo">
+</form>
+ 
+                  
+                  
+                  
                 <p class="u-align-center u-text u-text-23">Pohled na Karlštejn</p>
                 <p class="u-align-center u-text u-text-24">115.000 Kč</p>
                   <p class="u-align-center u-text u-text-25"><del>110.000 Kč</del></p>
