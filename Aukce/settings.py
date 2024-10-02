@@ -137,3 +137,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # nebo os.path.join(BASE_DIR, 'staticfil
 
 MEDIA_URL = '/media/'  # URL pro přístup k mediálním souborům (např. obrázkům)
 MEDIA_ROOT = BASE_DIR / 'media'  # Fyzická cesta k uložení mediálních souborů
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'TIMEOUT': 1,  # Změňte hodnotu na nižší pro častější obnovu cache
+    }
+}
