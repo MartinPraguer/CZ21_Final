@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
 from viewer.views import index, about, contact, search
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
 
 # Registrace modelů do administrace
 admin.site.register(AccountStatus)
@@ -26,6 +26,7 @@ admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
 admin.site.register(Advertisement)
+admin.site.register(Auction)
 
 # Definice URL vzorů
 urlpatterns = [

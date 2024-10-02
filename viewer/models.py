@@ -1,5 +1,8 @@
 from django.db import models
-from django.db.models import Model, DO_NOTHING, CharField, DateField, DateTimeField, ForeignKey, IntegerField, TextField, BooleanField
+from django.db.models import Model, DO_NOTHING, CharField, DateField, ForeignKey, IntegerField, TextField, BooleanField, ImageField, DateTimeField
+from django.utils.datetime_safe import datetime
+
+
 # from django.forms import
 
 
@@ -45,23 +48,21 @@ class Category(Model):
 
 class Auction(Model):
     name = CharField(max_length=128)
-    '''
-    category = ForeignKey(Category, on_delete=DO_NOTHING)
-    description = TextField()
-    # fotky
-    minimum_bid = IntegerField()
-    maximum_bid = IntegerField()
-    price = IntegerField()
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
+    description = models.TextField(default="No description provided")
+    # photo = ImageField(upload_to='photos/', default='photos/default.jpg')
+    minimum_bid = IntegerField(default=0)
+    # maximum_bid = IntegerField(default=0)
+    price = IntegerField(default=0)
     buy_now = BooleanField(default=False)
     promotion = BooleanField(default=False)
-    auction_start_date = DateField()
-    auction_end_date = DateField()
-    number_of_views = IntegerField()
-    
+    auction_start_date = DateTimeField(default=datetime.now)
+    auction_end_date = DateTimeField(default=datetime.now)
+    number_of_views = IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} - {self.category} - {self.description}"
-    '''
+
 
 class TransactionEvalution(Model):
     auction = ForeignKey(Auction, on_delete=DO_NOTHING)
@@ -78,12 +79,14 @@ User = get_user_model()
 
 from django.db import models
 
-class Advertisement(models.Model):
-    name = models.CharField(max_length=128)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
-    description = models.TextField()
-    photo = models.ImageField(upload_to='advertisement_photos/', null=True, blank=True)
+class Advertisement(Model):
+    name = CharField(max_length=128)
+    user = ForeignKey(User, on_delete=models.DO_NOTHING)
+    category = ForeignKey(Category, on_delete=models.DO_NOTHING)
+    description = TextField()
+    # photo = ImageField(Auction)
+
 
     def __str__(self):
         return f"{self.name} - {self.user} -{self.category} - {self.description}"
+
