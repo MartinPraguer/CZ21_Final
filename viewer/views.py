@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 #     return HttpResponse(f'AHOJ {s}')
 #
 # # Create your views here.
-def base(request):
+def index(request):
     return render(
         request,
         "index.html",

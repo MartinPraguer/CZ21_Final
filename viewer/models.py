@@ -41,7 +41,7 @@ class Category(Model):
     name = CharField(max_length=128)
 
     def __str__(self):
-        return f"categorie - {self.name}"
+        return f"{self.name}"
 
 class Auction(Model):
     name = CharField(max_length=128)
