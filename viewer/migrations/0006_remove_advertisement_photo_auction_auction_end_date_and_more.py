@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django.utils.datetime_safe
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
@@ -19,12 +19,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='auction',
             name='auction_end_date',
-            field=models.DateTimeField(default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(default=timezone.now),
         ),
         migrations.AddField(
             model_name='auction',
             name='auction_start_date',
-            field=models.DateTimeField(default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(default=timezone.now),
         ),
         migrations.AddField(
             model_name='auction',
