@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+    <h1>Search Results</h1>
+    {% if searchs %}
+        <ul>
+            {% for ad in searchs %}
+                <li>
+                    <strong>{{ ad.name }}</strong><br>
+                    Category: {{ ad.category }}<br>
+                    User: {{ ad.user }}<br>
+                    Description: {{ ad.description }}<br>
+                    {% if ad.photo %}
+                        <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found for your search.</p>
+    {% endif %}
+{% endblock %} 

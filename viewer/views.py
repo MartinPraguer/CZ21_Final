@@ -5,6 +5,7 @@ from viewer.models import Advertisement
 from viewer.forms import AdvertisementForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 # def hello(request, s):
 #     return HttpResponse(f'AHOJ {s}')
@@ -17,15 +18,28 @@ def index(request):
         context={}
     )
 
+def about(request):
+    return render(
+        request,
+        "about.html",
+        context={}
+    )
 
-# def pridat_inzerat(request):
-#
-#
-#     return render(
-#          request,
-#          "pridat_inzerat.html",
-#          context={}
-#     )
+def contact(request):
+    return render(
+        request,
+        "contact.html",
+        context={}
+    )
+
+def search(request):
+    hledany_vyraz = request.GET.get('hledej', '')
+    hledany_vyraz_capitalized = hledany_vyraz.capitalize()
+    return render(request, template_name='search.html', context={
+        "searchs": Advertisement.objects.filter(
+            Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized)
+        )
+    })
 
 
     template_name = 'form.html'

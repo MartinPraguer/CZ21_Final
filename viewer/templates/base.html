@@ -30,7 +30,7 @@
         <a href="#" class="u-image u-logo u-image-1">
           <img src={% static "default-logo.png" %} class="u-logo-image u-logo-image-1">
         </a>
-      <form class="form-inline my-2 my-lg-0 mr-auto" action="/hledani/" method="GET">
+      <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">
             {% csrf_token %}
             <input class="form-control mr-sm-2" type="search" placeholder="Hledej" aria-label="Hledej" name="hledej">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hledej</button>
@@ -44,10 +44,10 @@
             </a>
           </div>
           <div class="u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{{ index }}" style="padding: 10px 20px;">Home</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{{ advertisement }}" style="padding: 10px 20px;">Advertisement</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="About.html" style="padding: 10px 20px;">About</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'index' %}" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'advertisement' %}" style="padding: 10px 20px;">Advertisement</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'about' %}" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'contact' %}" style="padding: 10px 20px;">Contact</a>
 </li></ul>
           </div>
           <div class="u-nav-container-collapse">
@@ -55,7 +55,7 @@
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./">Home</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="about.html">About</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html">Contact</a>
 </li></ul>
               </div>

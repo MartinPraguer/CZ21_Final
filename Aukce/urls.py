@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
-from viewer.views import index
+from viewer.views import index, about, contact, search
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement
 
 # Registrace modelů do administrace
@@ -32,7 +32,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name='index'),
     # path("pridat_inzerat", pridat_inzerat)
-
+    path("about/", about, name='about'),
+    path("search/", search, name='search'),
+    path("contact/", contact, name='contact'),
     path('advertisement/', AdvertisementView.as_view(), name='advertisement'),
     path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
     path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),
