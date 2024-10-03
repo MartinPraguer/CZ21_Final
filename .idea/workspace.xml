@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_09_2024_16_43_[Changes]/shelved.patch" beforeDir="false" />
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/podrobne_hledani.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/podrobne_hledani.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727976204772</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html">
+      <option name="closed" value="true" />
+      <created>1727983747209</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727983747209</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +209,7 @@
     <MESSAGE value="hotová base.html a index.html" />
     <MESSAGE value="Logo a favicon" />
     <MESSAGE value="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
+    <MESSAGE value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
   </component>
 </project>

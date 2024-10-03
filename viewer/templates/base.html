@@ -33,8 +33,8 @@
         </a>
       <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">
             {% csrf_token %}
-            <input class="form-control mr-sm-2" type="search" placeholder="Hledej" aria-label="Hledej" name="hledej">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hledej</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
           <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
@@ -67,10 +67,15 @@
       </div></header>
     <section class="u-align-center u-clearfix u-container-align-center u-palette-1-base u-section-1" src="" id="carousel_ef82">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <h1 class="u-align-center u-text u-text-default u-title u-text-1">Aukční galerie</h1>
-          <p class="u-align-center u-text u-text-default u-text-2"><a href="">   Obrazy   </a> <a href="">   Sochy   </a> <a href="">   Numismatika   </a> <a href="">   Šperky   </a></p>
+        <h1 class="u-align-center u-text u-text-default u-title u-text-1">Auction gallery</h1>
+          <p class="u-align-center u-text u-text-default u-text-2"><a href="{% url 'paintings' %}">   Paintings   </a> <a href="{% url 'statues' %}">   Statues   </a> <a href="{% url 'numismatics' %}">   Numismatics   </a> <a href="{% url 'jewelry' %}">   Jewelry   </a></p>
       </div>
     </section>
+
+
+
+
+
 
 
 
@@ -84,34 +89,34 @@
           <div class="u-repeater u-repeater-1">
             <div class="u-align-center u-container-align-center u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-1">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="2000" data-image-height="1333" src="{% static "obrazy.gif" %}">
-                <h3 class="u-align-center u-text u-text-2">Obrazy</h3>
+                  <a href="{% url 'paintings' %}"><img alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="2000" data-image-height="1333" src="{% static "obrazy.gif" %}"></a>
+                <h3 class="u-align-center u-text u-text-2">Paintings</h3>
                 <p class="u-align-center u-text u-text-default u-text-3">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-                <a href="" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">Zobrazit</a>
+                <a href="{% url 'paintings' %}" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">Display</a>
               </div>
             </div>
             <div class="u-align-center u-container-align-center u-container-align-center-sm u-container-align-center-xs u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-2">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-2" data-image-width="2000" data-image-height="1333" src="{% static "sochy.gif" %}">
-                <h3 class="u-align-center u-text u-text-4">Sochy</h3>
+                  <a href="{% url 'statues' %}"><img alt="" class="u-expanded-width u-image u-image-default u-image-2" data-image-width="2000" data-image-height="1333" src="{% static "sochy.gif" %}"></a>
+                <h3 class="u-align-center u-text u-text-4">Statues</h3>
                 <p class="u-align-center u-text u-text-default u-text-5">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-                <a href="" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">Zobrazit</a>
+                <a href="{% url 'statues' %}" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">Display</a>
               </div>
             </div>
             <div class="u-align-center u-container-align-center u-container-align-center-sm u-container-align-center-xl u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-3">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-3" data-image-width="2000" data-image-height="1333" src="{% static "numismatika.gif" %}">
-                <h3 class="u-align-center u-text u-text-6">Numismatika</h3>
+                  <a href="{% url 'numismatics' %}"><img alt="" class="u-expanded-width u-image u-image-default u-image-3" data-image-width="2000" data-image-height="1333" src="{% static "numismatika.gif" %}"></a>
+                <h3 class="u-align-center u-text u-text-6">Numismatics</h3>
                 <p class="u-align-center u-text u-text-default u-text-7">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-                <a href="" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">Zobrazit</a>
+                <a href="{% url 'numismatics' %}" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">Display</a>
               </div>
             </div>
             <div class="u-align-center u-container-align-center u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-4">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-4" data-image-width="2000" data-image-height="1333" src="{% static "šperky.gif" %}">
-                <h3 class="u-align-center u-text u-text-8">Šperky</h3>
+                  <a href="{% url 'jewelry' %}"><img alt="" class="u-expanded-width u-image u-image-default u-image-4" data-image-width="2000" data-image-height="1333" src="{% static "šperky.gif" %}"></a>
+                <h3 class="u-align-center u-text u-text-8">Jewelry</h3>
                 <p class="u-align-center u-text u-text-default u-text-9">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-                <a href="" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-4">Zobrazit</a>
+                <a href="{% url 'jewelry' %}" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-4">Display</a>
               </div>
             </div>
           </div>

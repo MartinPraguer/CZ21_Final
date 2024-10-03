@@ -10,12 +10,39 @@ from django.db.models import Q
 
 # def hello(request, s):
 #     return HttpResponse(f'AHOJ {s}')
-#
-# # Create your views here.
+
 def index(request):
     return render(
         request,
         "index.html",
+        context={}
+    )
+
+def paintings(request):
+    return render(
+        request,
+        "paintings.html",
+        context={}
+    )
+
+def statues(request):
+    return render(
+        request,
+        "statues.html",
+        context={}
+    )
+
+def jewelry(request):
+    return render(
+        request,
+        "jewelry.html",
+        context={}
+    )
+
+def numismatics(request):
+    return render(
+        request,
+        "numismatics.html",
         context={}
     )
 
