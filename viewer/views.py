@@ -37,7 +37,7 @@ def search(request):
     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
     return render(request, template_name='search.html', context={
         "searchs": Advertisement.objects.filter(
-            Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized)
+            Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized) | Q(user__icontains=hledany_vyraz) | Q(user__icontains=hledany_vyraz_capitalized)
         )
     })
 
