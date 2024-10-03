@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
-from viewer.views import index, about, contact, search
+from viewer.views import index, about, contact, search, ongoing_auctions, auction
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
 
 # Registrace modelů do administrace
@@ -40,6 +40,8 @@ urlpatterns = [
     path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
     path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),
     path('advertisement/delete/<pk>', AdvertisementDeleteView.as_view(), name='advertisement_delete'),
+    path('auctions/ongoing/', ongoing_auctions, name='ongoing_auctions'),
+    path('auction/<pk>', auction, name='auction'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje

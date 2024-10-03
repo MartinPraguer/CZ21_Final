@@ -1,11 +1,15 @@
 from django.contrib.sessions.backends.base import SessionBase
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from viewer.models import Advertisement
 from viewer.forms import AdvertisementForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.utils import timezone
+from .models import Auction
+
+
 
 # def hello(request, s):
 #     return HttpResponse(f'AHOJ {s}')
@@ -40,6 +44,37 @@ def search(request):
             Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized)
         )
     })
+
+def auction(request, pk):
+    aukce = Auction.objects.get(pk=pk)
+    aukce.pocet_zobrazeni += 1
+    aukce.save()
+
+    if request.method == 'POST':
+        # Získat data z formuláře
+        nick = request.POST.get('nick')
+        text = request.POST.get('text')
+
+        # Vytvořit a uložit nový komentář
+        # komentar = Komentare(
+        #     nick=nick,
+        #     text=text,
+        #     auction=aukce
+        # )
+        # komentar.save()
+
+        # Přesměrování na stejnou stránku, aby se zobrazil nový komentář
+        return redirect('auction', pk=aukce.pk)
+
+    return render(request, template_name='auction.html', context={'aukce': aukce})
+
+def ongoing_auctions(request):
+    # Filter auctions that are currently running
+    auctions = Auction.objects.filter(
+        auction_start_date__lte=timezone.now(),
+        auction_end_date__gte=timezone.now()
+    )
+    return render(request, 'ongoing_auctions.html', {'auctions': auctions})
 
 
     template_name = 'form.html'

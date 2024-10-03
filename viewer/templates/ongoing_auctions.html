@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongoing Auctions</title>
+</head>
+<body>
+    <h1>Ongoing Auctions</h1>
+    <ul>
+        {% for auction in auctions %}
+        <li>
+            <h2>{{ auction.name }}</h2>
+            <p>Category: {{ auction.category.name }}</p>
+            <p>Description: {{ auction.description }}</p>
+            <p>Starting Price: {{ auction.price }}</p>
+            <p>Minimum Bid: {{ auction.minimum_bid }}</p>
+            <p>Auction Ends: {{ auction.auction_end_date }}</p>
+        </li>
+        {% empty %}
+        <p>No ongoing auctions at the moment.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>
