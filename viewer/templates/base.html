@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 <html style="font-size: 16px;" lang="en"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -18,7 +19,7 @@
     "@context": "http://schema.org",
     "@type": "Organization",
     "name": "",
-    "logo": "{% static 'default-logo.png' %}"
+    "logo": "{% static 'Auction gallery -ořez.gif' %}"
 }
 </script>
     <meta name="theme-color" content="#478ac9">
@@ -27,8 +28,8 @@
   <meta data-intl-tel-input-cdn-path="intlTelInput/"></head> 
 
 <body data-home-page="Home.html" data-home-page-title="Home" data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-6d48"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <a href="#" class="u-image u-logo u-image-1">
-          <img src={% static "default-logo.png" %} class="u-logo-image u-logo-image-1">
+        <a href="#" style="max-width: 200px; height: auto;">
+          <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1">
         </a>
       <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">
             {% csrf_token %}
