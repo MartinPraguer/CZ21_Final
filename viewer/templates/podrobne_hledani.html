@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Podrobné hledání</h1>
+
+<form method="get" action="{% url 'podrobne_hledani' %}">
+    <label for="popis">Popis:</label>
+    <input type="text" name="popis" id="popis"><br>
+
+        <label for="znacka">Značka:</label>
+    <select name="znacka" id="znacka">
+        <option value="">--Vyber značku--</option>
+        {% for z in znacky %}
+            <option value="{{ z.znacka }}">{{ z.znacka }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="karoserie">Karosérie:</label>
+    <select name="karoserie" id="karoserie">
+        <option value="">--Vyber karosérii--</option>
+        {% for k in karoserie %}
+            <option value="{{ k.karoserie }}">{{ k.karoserie }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="vykon">Výkon:</label>
+    <input type="text" name="vykon" id="vykon"><br>
+
+    <label for="rok_vyroby_od">Rok výroby od:</label>
+    <input type="number" name="rok_vyroby_od" id="rok_vyroby_od">
+
+    <label for="rok_vyroby_do">do:</label>
+    <input type="number" name="rok_vyroby_do" id="rok_vyroby_do"><br>
+
+    <label for="cena_od">Cena od:</label>
+    <input type="number" name="cena_od" id="cena_od">
+
+    <label for="cena_do">do:</label>
+    <input type="number" name="cena_do" id="cena_do"><br>
+
+    <label for="datum_pridani_od">Datum přidání od:</label>
+    <input type="date" name="datum_pridani_od" id="datum_pridani_od">
+
+    <label for="datum_pridani_do">do:</label>
+    <input type="date" name="datum_pridani_do" id="datum_pridani_do"><br>
+
+    <button type="submit">Hledat</button>
+</form>
+
+<h3>Výsledky hledání:</h3>
+<ul>
+    {% for inzerat in inzeraty %}
+        <li>{{ inzerat.popis }} - {{ inzerat.znacka }} - {{ inzerat.karoserie }} - {{ inzerat.vykon }} - {{ inzerat.rok_vyroby }} - {{ inzerat.cena }} - {{ inzerat.datum_pridani }}</li>
+    {% empty %}
+        <li>Žádné výsledky nenalezeny.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

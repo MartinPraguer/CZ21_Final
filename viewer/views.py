@@ -41,6 +41,50 @@ def search(request):
         )
     })
 
+def podrobne_hledani(request):
+    popis = request.GET.get('popis', '')
+    znacka = request.GET.get('znacka', '')
+    karoserie = request.GET.get('karoserie', '')
+    vykon = request.GET.get('vykon', '')
+    rok_vyroby_od = request.GET.get('rok_vyroby_od', '')
+    rok_vyroby_do = request.GET.get('rok_vyroby_do', '')
+    cena_od = request.GET.get('cena_od', '')
+    cena_do = request.GET.get('cena_do', '')
+    datum_pridani_od = request.GET.get('datum_pridani_od', '')
+    datum_pridani_do = request.GET.get('datum_pridani_do', '')
+
+    inzeraty = Advertisement.objects.filter()
+
+    # if popis:
+    #     inzeraty = inzeraty.filter(popis__icontains=popis)
+    # if znacka:
+    #     inzeraty = inzeraty.filter(znacka__znacka__icontains=znacka)
+    # if karoserie:
+    #     inzeraty = inzeraty.filter(karoserie__karoserie__icontains=karoserie)
+    # if vykon:
+    #     inzeraty = inzeraty.filter(vykon__icontains=vykon)
+    # if rok_vyroby_od:
+    #     inzeraty = inzeraty.filter(rok_vyroby__gte=rok_vyroby_od)  # Rok výroby od
+    # if rok_vyroby_do:
+    #     inzeraty = inzeraty.filter(rok_vyroby__lte=rok_vyroby_do)  # Rok výroby do
+    # if cena_od:
+    #     inzeraty = inzeraty.filter(cena__gte=cena_od)
+    # if cena_do:
+    #     inzeraty = inzeraty.filter(cena__lte=cena_do)
+    # if datum_pridani_od:
+    #     inzeraty = inzeraty.filter(datum_pridani__date__gte=datum_pridani_od)  # Datum přidání od
+    # if datum_pridani_do:
+    #     inzeraty = inzeraty.filter(datum_pridani__date__lte=datum_pridani_do)  # Datum přidání do
+    #
+    # znacky = ZnackyAut.objects.all()
+    # karoserie = TypKaroserie.objects.all()
+
+    return render(request, template_name='podrobne_hledani.html', context={
+        # "inzeraty": inzeraty,
+        # "znacky": znacky,
+        # "karoserie": karoserie
+    })
+
 
     template_name = 'form.html'
 class AdvertisementView(TemplateView):

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
-from viewer.views import index, about, contact, search
+from viewer.views import index, about, contact, search, podrobne_hledani
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
 
 # Registrace modelů do administrace
@@ -36,6 +36,8 @@ urlpatterns = [
     path("about/", about, name='about'),
     path("search/", search, name='search'),
     path("contact/", contact, name='contact'),
+    path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
+    # path("inzeraty/<int:pk>/", auction, name='auction'),
     path('advertisement/', AdvertisementView.as_view(), name='advertisement'),
     path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
     path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),

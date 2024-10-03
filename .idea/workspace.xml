@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="nahrávání nové index.html">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="Logo a favicon">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/static/default-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/static/default-logo -záloha.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +157,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727722242115</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Logo a favicon">
+      <option name="closed" value="true" />
+      <created>1727964864867</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727964864867</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +190,7 @@
     <MESSAGE value="nahrávání nové index.html" />
     <MESSAGE value="překopávání index.html" />
     <MESSAGE value="hotová base.html a index.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="hotová base.html a index.html" />
+    <MESSAGE value="Logo a favicon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Logo a favicon" />
   </component>
 </project>
