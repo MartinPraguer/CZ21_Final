@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-d66msvck1rkc#jl-4#dj8l39lpyv9x23wk2d$2_fcf7%q0%*^@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['auctiongallery-7689.rostiapp.cz', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://auctiongallery-7689.rostiapp.cz']
 
 
