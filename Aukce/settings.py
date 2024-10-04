@@ -23,11 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-d66msvck1rkc#jl-4#dj8l39lpyv9x23wk2d$2_fcf7%q0%*^@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['auctiongallery-7689.rostiapp.cz', 'www.auctiongallery-7689.rostiapp.cz', 'localhost', '127.0.0.1']
+
 CSRF_TRUSTED_ORIGINS = ['https://auctiongallery-7689.rostiapp.cz', 'https://www.auctiongallery-7689.rostiapp.cz']
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 
@@ -139,16 +142,16 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # nebo os.path.join(BASE_DIR, 'staticfil
 MEDIA_URL = '/media/'  # URL pro přístup k mediálním souborům (např. obrázkům)
 MEDIA_ROOT = BASE_DIR / 'media'  # Fyzická cesta k uložení mediálních souborů
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://0.0.0.0:8080',
-        'TIMEOUT': 1,  # Změňte hodnotu na nižší pro častější obnovu cache
-    },
-    'secondary': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:8000',  # Druhá Redis instance (jiný port nebo databáze)
-        'TIMEOUT': 1,  # Cache timeout v sekundách
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://0.0.0.0:8080',
+#         'TIMEOUT': 1,  # Změňte hodnotu na nižší pro častější obnovu cache
+#     },
+#     'secondary': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:8000',  #většinou :6379 # Druhá Redis instance (jiný port nebo databáze)
+#         'TIMEOUT': 1,  # Cache timeout v sekundách
+#     }
+# }
 
