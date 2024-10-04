@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: advertisement.html, aby zobrazovalo inzeráty v řádku&#10;+ !!! vymazání všech migrací a databáze !!!">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: setting.py skrz rosti.cz">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
     </list>
@@ -222,7 +222,31 @@
       <option name="project" value="LOCAL" />
       <updated>1728068928956</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix: advertisement.html, aby zobrazovalo inzeráty v řádku&#10;+ !!! vymazání všech migrací a databáze !!!">
+      <option name="closed" value="true" />
+      <created>1728070166394</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728070166394</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix: setting.py skrz rosti.cz">
+      <option name="closed" value="true" />
+      <created>1728070220880</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1728070220880</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix: setting.py skrz rosti.cz">
+      <option name="closed" value="true" />
+      <created>1728071442641</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1728071442641</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,7 +278,9 @@
     <MESSAGE value="změna barev base.html" />
     <MESSAGE value="přidání hamburgeru base.html" />
     <MESSAGE value="fix: menu a hamburgeru, aby fungoval - base.html" />
+    <MESSAGE value="fix: fix settings.py skrz rosti.cz" />
     <MESSAGE value="fix: advertisement.html, aby zobrazovalo inzeráty v řádku&#10;+ !!! vymazání všech migrací a databáze !!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: advertisement.html, aby zobrazovalo inzeráty v řádku&#10;+ !!! vymazání všech migrací a databáze !!!" />
+    <MESSAGE value="fix: setting.py skrz rosti.cz" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: setting.py skrz rosti.cz" />
   </component>
 </project>
