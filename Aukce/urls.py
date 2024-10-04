@@ -19,6 +19,7 @@ from django.urls import path
 from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
+from viewer import views
 
 # Registrace modelů do administrace
 admin.site.register(AccountStatus)
@@ -46,6 +47,8 @@ urlpatterns = [
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
+    path('test/', views.my_view),
+
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje

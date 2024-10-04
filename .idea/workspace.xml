@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix5: setting.py skrz rosti.cz">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix6: setting.py skrz rosti.cz">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/nicepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/static/nicepage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,24 +59,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "develop-Martin",
-    "last_opened_file_path": "Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/templates",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/templates&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates" />
@@ -101,6 +104,7 @@
       <updated>1727202761415</updated>
       <workItem from="1727202764673" duration="6478000" />
       <workItem from="1727798950153" duration="592000" />
+      <workItem from="1728075613966" duration="8000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
       <option name="closed" value="true" />
@@ -278,7 +282,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728074115436</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="fix6: setting.py skrz rosti.cz">
+      <option name="closed" value="true" />
+      <created>1728074652283</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1728074652283</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,6 +329,7 @@
     <MESSAGE value="fix3: setting.py skrz rosti.cz" />
     <MESSAGE value="fix4: setting.py skrz rosti.cz" />
     <MESSAGE value="fix5: setting.py skrz rosti.cz" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix5: setting.py skrz rosti.cz" />
+    <MESSAGE value="fix6: setting.py skrz rosti.cz" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix6: setting.py skrz rosti.cz" />
   </component>
 </project>

@@ -6,6 +6,8 @@ from viewer.forms import AdvertisementForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
+import logging
+
 
 
 # def hello(request, s):
@@ -111,6 +113,15 @@ class AdvertisementDeleteView(DeleteView):
     template_name = 'advertisement_form.html'
     model = Advertisement
     success_url = reverse_lazy('building')
+
+
+
+logger = logging.getLogger(__name__)
+
+def my_view(request):
+    # Zalogujte HTTP_HOST
+    logger.info(f"Received HTTP_HOST: {request.META.get('HTTP_HOST')}")
+    return HttpResponse("Hello, World!")
 
 
 
