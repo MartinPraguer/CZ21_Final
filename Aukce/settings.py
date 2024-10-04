@@ -145,4 +145,3 @@ CACHES = {
         'TIMEOUT': 1,  # Změňte hodnotu na nižší pro častější obnovu cache
     }
 }
-
