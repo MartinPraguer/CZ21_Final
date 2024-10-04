@@ -4,10 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="přidání hamburgeru base.html">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: menu a hamburgeru, aby fungoval - base.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0002_transactionevalution_advertisement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0003_remove_auction_auction_end_date_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0004_alter_advertisement_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0005_advertisement_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0006_remove_advertisement_photo_auction_auction_end_date_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0007_remove_auction_maximum_bid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0008_alter_auction_auction_end_date_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/advertisement.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/advertisement.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +28,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -65,6 +76,7 @@
     "django.template.preview.state": "SHOW_EDITOR",
     "git-widget-placeholder": "develop-Martin",
     "last_opened_file_path": "Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/templates",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -205,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727992120100</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix: menu a hamburgeru, aby fungoval - base.html">
+      <option name="closed" value="true" />
+      <created>1728059402451</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1728059402451</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +256,7 @@
     <MESSAGE value="zfunčnit Obrazy-Numismatika obrázky přes obrázky a Zobrazit&#10;zfunkčnit odkazy pod názvem Aukční galerie" />
     <MESSAGE value="změna barev base.html" />
     <MESSAGE value="přidání hamburgeru base.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="přidání hamburgeru base.html" />
+    <MESSAGE value="fix: menu a hamburgeru, aby fungoval - base.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: menu a hamburgeru, aby fungoval - base.html" />
   </component>
 </project>

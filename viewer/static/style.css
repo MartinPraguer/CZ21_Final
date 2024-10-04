@@ -1,0 +1,29 @@
+<style>
+.u-image-2 {
+    max-width: 100%;
+    height: auto;
+    width: 100%; /* Nastavte šířku na 100% rodičovského kontejneru */
+    object-fit: cover; /* Zachová proporce obrázku */
+}
+
+.advertisement-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.u-container-style {
+    width: 100%; /* Nastavte šířku na 100% pro flexibilitu */
+    max-width: 250px; /* Pevná maximální šířka každé karty */
+    margin: 10px auto; /* Vertikální mezery a středové zarovnání */
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+}
+</style>

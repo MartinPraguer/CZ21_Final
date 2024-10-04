@@ -1,30 +1,34 @@
-{% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<!-- Přidání CSS souboru -->
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 <h1>Stránka přidání inzerátu</h1>
 
 <a href="{% url 'advertisement_add' %}">Přidat inzerát</a>    
-    
-    
-{% for advertisement in advertisements %}
-    <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
-        <div class="u-container-layout u-similar-container u-container-layout-2">
-            {% if advertisement.photo %}
-                <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ advertisement.photo.url }}" style="max-width: 500px; height: auto; display: block; margin: 0 auto;">
-            {% else %}
-                <p>No image available</p> <!-- Placeholder for when there is no photo -->
-            {% endif %}
-            <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}<br></p>
-            <p class="u-align-center u-text u-text-6">24.000 Kč</p>
-            <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
-        <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
-    </p>
-        </div>
-    </div>
-{% endfor %}
 
+<!-- Kontejner pro všechny inzeráty -->
+<div class="advertisement-container">
+    {% for advertisement in advertisements %}
+        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
+            <div class="u-container-layout u-similar-container u-container-layout-2">
+                {% if advertisement.photo %}
+                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ advertisement.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                {% else %}
+                    <p>No image available</p> <!-- Placeholder for when there is no photo -->
+                {% endif %}
+                <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
+                <p class="u-align-center u-text u-text-6">24.000 Kč</p>
+                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
+                <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
+                <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
 
 {#{% block content %}#}
 {#<h1>Stránka přidání inzerátu</h1>#}
@@ -56,4 +60,4 @@
 {#        <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>#}
 {#    </p>#}
 {#{% endfor %}#}
-{% endblock %}
+{#{% endblock %}#}

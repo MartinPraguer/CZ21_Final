@@ -48,9 +48,9 @@ class Category(Model):
 
 class Auction(Model):
     name = CharField(max_length=128)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
-    description = models.TextField(default="No description provided")
-    # photo = ImageField(upload_to='photos/', default='photos/default.jpg')
+    category = ForeignKey('Category', on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
+    description = TextField(default="No description provided")
+    photo =  ImageField(upload_to='photos/', null=True, blank=True)
     minimum_bid = IntegerField(default=0)
     # maximum_bid = IntegerField(default=0)
     price = IntegerField(default=0)
@@ -84,7 +84,7 @@ class Advertisement(Model):
     user = ForeignKey(User, on_delete=models.DO_NOTHING)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
     description = TextField()
-    # photo = ImageField(Auction)
+    photo = models.ImageField(upload_to='photos/')
 
 
     def __str__(self):
