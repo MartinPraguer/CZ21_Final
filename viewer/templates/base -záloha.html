@@ -3,7 +3,6 @@
 <html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
 
 <head>
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SDAcia</title>
@@ -21,53 +20,39 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #fff8f2;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a href="#" style="max-width: 200px; height: auto;">
-          <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1" style="max-width: 200px; height: auto;">
-        </a>
-        <a class="navbar-brand" href="/"></a>
+        <a class="navbar-brand" href="/">SDAcia</a>
 
         <!-- Přidání vyhledávacího pole mimo kolabovatelnou část -->
-        <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">
+        <form class="form-inline my-2 my-lg-0 mr-auto" action="/hledani/" method="GET">
             {% csrf_token %}
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Hledej" aria-label="Hledej" name="hledej">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hledej</button>
         </form>
-{#        <form method="post" action="">#}
-{#            {% csrf_token %}#}
-{#            <button type="submit">Odhlásit se</button>#}
-{#        </form>#}
-        <style>
-        .navbar-toggler {
-            border-color: black; /* Změní barvu rámečku kolem hamburger ikony */
-        }
-
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-            /* Změní čárky na ikonu na černou barvu */
-        }
-    </style>
-<button
-    class="navbar-toggler" type="button"
-    data-toggle="collapse" data-target="#navbarNavAltMarkup"
-    style="border-color: black;"
->
-    <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath stroke=%27%23000%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3E%3C/svg%3E');"></span>
-</button>
+        <form method="post" action="">
+            {% csrf_token %}
+            <button type="submit">Odhlásit se</button>
+        </form>
+        <button
+                class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="{% url 'index' %}" style="color: black;">
+                <a class="nav-item nav-link active" href="/">
                     Home
                 </a>
-                <a class="nav-item nav-link" href="{% url 'advertisement' %}" style="color: black;">
-                    Advertisement
+                <a class="nav-item nav-link" href="/podrobne_hledani/">
+                    Podrobné hledání
                 </a>
-                <a class="nav-item nav-link" href="{% url 'about' %}" style="color: black;">
-                    About
+                <a class="nav-item nav-link" href="/pridat_inzerat/">
+                    Přidat inzerát
                 </a>
-                <a class="nav-item nav-link" href="{% url 'contact' %}" style="color: black;">
-                    Contact
+                <a class="nav-item nav-link" href="/inzeraty/">
+                    Inzeráty
                 </a>
             </div>
         </div>
@@ -102,15 +87,15 @@
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/"></head> 
 
-{#<body data-home-page="Home.html" data-home-page-title="Home" data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-6d48"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">#}
-{#        <a href="#" style="max-width: 200px; height: auto;">#}
-{#          <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1">#}
-{#        </a>#}
-{#      <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">#}
-{#            {% csrf_token %}#}
-{#            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Search">#}
-{#            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>#}
-{#        </form>#}
+<body data-home-page="Home.html" data-home-page-title="Home" data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-6d48"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <a href="#" style="max-width: 200px; height: auto;">
+          <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1">
+        </a>
+      <form class="form-inline my-2 my-lg-0 mr-auto" action="/search/" method="GET">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
         <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
           <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
             <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
@@ -120,10 +105,10 @@
             </a>
           </div>
           <div class="u-nav-container">
-{#            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'index' %}" style="padding: 10px 20px;">Home</a>#}
-{#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'advertisement' %}" style="padding: 10px 20px;">Advertisement</a>#}
-{#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'about' %}" style="padding: 10px 20px;">About</a>#}
-{#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'contact' %}" style="padding: 10px 20px;">Contact</a>#}
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'index' %}" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'advertisement' %}" style="padding: 10px 20px;">Advertisement</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'about' %}" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'contact' %}" style="padding: 10px 20px;">Contact</a>
 </li></ul>
           </div>
           <div class="u-nav-container-collapse">
