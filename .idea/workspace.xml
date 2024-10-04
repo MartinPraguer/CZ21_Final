@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: setting.py skrz rosti.cz">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix3: setting.py skrz rosti.cz">
       <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,7 +245,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728071442641</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fix2: setting.py skrz rosti.cz">
+      <option name="closed" value="true" />
+      <created>1728072294644</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1728072294644</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix3: setting.py skrz rosti.cz">
+      <option name="closed" value="true" />
+      <created>1728072467512</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1728072467512</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,6 +296,8 @@
     <MESSAGE value="fix: fix settings.py skrz rosti.cz" />
     <MESSAGE value="fix: advertisement.html, aby zobrazovalo inzeráty v řádku&#10;+ !!! vymazání všech migrací a databáze !!!" />
     <MESSAGE value="fix: setting.py skrz rosti.cz" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: setting.py skrz rosti.cz" />
+    <MESSAGE value="fix2: setting.py skrz rosti.cz" />
+    <MESSAGE value="fix3: setting.py skrz rosti.cz" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix3: setting.py skrz rosti.cz" />
   </component>
 </project>
