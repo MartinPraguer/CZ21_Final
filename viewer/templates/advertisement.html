@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
@@ -6,7 +7,9 @@
 
 <h1>Stránka přidání inzerátu</h1>
 
-<a href="{% url 'advertisement_add' %}">Přidat inzerát</a>    
+    <a href="{% url 'advertisement_add' %}"><h3>Přidat inzerát</h3></a><br><br>
+    
+    <h3>Poslední přidané inzeráty:</h3>
 
 <!-- Kontejner pro všechny inzeráty -->
 <div class="advertisement-container">
