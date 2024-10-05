@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load my_filters %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
@@ -9,6 +10,7 @@
 
 <!-- Kontejner pro všechny inzeráty -->
 <div class="advertisement-container">
+    {% load humanize %}
     {% for advertisement in buy_now_advertisements %}
         <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
             <div class="u-container-layout u-similar-container u-container-layout-2">
@@ -18,7 +20,7 @@
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ advertisement.price }} Kč</p>
+                <p class="u-align-center u-text u-text-6">{{ advertisement.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
                 <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
                 <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
@@ -41,7 +43,7 @@
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ advertisement.price }} Kč</p>
+                <p class="u-align-center u-text u-text-6">{{ advertisement.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
                 <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
                 <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
@@ -66,7 +68,7 @@
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ advertisement.price }} Kč</p>
+                <p class="u-align-center u-text u-text-6">{{ advertisement.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
                 <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
                 <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
