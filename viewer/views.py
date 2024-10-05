@@ -20,26 +20,81 @@ def index(request):
         'no_promotion_advertisements': Advertisement.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
     })
 
+
 def paintings(request):
-    return render(
-        request,
-        "paintings.html",
-        context={}
-    )
+    # Získání kategorie "Paintings"
+    paintings_category = Category.objects.get(name="Paintings")
+
+    # Filtrujte pouze inzeráty s kategorií "Paintings"
+    buy_now_advertisements = Advertisement.objects.filter(category=paintings_category, buy_now=True).order_by(
+        "-created")[:4]
+    promotion_advertisements = Advertisement.objects.filter(category=paintings_category, promotion=True,
+                                                            buy_now=False).order_by("-created")[:4]
+    no_promotion_advertisements = Advertisement.objects.filter(category=paintings_category, promotion=False,
+                                                               buy_now=False).order_by("-created")[:4]
+
+    return render(request, template_name='index.html', context={
+        'buy_now_advertisements': buy_now_advertisements,
+        'promotion_advertisements': promotion_advertisements,
+        'no_promotion_advertisements': no_promotion_advertisements,
+    })
+
 
 def statues(request):
-    return render(
-        request,
-        "statues.html",
-        context={}
-    )
+    # Získání kategorie "Statues"
+    statues_category = Category.objects.get(name="Statues")
+
+    # Filtrujte pouze inzeráty s kategorií "Statues"
+    buy_now_advertisements = Advertisement.objects.filter(category=statues_category, buy_now=True).order_by(
+        "-created")[:4]
+    promotion_advertisements = Advertisement.objects.filter(category=statues_category, promotion=True,
+                                                            buy_now=False).order_by("-created")[:4]
+    no_promotion_advertisements = Advertisement.objects.filter(category=statues_category, promotion=False,
+                                                               buy_now=False).order_by("-created")[:4]
+
+    return render(request, template_name='index.html', context={
+        'buy_now_advertisements': buy_now_advertisements,
+        'promotion_advertisements': promotion_advertisements,
+        'no_promotion_advertisements': no_promotion_advertisements,
+    })
+
 
 def jewelry(request):
-    return render(
-        request,
-        "jewelry.html",
-        context={}
-    )
+    # Získání kategorie "Jewelry"
+    jewelry_category = Category.objects.get(name="Jewelry")
+
+    # Filtrujte pouze inzeráty s kategorií "Jewelry"
+    buy_now_advertisements = Advertisement.objects.filter(category=jewelry_category, buy_now=True).order_by(
+        "-created")[:4]
+    promotion_advertisements = Advertisement.objects.filter(category=jewelry_category, promotion=True,
+                                                            buy_now=False).order_by("-created")[:4]
+    no_promotion_advertisements = Advertisement.objects.filter(category=jewelry_category, promotion=False,
+                                                               buy_now=False).order_by("-created")[:4]
+
+    return render(request, template_name='index.html', context={
+        'buy_now_advertisements': buy_now_advertisements,
+        'promotion_advertisements': promotion_advertisements,
+        'no_promotion_advertisements': no_promotion_advertisements,
+    })
+
+
+def numismatics(request):
+    # Získání kategorie "Numismatics"
+    numismatics_category = Category.objects.get(name="Nummismatics")
+
+    # Filtrujte pouze inzeráty s kategorií "Nummismatics"
+    buy_now_advertisements = Advertisement.objects.filter(category=numismatics_category, buy_now=True).order_by(
+        "-created")[:4]
+    promotion_advertisements = Advertisement.objects.filter(category=numismatics_category, promotion=True,
+                                                            buy_now=False).order_by("-created")[:4]
+    no_promotion_advertisements = Advertisement.objects.filter(category=numismatics_category, promotion=False,
+                                                               buy_now=False).order_by("-created")[:4]
+
+    return render(request, template_name='index.html', context={
+        'buy_now_advertisements': buy_now_advertisements,
+        'promotion_advertisements': promotion_advertisements,
+        'no_promotion_advertisements': no_promotion_advertisements,
+    })
 
 def numismatics(request):
     return render(
