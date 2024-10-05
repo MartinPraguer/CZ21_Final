@@ -22,7 +22,7 @@
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
-                <p class="u-align-center u-text u-text-6">24.000 Kč</p>
+                <p class="u-align-center u-text u-text-6">{{ advertisement.price }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
                 <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
                 <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>

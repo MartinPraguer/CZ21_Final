@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix7: setting.py skrz rosti.cz">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: cache setting.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/advertisement.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/advertisement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +106,7 @@
       <workItem from="1727202764673" duration="6478000" />
       <workItem from="1727798950153" duration="592000" />
       <workItem from="1728075613966" duration="8000" />
+      <workItem from="1728124467317" duration="15000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
       <option name="closed" value="true" />
@@ -297,7 +300,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728075657236</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="fix: cache setting.py">
+      <option name="closed" value="true" />
+      <created>1728122259516</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1728122259516</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,6 +349,7 @@
     <MESSAGE value="fix5: setting.py skrz rosti.cz" />
     <MESSAGE value="fix6: setting.py skrz rosti.cz" />
     <MESSAGE value="fix7: setting.py skrz rosti.cz" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix7: setting.py skrz rosti.cz" />
+    <MESSAGE value="fix: cache setting.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: cache setting.py" />
   </component>
 </project>
