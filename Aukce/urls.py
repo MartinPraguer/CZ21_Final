@@ -20,6 +20,7 @@ from viewer.views import AdvertisementView, AdvertisementCreateView, Advertiseme
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
 from viewer import views
+from viewer.views import AdvertisementDetailView
 
 # Registrace modelů do administrace
 admin.site.register(AccountStatus)
@@ -48,6 +49,7 @@ urlpatterns = [
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
+    path('advertisement/<int:pk>/', AdvertisementDetailView.as_view(), name='advertisement-detail'),
 
 ]
 

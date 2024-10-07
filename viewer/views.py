@@ -179,6 +179,24 @@ def my_view(request):
     return HttpResponse("Hello, World!")
 
 
+from django.views.generic.detail import DetailView
+
+# zobrazení detailu konkretniho inzeratu
+
+class AdvertisementDetailView(DetailView):
+    model = Advertisement
+    template_name = 'advertisement_detail.html'
+    context_object_name = 'advertisement'
+
+    # metoda na zvyšování počtu zobrazení po každém kliknutí
+
+    def get_object(self, queryset=None):
+        advertisement = super().get_object(queryset)
+        advertisement.number_of_views += 1
+        advertisement.save()
+        return advertisement
+
+
 
 
 

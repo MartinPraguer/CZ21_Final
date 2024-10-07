@@ -7,6 +7,10 @@
     <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: CRUD - views.py a vytvoření databáze">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature_Andrej" />
+        <entry key="$PROJECT_DIR$" value="develop-Martin" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,12 +40,12 @@
     &quot;assignee&quot;: &quot;Androixo&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/MartinPraguer/CZ21_Final&quot;,
-    &quot;accountId&quot;: &quot;370b16cc-5e28-413d-832f-954497b41209&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MartinPraguer/CZ21_Final.git",
+    "accountId": "370b16cc-5e28-413d-832f-954497b41209"
   }
-}</component>
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -64,7 +68,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature__zobrazeniaukce&quot;,
     &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -90,7 +94,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.22855.92" />
+        <option value="bundled-python-sdk-b068d85d1acf-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.22855.92" />
       </set>
     </attachedChunks>
   </component>
@@ -106,6 +111,7 @@
       <workItem from="1727798950153" duration="592000" />
       <workItem from="1728075613966" duration="8000" />
       <workItem from="1728124467317" duration="15000" />
+      <workItem from="1728305186471" duration="4978000" />
       <workItem from="1728307422198" duration="18000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
@@ -347,11 +353,48 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="feature_zobrazeniaukce" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature_zobrazeniaukce" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -382,6 +425,8 @@
     <MESSAGE value="přidání na hlavní stránku - index.html:&#10;kup teď 4x, promotion 4x, bez promotion 4x" />
     <MESSAGE value="vytvoření populate_date.py a spuštění scriptu python manage.py runscript populate_date -v3" />
     <MESSAGE value="obnovení feature Andrej po smazání z githubu" />
+    <MESSAGE value="databáze a views" />
+    <option name="LAST_COMMIT_MESSAGE" value="databáze a views" />
     <MESSAGE value="fix: CRUD - views.py a vytvoření databáze" />
     <option name="LAST_COMMIT_MESSAGE" value="fix: CRUD - views.py a vytvoření databáze" />
   </component>
