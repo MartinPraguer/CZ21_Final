@@ -80,7 +80,7 @@ User = get_user_model()
 
 from django.db import models
 
-class Advertisement(Model):
+class Add_auction(Model):
     name = CharField(max_length=128)
     user = ForeignKey(User, on_delete=models.DO_NOTHING)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)

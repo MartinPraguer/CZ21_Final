@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import AdvertisementView, AdvertisementCreateView, AdvertisementUpdateView, AdvertisementDeleteView
+from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Advertisement, Auction
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Add_auction, Auction
 from viewer import views
 
 # Registrace modelů do administrace
@@ -26,7 +26,7 @@ admin.site.register(AccountStatus)
 admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
-admin.site.register(Advertisement)
+admin.site.register(Add_auction)
 admin.site.register(Auction)
 
 # Definice URL vzorů
@@ -39,10 +39,10 @@ urlpatterns = [
     path("contact/", contact, name='contact'),
     path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
-    path('advertisement/', AdvertisementView.as_view(), name='advertisement'),
-    path('advertisement/create', AdvertisementCreateView.as_view(), name='advertisement_add'),
-    path('advertisement/update/<pk>', AdvertisementUpdateView.as_view(), name='advertisement_update'),
-    path('advertisement/delete/<pk>', AdvertisementDeleteView.as_view(), name='advertisement_delete'),
+    path('add_auction/', Add_auctionView.as_view(), name='add_auction'),
+    path('add_auction/create', Add_auctionCreateView.as_view(), name='add_auction_add'),
+    path('add_auction/update/<pk>', Add_auctionUpdateView.as_view(), name='add_auction_update'),
+    path('add_auction/delete/<pk>', Add_auctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),

@@ -1,8 +1,8 @@
 from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import render
 from django.http import HttpResponse
-from viewer.models import Advertisement, Category
-from viewer.forms import AdvertisementForm
+from viewer.models import Add_auction, Category
+from viewer.forms import Add_auctionForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -15,9 +15,9 @@ import logging
 
 def index(request):
     return render(request, template_name='base_4_obrazky.html', context={
-        'buy_now_advertisements': Advertisement.objects.order_by("-created").filter(buy_now=True)[:4],
-        'promotion_advertisements': Advertisement.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
-        'no_promotion_advertisements': Advertisement.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
+        'buy_now_add_auction': Add_auction.objects.order_by("-created").filter(buy_now=True)[:4],
+        'promotion_add_auction': Add_auction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
+        'no_promotion_add_auction': Add_auction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
     })
 
 
@@ -26,17 +26,17 @@ def paintings(request):
     paintings_category = Category.objects.get(name="Paintings")
 
     # Filtrujte pouze inzeráty s kategorií "Paintings"
-    buy_now_advertisements = Advertisement.objects.filter(category=paintings_category, buy_now=True).order_by(
+    buy_now_add_auction = Add_auction.objects.filter(category=paintings_category, buy_now=True).order_by(
         "-created")[:4]
-    promotion_advertisements = Advertisement.objects.filter(category=paintings_category, promotion=True,
+    promotion_add_auction = Add_auction.objects.filter(category=paintings_category, promotion=True,
                                                             buy_now=False).order_by("-created")[:4]
-    no_promotion_advertisements = Advertisement.objects.filter(category=paintings_category, promotion=False,
+    no_promotion_add_auction = Add_auction.objects.filter(category=paintings_category, promotion=False,
                                                                buy_now=False).order_by("-created")[:4]
 
     return render(request, template_name='paintings.html', context={
-        'buy_now_advertisements': buy_now_advertisements,
-        'promotion_advertisements': promotion_advertisements,
-        'no_promotion_advertisements': no_promotion_advertisements,
+        'buy_now_add_auctions': buy_now_add_auction,
+        'promotion_add_auctions': promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction,
     })
 
 
@@ -45,17 +45,17 @@ def statues(request):
     statues_category = Category.objects.get(name="Statues")
 
     # Filtrujte pouze inzeráty s kategorií "Statues"
-    buy_now_advertisements = Advertisement.objects.filter(category=statues_category, buy_now=True).order_by(
+    buy_now_add_auction = Add_auction.objects.filter(category=statues_category, buy_now=True).order_by(
         "-created")[:4]
-    promotion_advertisements = Advertisement.objects.filter(category=statues_category, promotion=True,
+    promotion_add_auction = Add_auction.objects.filter(category=statues_category, promotion=True,
                                                             buy_now=False).order_by("-created")[:4]
-    no_promotion_advertisements = Advertisement.objects.filter(category=statues_category, promotion=False,
+    no_promotion_add_auction = Add_auction.objects.filter(category=statues_category, promotion=False,
                                                                buy_now=False).order_by("-created")[:4]
 
     return render(request, template_name='statues.html', context={
-        'buy_now_advertisements': buy_now_advertisements,
-        'promotion_advertisements': promotion_advertisements,
-        'no_promotion_advertisements': no_promotion_advertisements,
+        'buy_now_add_auctions': buy_now_add_auction,
+        'promotion_add_auctions': promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction,
     })
 
 
@@ -64,17 +64,17 @@ def jewelry(request):
     jewelry_category = Category.objects.get(name="Jewelry")
 
     # Filtrujte pouze inzeráty s kategorií "Jewelry"
-    buy_now_advertisements = Advertisement.objects.filter(category=jewelry_category, buy_now=True).order_by(
+    buy_now_add_auction = Add_auction.objects.filter(category=jewelry_category, buy_now=True).order_by(
         "-created")[:4]
-    promotion_advertisements = Advertisement.objects.filter(category=jewelry_category, promotion=True,
+    promotion_add_auction = Add_auction.objects.filter(category=jewelry_category, promotion=True,
                                                             buy_now=False).order_by("-created")[:4]
-    no_promotion_advertisements = Advertisement.objects.filter(category=jewelry_category, promotion=False,
+    no_promotion_add_auction = Add_auction.objects.filter(category=jewelry_category, promotion=False,
                                                                buy_now=False).order_by("-created")[:4]
 
     return render(request, template_name='jewelry.html', context={
-        'buy_now_advertisements': buy_now_advertisements,
-        'promotion_advertisements': promotion_advertisements,
-        'no_promotion_advertisements': no_promotion_advertisements,
+        'buy_now_add_auctions': buy_now_add_auction,
+        'promotion_add_auctions': promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction,
     })
 
 
@@ -83,17 +83,17 @@ def numismatics(request):
     numismatics_category = Category.objects.get(name="Numismatics")
 
     # Filtrujte pouze inzeráty s kategorií "Nummismatics"
-    buy_now_advertisements = Advertisement.objects.filter(category=numismatics_category, buy_now=True).order_by(
+    buy_now_add_auction = Add_auction.objects.filter(category=numismatics_category, buy_now=True).order_by(
         "-created")[:4]
-    promotion_advertisements = Advertisement.objects.filter(category=numismatics_category, promotion=True,
+    promotion_add_auction = Add_auction.objects.filter(category=numismatics_category, promotion=True,
                                                             buy_now=False).order_by("-created")[:4]
-    no_promotion_advertisements = Advertisement.objects.filter(category=numismatics_category, promotion=False,
+    no_promotion_add_auction = Add_auction.objects.filter(category=numismatics_category, promotion=False,
                                                                buy_now=False).order_by("-created")[:4]
 
     return render(request, template_name='numismatics.html', context={
-        'buy_now_advertisements': buy_now_advertisements,
-        'promotion_advertisements': promotion_advertisements,
-        'no_promotion_advertisements': no_promotion_advertisements,
+        'buy_now_add_auctions': buy_now_add_auction,
+        'promotion_add_auctions': promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction,
     })
 
 # def numismatics(request):
@@ -121,7 +121,7 @@ def search(request):
     hledany_vyraz = request.GET.get('hledej', '')
     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
     return render(request, template_name='search.html', context={
-        "searchs": Advertisement.objects.filter(
+        "searchs": Add_auction.objects.filter(
             Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized) | Q(user__icontains=hledany_vyraz) | Q(user__icontains=hledany_vyraz_capitalized)
         )
     })
@@ -131,43 +131,43 @@ def podrobne_hledani(request):
     user = request.GET.get('user', '')
     category_name = request.GET.get('category', '')
 
-    advertisements = Advertisement.objects.filter()
+    add_auction = Add_auction.objects.filter()
 
     if name:
-        advertisements = advertisements.filter(name__icontains=name)
+        add_auction = add_auction.filter(name__icontains=name)
     if user:
-        advertisements = advertisements.filter(user__username__icontains=user)
+        add_auction = add_auction.filter(user__username__icontains=user)
     if category_name and category_name != '--Category--':  # Zkontrolujte, že hodnota není výchozí
-        advertisements = advertisements.filter(category__name__icontains=category_name)
+        add_auction = add_auction.filter(category__name__icontains=category_name)
 
 
     categorys = Category.objects.all()
 
 
     return render(request, template_name='podrobne_hledani.html', context={
-        "advertisements": advertisements,
+        "add_auction": add_auction,
         "categorys": categorys,
 
     })
 
 
     template_name = 'form.html'
-class AdvertisementView(TemplateView):
-    template_name = 'advertisement.html'
-    extra_context = {'advertisements': Advertisement.objects.order_by("-created")[:12]}
-class AdvertisementCreateView(CreateView):
-    template_name = 'advertisement_form.html'
-    form_class = AdvertisementForm
-    success_url = reverse_lazy('advertisement')
-class AdvertisementUpdateView(UpdateView):
-    template_name = 'advertisement_form.html'
-    model = Advertisement
-    form_class = AdvertisementForm
-    success_url = reverse_lazy('advertisement')
-class AdvertisementDeleteView(DeleteView):
-    template_name = 'advertisement_form.html'
-    model = Advertisement
-    success_url = reverse_lazy('advertisement')
+class Add_auctionView(TemplateView):
+    template_name = 'add_auction.html'
+    extra_context = {'add_auction': Add_auction.objects.order_by("-created")[:12]}
+class Add_auctionCreateView(CreateView):
+    template_name = 'add_auction_form.html'
+    form_class = Add_auctionForm
+    success_url = reverse_lazy('add_auction')
+class Add_auctionUpdateView(UpdateView):
+    template_name = 'add_auction_form.html'
+    model = Add_auction
+    form_class = Add_auctionForm
+    success_url = reverse_lazy('add_auction')
+class Add_auctionDeleteView(DeleteView):
+    template_name = 'add_auction_form.html'
+    model = Add_auction
+    success_url = reverse_lazy('add_auction')
 
 
 
