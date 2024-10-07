@@ -48,7 +48,7 @@ def search(request):
 def auction(request, pk):
     aukce = Auction.objects.get(pk=pk)
 
-    aukce.pocet_zobrazeni += 1
+    aukce.number_of_views += 1
     aukce.save()
 
     if request.method == 'POST':
