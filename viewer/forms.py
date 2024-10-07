@@ -1,4 +1,4 @@
-from viewer.models import Advertisement
+from viewer.models import Add_auction
 from django.forms import ModelForm
 from django.forms import (
   CharField, DateField, Form, IntegerField, ModelChoiceField, Textarea, SelectDateWidget
@@ -8,9 +8,9 @@ import re
 
 
 
-class AdvertisementForm(ModelForm):
+class Add_auctionForm(ModelForm):
   class Meta:
-    model = Advertisement
+    model = Add_auction
     fields = '__all__'
 
 # PŘETÁHNUTO Z HOLLYMOVIES

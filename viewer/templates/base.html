@@ -1,3 +1,5 @@
+{#{% extends 'base.html' %}#}
+
 {% load static %}
 
 <html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
@@ -60,8 +62,8 @@
                 <a class="nav-item nav-link active" href="{% url 'index' %}" style="color: black;">
                     Home
                 </a>
-                <a class="nav-item nav-link" href="{% url 'advertisement' %}" style="color: black;">
-                    Advertisement
+                <a class="nav-item nav-link" href="{% url 'add_auction' %}" style="color: black;">
+                    Add auction
                 </a>
                 <a class="nav-item nav-link" href="{% url 'about' %}" style="color: black;">
                     About
@@ -121,7 +123,7 @@
           </div>
           <div class="u-nav-container">
 {#            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'index' %}" style="padding: 10px 20px;">Home</a>#}
-{#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'advertisement' %}" style="padding: 10px 20px;">Advertisement</a>#}
+{#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'add_auction' %}" style="padding: 10px 20px;">Add auction</a>#}
 {#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'about' %}" style="padding: 10px 20px;">About</a>#}
 {#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'contact' %}" style="padding: 10px 20px;">Contact</a>#}
 </li></ul>

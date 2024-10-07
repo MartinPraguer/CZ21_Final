@@ -2,12 +2,12 @@ import random
 import os
 from datetime import timedelta
 from django.utils import timezone
-from viewer.models import Advertisement, User, Category
+from viewer.models import Add_auction, User, Category
 from django.core.files import File
 
 # Nastavení cesty k adresáři s fotografiemi
 PHOTO_DIR = 'media/photos/'  # Nahraďte touto cestou k vašemu adresáři s fotografiemi
-SAVE_DIR = 'photos_advertisements/'  # Složka, kam se budou ukládat nové obrázky
+SAVE_DIR = 'photos_add_auction/'  # Složka, kam se budou ukládat nové obrázky
 
 # Seznam souborů fotografií z adresáře
 photos = [f for f in os.listdir(PHOTO_DIR) if f.endswith(('.jpg', '.gif'))]
@@ -64,7 +64,7 @@ def run():
         random_days = random.randint(0, 365)
         return start_date + timedelta(days=random_days)
 
-    # Naplňte model Advertisement náhodnými daty
+    # Naplňte model Add_auction náhodnými daty
     for _ in range(100):
         user = random.choice(all_users)
         category = random.choice(categories)
@@ -83,7 +83,7 @@ def run():
             random_photo = random.choice(categorized_photos[category])
             photo_path = os.path.join(PHOTO_DIR, random_photo)
 
-            advertisement = Advertisement(
+            add_auction = Add_auction(
                 user=user,
                 category=all_categories[category],
                 name=name,
@@ -97,12 +97,12 @@ def run():
                 number_of_views=number_of_views,
             )
 
-            # Přidání fotografie k záznamu Advertisement
+            # Přidání fotografie k záznamu Add_auction
             with open(photo_path, 'rb') as photo_file:
                 # Ukládání obrázku do nové složky
-                advertisement.photo.save(os.path.join(SAVE_DIR, random_photo), File(photo_file), save=True)
+                add_auction.photo.save(os.path.join(SAVE_DIR, random_photo), File(photo_file), save=True)
 
-            advertisement.save()
+            add_auction.save()
 
     print("Data populated successfully!")
 
@@ -115,7 +115,7 @@ def run():
 # import os
 # from datetime import timedelta
 # from django.utils import timezone
-# from viewer.models import Advertisement, User, Category
+# from viewer.models import Add_auction, User, Category
 # from django.core.files import File
 #
 # # Nastavení cesty k adresáři s fotografiemi
@@ -176,7 +176,7 @@ def run():
 #         random_days = random.randint(0, 365)
 #         return start_date + timedelta(days=random_days)
 #
-#     # Naplňte model Advertisement náhodnými daty
+#     # Naplňte model Add_auction náhodnými daty
 #     for _ in range(100):
 #         user = random.choice(all_users)
 #         category = random.choice(categories)
@@ -195,7 +195,7 @@ def run():
 #             random_photo = random.choice(categorized_photos[category])
 #             photo_path = os.path.join(PHOTO_DIR, random_photo)
 #
-#             advertisement = Advertisement(
+#             add_auction = Add_auction(
 #                 user=user,
 #                 category=all_categories[category],
 #                 name=name,
@@ -209,11 +209,11 @@ def run():
 #                 number_of_views=number_of_views,
 #             )
 #
-#             # Přidání fotografie k záznamu Advertisement
+#             # Přidání fotografie k záznamu Add_auction
 #             with open(photo_path, 'rb') as photo_file:
-#                 advertisement.photo.save(random_photo, File(photo_file), save=True)
+#                 add_auction.photo.save(random_photo, File(photo_file), save=True)
 #
-#             advertisement.save()
+#             add_auction.save()
 #
 #     print("Data populated successfully!")
 
@@ -226,7 +226,7 @@ def run():
 # import os
 # from datetime import timedelta
 # from django.utils import timezone
-# from viewer.models import Advertisement, User, Category
+# from viewer.models import Add_auction, User, Category
 # from django.core.files import File
 #
 # # Nastavení cesty k adresáři s fotografiemi
@@ -282,7 +282,7 @@ def run():
 #         random_days = random.randint(0, 365)
 #         return start_date + timedelta(days=random_days)
 #
-#     # Naplňte model Advertisement náhodnými daty
+#     # Naplňte model Add_auction náhodnými daty
 #     for _ in range(100):
 #         user = random.choice(all_users)
 #         category = random.choice(categories)
@@ -301,7 +301,7 @@ def run():
 #             random_photo = random.choice(categorized_photos[category])
 #             photo_path = os.path.join(PHOTO_DIR, random_photo)
 #
-#             advertisement = Advertisement(
+#             add_auction = Add_auction(
 #                 user=user,
 #                 category=all_categories[category],
 #                 name=name,
@@ -315,11 +315,11 @@ def run():
 #                 number_of_views=number_of_views,
 #             )
 #
-#             # Přidání fotografie k záznamu Advertisement
+#             # Přidání fotografie k záznamu Add_auction
 #             with open(photo_path, 'rb') as photo_file:
-#                 advertisement.photo.save(random_photo, File(photo_file), save=True)
+#                 add_auction.photo.save(random_photo, File(photo_file), save=True)
 #
-#             advertisement.save()
+#             add_auction.save()
 #
 #     print("Data populated successfully!")
 
@@ -330,7 +330,7 @@ def run():
 # import os
 # from datetime import timedelta
 # from django.utils import timezone
-# from viewer.models import Advertisement, User, Category
+# from viewer.models import Add_auction, User, Category
 # from django.core.files import File
 #
 # # Nastavení cesty k adresáři s fotografiemi
@@ -363,7 +363,7 @@ def run():
 #         random_days = random.randint(0, 365)
 #         return start_date + timedelta(days=random_days)
 #
-#     # Naplňte model Advertisement náhodnými daty
+#     # Naplňte model Add_auction náhodnými daty
 #     for _ in range(100):
 #         user = random.choice(all_users)
 #         category = random.choice(all_categories)
@@ -381,7 +381,7 @@ def run():
 #         random_photo = random.choice(photos)
 #         photo_path = os.path.join(PHOTO_DIR, random_photo)
 #
-#         advertisement = Advertisement(
+#         add_auction = Add_auction(
 #             user=user,
 #             category=category,
 #             name=name,
@@ -395,10 +395,10 @@ def run():
 #             number_of_views=number_of_views,
 #         )
 #
-#         # Přidání fotografie k záznamu Advertisement
+#         # Přidání fotografie k záznamu Add_auction
 #         with open(photo_path, 'rb') as photo_file:
-#             advertisement.photo.save(random_photo, File(photo_file), save=True)
+#             add_auction.photo.save(random_photo, File(photo_file), save=True)
 #
-#         advertisement.save()
+#         add_auction.save()
 #
 #     print("Data populated successfully!")

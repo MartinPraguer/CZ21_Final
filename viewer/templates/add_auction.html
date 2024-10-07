@@ -7,25 +7,25 @@
 
 <h1>Stránka přidání inzerátu</h1>
 
-    <a href="{% url 'advertisement_add' %}"><h3>Přidat inzerát</h3></a><br><br>
+    <a href="{% url 'add_auction_add' %}"><h3>Přidat inzerát</h3></a><br><br>
     
     <h3>Poslední přidané inzeráty:</h3>
 
 <!-- Kontejner pro všechny inzeráty -->
-<div class="advertisement-container">
-    {% for advertisement in advertisements %}
+<div class="add_auction-container">
+    {% for add_auction in add_auctions %}
         <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
             <div class="u-container-layout u-similar-container u-container-layout-2">
-                {% if advertisement.photo %}
-                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ advertisement.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                {% if add_auction.photo %}
+                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
                 {% else %}
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
-                <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ advertisement.price }} Kč</p>
+                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+                <p class="u-align-center u-text u-text-6">{{ add_auction.price }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>
-                <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>
+                <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
+                <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
             </div>
         </div>
     {% endfor %}
@@ -36,31 +36,31 @@
 {#{% block content %}#}
 {#<h1>Stránka přidání inzerátu</h1>#}
 {##}
-{#<a href="{% url 'advertisement_add' %}">Přidat inzerát</a>#}
+{#<a href="{% url 'add_auction_add' %}">Přidat inzerát</a>#}
 {##}
-{#{% for advertisement in advertisements %}#}
+{#{% for add_auction in add_auctions %}#}
 {#            <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">#}
 {#              <div class="u-container-layout u-similar-container u-container-layout-2">#}
-{#                <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ advertisement.photo.url }}" style="max-width: 500px; height: auto; display: block; margin: 0 auto;">#}
-{#                <p class="u-align-center u-text u-text-5">{{ advertisement.category }} - {{ advertisement.name }}<br>#}
+{#                <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ add_auction.photo.url }}" style="max-width: 500px; height: auto; display: block; margin: 0 auto;">#}
+{#                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}<br>#}
 {#                </p>#}
 {#                <p class="u-align-center u-text u-text-6">24.000 Kč</p>#}
 {#                  <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>#}
 {#                <a href="#" class="u-align-center u-border-1 u-border-active-palette-1-base u-border-black u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-style u-custom-item u-none u-text-active-palette-1-base u-text-body-color u-text-hover-palette-1-base u-btn-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">Kup teď</a>#}
 {#              </div>#}
 {#            </div>#}
-{#        {{ advertisement.name }} - {{ advertisement.category }}#}
+{#        {{ add_auction.name }} - {{ add_auction.category }}#}
 {##}
-{#        {% if advertisement.photo %}#}
+{#        {% if add_auction.photo %}#}
 {#            <!-- Zobrazení obrázku pomocí <img> tagu -->#}
-{#            <img src="{{ advertisement.photo.url }}" alt="{{ advertisement.name }}" style="max-width: 200px; height: auto;">#}
+{#            <img src="{{ add_auction.photo.url }}" alt="{{ add_auction.name }}" style="max-width: 200px; height: auto;">#}
 {#        {% else %}#}
 {#            <!-- Pokud není obrázek dostupný -->#}
 {#            <em>Žádný obrázek</em>#}
 {##}
 {#        {% endif %}#}
-{#        <a href="{% url 'advertisement_update' advertisement.pk %}">upravit</a>#}
-{#        <a href="{% url 'advertisement_delete' advertisement.pk %}">smazat</a>#}
+{#        <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>#}
+{#        <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>#}
 {#    </p>#}
 {#{% endfor %}#}
 {#{% endblock %}#}
