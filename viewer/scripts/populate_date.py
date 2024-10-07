@@ -1,3 +1,6 @@
+# spuštění - python manage.py runscript populate_date -v3
+
+
 import random
 import os
 from datetime import timedelta

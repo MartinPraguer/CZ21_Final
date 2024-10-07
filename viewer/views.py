@@ -183,7 +183,7 @@ from django.views.generic.detail import DetailView
 
 # zobrazení detailu konkretniho inzeratu
 
-class Add_actionDetailView(DetailView):
+class Add_auctionDetailView(DetailView):
     model = Add_auction
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
