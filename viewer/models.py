@@ -88,13 +88,15 @@ class AddAuction(Model):
     photo = models.ImageField(upload_to='photos/')
     minimum_bid = IntegerField(default=0)
     # maximum_bid = IntegerField(default=0)
-    price = IntegerField(default=0)
     buy_now = BooleanField(default=False) # !zašknutí políčka buy_now = True!
     promotion = BooleanField(default=False) # !zašknutí políčka promotion = True!
     auction_start_date = DateTimeField(default=datetime.now)
     auction_end_date = DateTimeField(default=datetime.now)
     number_of_views = IntegerField(default=0)
     created = DateTimeField(default=timezone.now)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    last_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 
 

@@ -1,11 +1,11 @@
 Aukce obrazů:
 
+[ ] CRUD - přejmenovat add, protože křičelo
 [ ] záložka aukce
-[ ] vytvoření aukce
-[ ] na stránce probíhající akce udělat forcyklus přidaných příhozů
+[*] na stránce probíhající akce udělat forcyklus přidaných příhozů
 [ ] pořešit hlavy soch
 [ ] přidat, aby šlo přidávat vícero obrázku k jedné aukci
-[ ] pokazily se obrázky velkých kategorií, tak to opravit
+[*] pokazily se obrázky velkých kategorií, tak to opravit
 [ ] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie
 [ ] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
 [ ] udělat košík a koupi produktu
@@ -14,12 +14,12 @@ Aukce obrazů:
 [ ] registrace/přihlášení/odhlášení
 [ ] rozjet stránky na rosti.cz
 [ ] administrace účtů - 3 typy účtů - createsuperuser/promotion/běžný účet
-[ ] předělat CRUD - aby zobrazoval add_auction
-[ ] předelat
+[*] předělat CRUD - aby zobrazoval add_auction
+[*] přepsat advertisement na add_auction
 [ ] oddělat z hlavní stránky probíhající aukce a dát tam je obrázky s odkazem na další stránky
-[ ] udělat jednu stránku probíhající aukce
+[*] udělat jednu stránku probíhající aukce
 [ ] zprovoznit .js velkého obrázku
-[ ] přidat okdaz kup teď u kup teď aukcí
+[*] přidat okdaz kup teď u kup teď aukcí
 [ ] barevně zvýraznit promotion a kup teď
 [ ] dát odkazy na další stránku
 [*] CRUD - dodělat zbylých 10%, aby fungoval - nefunguje delete a neprojeví se změny úprav

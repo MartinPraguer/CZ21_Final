@@ -197,9 +197,6 @@ class Add_auctionDetailView(DetailView):
         return add_auction
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import AddAuction, Bid
-from .forms import BidForm
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import AddAuction, Bid
@@ -208,7 +205,13 @@ from .forms import BidForm
 
 def auction_detail(request, pk):
     add_auction = get_object_or_404(AddAuction, pk=pk)
-    bids = add_auction.bids.all().order_by('-timestamp')  # Seřadí příhozy od nejnovějších
+    bids = add_auction.bids.all().order_by('-timestamp')
+
+    # Získání posledního příhozu (nejvyšší nabídky), pokud existuje
+    last_bid = bids.first() if bids.exists() else None
+
+    # Uložení `last_price` (cena před posledním příhozem)
+    last_price = add_auction.price
 
     if request.method == 'POST':
         form = BidForm(request.POST)
@@ -216,11 +219,14 @@ def auction_detail(request, pk):
             bid = form.save(commit=False)
             bid.add_auction = add_auction
             bid.user = request.user  # Předpoklad, že uživatel je přihlášen
-            bid.save()
+
+            # Uložení `last_price` před aktualizací ceny
+            add_auction.last_price = add_auction.price
 
             # Aktualizace ceny aukce na základě nové nabídky
-            add_auction.price += bid.amount
+            add_auction.price += bid.amount  # Nová cena po přičtení příhozu
             add_auction.save()
+            bid.save()
 
             return redirect('add_auction-detail', pk=add_auction.pk)
     else:
@@ -229,9 +235,9 @@ def auction_detail(request, pk):
     return render(request, 'add_auction_detail.html', {
         'add_auction': add_auction,
         'bids': bids,
-        'form': form
+        'form': form,
+        'last_price': last_price,  # Přidání `last_price` do kontextu
     })
-
 
 
 
