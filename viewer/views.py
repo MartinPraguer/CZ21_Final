@@ -14,7 +14,7 @@ import logging
 #     return HttpResponse(f'AHOJ {s}')
 
 def index(request):
-    return render(request, template_name='index.html', context={
+    return render(request, template_name='base_4_obrazky.html', context={
         'buy_now_advertisements': Advertisement.objects.order_by("-created").filter(buy_now=True)[:4],
         'promotion_advertisements': Advertisement.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
         'no_promotion_advertisements': Advertisement.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
