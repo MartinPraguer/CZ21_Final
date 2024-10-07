@@ -60,6 +60,7 @@ class Auction(Model):
     auction_end_date = DateTimeField(default=datetime.now)
     number_of_views = IntegerField(default=0)
 
+
     def __str__(self):
         return f"{self.name} - {self.category} - {self.description}"
 

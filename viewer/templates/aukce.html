@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ aukce.name }}</h1>
+<p><strong>Category:</strong> {{ aukce.category.name }}</p>
+<p><strong>Description:</strong> {{ aukce.description }}</p>
+<p><strong>Views:</strong> {{ aukce.number_of_views }}</p>
+<p><strong>Minimum Bid:</strong> {{ aukce.minimum_bid }}</p>
+<p><strong>Price:</strong> {{ aukce.price }}</p>
+<p><strong>Auction Start Date:</strong> {{ aukce.auction_start_date }}</p>
+<p><strong>Auction End Date:</strong> {{ aukce.auction_end_date }}</p>
+<p><strong>Auction Duration:</strong> {{ aukce.auction_duration_hours }} hours</p>
+
+{% if remaining_time %}
+    <p><strong>Time Remaining:</strong>
+        {{ remaining_time.days }} days
+        {{ remaining_time.seconds|divisibleby:3600 }} hours and
+        {{ remaining_time.seconds|divisibleby:60|default:0|divisibleby:60 }} minutes
+    </p>
+    <p><strong>Status:</strong> Ongoing</p>
+{% else %}
+    <p><strong>Status:</strong> Auction has ended</p>
+{% endif %}
+
+{% endblock %}

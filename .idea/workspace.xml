@@ -4,47 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="nahrávání nové index.html" />
+    <list default="true" id="3d4d5515-45e8-4269-9fdf-26dab4cb958a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_09_2024_16_43_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_09_2024_16_43__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="develop-Martin" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Androixo&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Androixo"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/MartinPraguer/CZ21_Final&quot;,
-    &quot;accountId&quot;: &quot;370b16cc-5e28-413d-832f-954497b41209&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MartinPraguer/CZ21_Final.git",
+    "accountId": "370b16cc-5e28-413d-832f-954497b41209"
   }
-}</component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2mWqbAAp597eL2ZZ9wLFUk1ytuw" />
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2n6Y8xYxcoF5VeI12BVddqWtPGj" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -54,13 +51,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "develop-Martin",
-    "last_opened_file_path": "Z:/SDA_pycharm/SDAcia",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "feature__Andrej",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -69,97 +62,50 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates" />
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates\static" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
-    </key>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.22855.92" />
+        <option value="bundled-python-sdk-b068d85d1acf-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.22855.92" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="" />
-      <created>1727202761415</created>
+      <changelist id="3d4d5515-45e8-4269-9fdf-26dab4cb958a" name="Changes" comment="" />
+      <created>1728294846239</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1727202761415</updated>
-      <workItem from="1727202764673" duration="6478000" />
-      <workItem from="1727798950153" duration="592000" />
+      <updated>1728294846239</updated>
+      <workItem from="1728294850379" duration="789000" />
     </task>
-    <task id="LOCAL-00001" summary="zkouska text 4444">
-      <option name="closed" value="true" />
-      <created>1727203256527</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1727203256527</updated>
-    </task>
-    <task id="LOCAL-00002" summary="zkouska text 55">
-      <option name="closed" value="true" />
-      <created>1727203451525</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1727203451525</updated>
-    </task>
-    <task id="LOCAL-00003" summary="vytvoreni base.html+js+css+favicon+urls path+views">
-      <option name="closed" value="true" />
-      <created>1727284593576</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1727284593576</updated>
-    </task>
-    <task id="LOCAL-00004" summary="zkouška README">
-      <option name="closed" value="true" />
-      <created>1727623209687</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1727623209688</updated>
-    </task>
-    <task id="LOCAL-00005" summary="překopávání index.html">
-      <option name="closed" value="true" />
-      <created>1727720678843</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1727720678843</updated>
-    </task>
-    <task id="LOCAL-00006" summary="překopávání index.html">
-      <option name="closed" value="true" />
-      <created>1727720690181</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1727720690181</updated>
-    </task>
-    <task id="LOCAL-00007" summary="hotová base.html a index.html">
-      <option name="closed" value="true" />
-      <created>1727722242115</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1727722242115</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -169,15 +115,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="zkouska text 4444" />
-    <MESSAGE value="zkouska text 55" />
-    <MESSAGE value="vytvoreni base.html+js+css+favicon+urls path+views" />
-    <MESSAGE value="zkouška README" />
-    <MESSAGE value="nahrávání nové index.html" />
-    <MESSAGE value="překopávání index.html" />
-    <MESSAGE value="hotová base.html a index.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="hotová base.html a index.html" />
   </component>
 </project>
