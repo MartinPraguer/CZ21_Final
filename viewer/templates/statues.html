@@ -21,7 +21,7 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Buy now</a></p>
                 <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
             </div>
@@ -45,6 +45,7 @@
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Bet in</a></p>
                 <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
             </div>
@@ -70,6 +71,7 @@
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Bet in</a></p>
                 <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
             </div>

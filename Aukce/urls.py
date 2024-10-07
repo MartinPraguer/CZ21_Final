@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import path
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Add_auction, Auction
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
+
 from viewer.views import Add_auctionDetailView
 
 # Registrace modelů do administrace
@@ -27,7 +28,7 @@ admin.site.register(AccountStatus)
 admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
-admin.site.register(Add_auction)
+admin.site.register(AddAuction)
 admin.site.register(Auction)
 
 # Definice URL vzorů
@@ -49,8 +50,8 @@ urlpatterns = [
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
-    path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
 
+    path('add_auction/<int:pk>/', views.auction_detail, name='add_auction-detail'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
