@@ -1,6 +1,8 @@
 Aukce obrazů:
 
-[ ] CRUD - dodělat zbylých 10%, aby fungoval
+[*] CRUD - dodělat zbylých 10%, aby fungoval - nefunguje delete a neprojeví se změny úprav
+[ ] předělat CRUD - aby zobrazoval add_auction
+[ ] předelat 
 [*] hledej - přidat usera
 [*] zfunkčnit odkazy pod názvem Aukční galerie
 [*] zfunčnit Obrazy-Numismatika obrázky přes obrázky a Zobrazit
@@ -27,7 +29,7 @@ Aukce obrazů:
 [ ] udělat hodnocení nákupu - prodávající/kupující
 [ ] vytvořit uživatelské účty
 [ ] registrace/přihlášení/odhlášení
-[ ] administrace účtů - 3 typy účtů
+[ ] administrace účtů - 3 typy účtů - createsuperuser/
 [*] home stránka
 [*] vkládání nabídky
 [*] přehled aukcí např. 10

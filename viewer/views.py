@@ -167,7 +167,7 @@ class AdvertisementUpdateView(UpdateView):
 class AdvertisementDeleteView(DeleteView):
     template_name = 'advertisement_form.html'
     model = Advertisement
-    success_url = reverse_lazy('building')
+    success_url = reverse_lazy('advertisement')
 
 
 
