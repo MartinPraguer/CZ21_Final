@@ -11,6 +11,17 @@
 /*    margin: 10px; !* Space around items *!*/
 /*}*/
 
+/*.price-container {*/
+    /*height: 60px; !* nastavte výšku podle toho, kolik prostoru potřebujete *!*/
+    /*display: flex;*/
+    /*align-items: center; !* vertikální zarovnání obsahu *!*/
+    /*justify-content: center; !* horizontální zarovnání obsahu *!*/
+
+
+.u-text-7 del {
+    color: #EA4335;
+    font-weight: bold;
+}
 
 .u-image-2 {
     max-width: 100%;
