@@ -1,0 +1,39 @@
+{% load static %}
+
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SDAcia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>{{ add_auction.name }}</h1>
+    <p>Category: {{ add_auction.category }}</p>
+    <p>Description: {{ add_auction.description }}</p>
+    <img src="{{ add_auction.photo.url }}" alt="Image for {{ add_auction.name }}">
+    <p>Price: {{ add_auction.price }}</p>
+    <p>Minimum Bid: {{ add_auction.minimum_bid }}</p>
+    <p>Buy Now: {% if add_auction.buy_now %} Yes {% else %} No {% endif %}</p>
+    <p>Promotion: {% if add_auction.promotion %} Yes {% else %} No {% endif %}</p>
+    <p>Auction Starts: {{ add_auction.auction_start_date }}</p>
+    <p>Auction Ends: {{ add_auction.auction_end_date }}</p>
+    <p>Views: {{ add_auction.number_of_views }}</p>
+    <p>Created: {{ add_auction.created }}</p>
+
+    <a href="{% url 'add_auction' %}">Back to Add_auctions</a>
+
+</body></html>

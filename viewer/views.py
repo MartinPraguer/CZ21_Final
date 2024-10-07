@@ -183,18 +183,18 @@ from django.views.generic.detail import DetailView
 
 # zobrazení detailu konkretniho inzeratu
 
-class AdvertisementDetailView(DetailView):
-    model = Advertisement
-    template_name = 'advertisement_detail.html'
-    context_object_name = 'advertisement'
+class Add_actionDetailView(DetailView):
+    model = Add_auction
+    template_name = 'add_auction_detail.html'
+    context_object_name = 'add_auction'
 
     # metoda na zvyšování počtu zobrazení po každém kliknutí
 
     def get_object(self, queryset=None):
-        advertisement = super().get_object(queryset)
-        advertisement.number_of_views += 1
-        advertisement.save()
-        return advertisement
+        add_auction = super().get_object(queryset)
+        add_auction.number_of_views += 1
+        add_auction.save()
+        return add_auction
 
 
 

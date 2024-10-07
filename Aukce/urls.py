@@ -20,7 +20,7 @@ from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpda
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Add_auction, Auction
 from viewer import views
-from viewer.views import AdvertisementDetailView
+from viewer.views import Add_actionDetailView
 
 # Registrace modelů do administrace
 admin.site.register(AccountStatus)
@@ -49,7 +49,7 @@ urlpatterns = [
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
-    path('advertisement/<int:pk>/', AdvertisementDetailView.as_view(), name='advertisement-detail'),
+    path('add_auction/<int:pk>/', Add_actionDetailView.as_view(), name='add_auction-detail'),
 
 ]
 
