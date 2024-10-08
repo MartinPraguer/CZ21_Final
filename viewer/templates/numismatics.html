@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-<h1>Numismatics</h1>
+<h1>Jewelry</h1>
 
     <h3>Poslední přidané inzeráty kup teď:</h3>
 
@@ -21,9 +21,9 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
-                <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Buy now</a></p>
+                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
+                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
             </div>
         </div>
     {% endfor %}
@@ -32,7 +32,7 @@
 
     <h3>Poslední přidané inzeráty s promotion:</h3>
 
-<!-- Kontejner pro všechny inzeráty -->
+<!-- Sekce pro inzeráty s promotion -->
 <div class="add_auction-container">
     {% for add_auction in promotion_add_auctions %}
         <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
@@ -40,19 +40,31 @@
                 {% if add_auction.photo %}
                     <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
                 {% else %}
-                    <p>No image available</p> <!-- Placeholder for when there is no photo -->
+                    <p>No image available</p>
                 {% endif %}
+                
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+                
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
-                <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
+                
+                <!-- Podmínka pro zobrazení předchozí ceny -->
+                {% if add_auction.last_price %}
+                 <p class="u-align-center u-text u-text-7">
+                 <del>{{ add_auction.last_price|price_format }} Kč</del><br>
+                </p>
+                {% endif %}         
+                {%  if add_auction.last_price is None %}
+                <br>
+                {% endif %}
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
+                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
+                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
             </div>
         </div>
     {% endfor %}
 </div>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 
 
     <h3>Poslední přidané inzeráty bez promotion:</h3>
@@ -69,9 +81,17 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
-                <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
+                {% if add_auction.last_price %}
+                 <p class="u-align-center u-text u-text-7">
+                     <del>{{ add_auction.last_price|price_format }} Kč</del><br>
+                </p>
+                {% endif %}
+                {%  if add_auction.last_price is None %}
+                <br>
+                {% endif %}
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
+                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
+                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
             </div>
         </div>
     {% endfor %}

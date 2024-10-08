@@ -5,7 +5,7 @@ import random
 import os
 from datetime import timedelta
 from django.utils import timezone
-from viewer.models import Add_auction, User, Category
+from viewer.models import AddAuction, User, Category
 from django.core.files import File
 
 # Nastavení cesty k adresáři s fotografiemi
@@ -86,7 +86,7 @@ def run():
             random_photo = random.choice(categorized_photos[category])
             photo_path = os.path.join(PHOTO_DIR, random_photo)
 
-            add_auction = Add_auction(
+            add_auction = AddAuction(
                 user=user,
                 category=all_categories[category],
                 name=name,

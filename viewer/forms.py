@@ -1,6 +1,7 @@
 from django import forms
 
 from viewer.models import Add_auction
+from viewer.models import AddAuction
 from django.forms import ModelForm
 from django.forms import (
   CharField, DateField, Form, IntegerField, ModelChoiceField, Textarea, SelectDateWidget
@@ -31,26 +32,21 @@ class SignUpForm(UserCreationForm):
 
 class AddAuctionForm(ModelForm):
   class Meta:
-    model = Add_auction
+    model = AddAuction
     fields = '__all__'
 
 
 
+from django import forms
+from .models import Bid
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class BidForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = ['amount']
+        widgets = {
+            'amount': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
+        }
 
 
 

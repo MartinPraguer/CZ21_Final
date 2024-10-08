@@ -1,24 +1,7 @@
+{% extends "base.html" %}
 {% load static %}
-
-<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
-
-<head>
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SDAcia</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-            crossorigin="anonymous"></script>
-</head>
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 <body>
     <h1>{{ add_auction.name }}</h1>
@@ -34,6 +17,27 @@
     <p>Views: {{ add_auction.number_of_views }}</p>
     <p>Created: {{ add_auction.created }}</p>
 
+    <!-- Seznam příhozů -->
+    <h2>Bids</h2>
+    {% if bids %}
+        <ul>
+            {% for bid in bids %}
+                <li>{{ bid.user.username }} - {{ bid.amount }} Kč ({{ bid.timestamp }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+
+    <!-- Formulář pro nový příhoz -->
+    <h3>Place a Bid</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Place Bid</button>
+    </form>
+
     <a href="{% url 'add_auction' %}">Back to Add_auctions</a>
 
-</body></html>
+</body>
+{% endblock %}

@@ -88,7 +88,7 @@ User = get_user_model()
 
 from django.db import models
 
-class Add_auction(Model):
+class AddAuction(Model):
     name = CharField(max_length=128)
     user = ForeignKey(User, on_delete=models.DO_NOTHING)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
@@ -96,16 +96,31 @@ class Add_auction(Model):
     photo = models.ImageField(upload_to='photos/')
     minimum_bid = IntegerField(default=0)
     # maximum_bid = IntegerField(default=0)
-    price = IntegerField(default=0)
     buy_now = BooleanField(default=False) # !zašknutí políčka buy_now = True!
     promotion = BooleanField(default=False) # !zašknutí políčka promotion = True!
     auction_start_date = DateTimeField(default=datetime.now)
     auction_end_date = DateTimeField(default=datetime.now)
     number_of_views = IntegerField(default=0)
     created = DateTimeField(default=timezone.now)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    last_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 
 
     def __str__(self):
         return f"{self.name} - {self.user} -{self.category} - {self.description}"
 
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Bid(models.Model):
+    add_auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE, related_name='bids')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.amount}"

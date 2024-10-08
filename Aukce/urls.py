@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
+from django.urls import path
+from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Add_auction, Auction
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
+
 from viewer.views import Add_auctionDetailView
 from django.contrib.auth.views import LogoutView
 from viewer.views import SignUpView
@@ -32,7 +35,7 @@ admin.site.register(AccountStatus)
 admin.site.register(AccountType)
 admin.site.register(UserAccounts)
 admin.site.register(Category)
-admin.site.register(Add_auction)
+admin.site.register(AddAuction)
 admin.site.register(Auction)
 
 
@@ -45,8 +48,9 @@ urlpatterns = [
     path("contact/", contact, name='contact'),
     path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
+    # path('add_auction/create', add_auction, name='add_auction'),
     path('add_auction/', Add_auctionView.as_view(), name='add_auction'),
-    path('add_auction/create', Add_auctionCreateView.as_view(), name='add_auction_add'),
+    path('add_auction/create/', Add_auctionCreateView.as_view(), name='add_auction_add'),
     path('add_auction/update/<pk>', Add_auctionUpdateView.as_view(), name='add_auction_update'),
     path('add_auction/delete/<pk>', Add_auctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
@@ -61,6 +65,11 @@ urlpatterns = [
 
 
 
+    path('add_auction/<int:pk>/', views.auction_detail, name='add_auction-detail'),
+    path('current_auctions/', current_auctions, name='current_auctions'),
+    path('auction_archives/', auction_archives, name='auction_archives'),
+    path('authors/', authors, name='authors'),
+    path('shopping_cart/', shopping_cart, name='cart')
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje

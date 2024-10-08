@@ -3,33 +3,43 @@
 {% block content %}
 
 <!-- Přidání CSS souboru -->
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{#<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">#}
 
 <h1>Stránka přidání inzerátu</h1>
 
     <a href="{% url 'add_auction_add' %}"><h3>Přidat inzerát</h3></a><br><br>
     
     <h3>Poslední přidané inzeráty:</h3>
+    
+    
+    {% for last_auction in last_auctions %}
+    <p>{{ last_auction }}</p>
+{% empty %}
+    <p>No auctions found.</p>
+{% endfor %}
 
-<!-- Kontejner pro všechny inzeráty -->
-<div class="add_auction-container">
-    {% for add_auction in add_auctions %}
-        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
-            <div class="u-container-layout u-similar-container u-container-layout-2">
-                {% if add_auction.photo %}
-                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-                {% else %}
-                    <p>No image available</p> <!-- Placeholder for when there is no photo -->
-                {% endif %}
-                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ add_auction.price }} Kč</p>
-                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>
-                <a href="{% url 'add_auction_update' add_auction.pk %}">upravit</a>
-                <a href="{% url 'add_auction_delete' add_auction.pk %}">smazat</a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+{#<!-- Kontejner pro všechny inzeráty -->#}
+{#<div class="add_auction-container">#}
+{#    {% for last_auction in last_auctions %}#}
+{#        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">#}
+{#            <div class="u-container-layout u-similar-container u-container-layout-2">#}
+{#                {% if last_auction.photo %}#}
+{#                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ last_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">#}
+{#                {% else %}#}
+{#                    <p>No image available</p> <!-- Placeholder for when there is no photo -->#}
+{#                {% endif %}#}
+{#                <p class="u-align-center u-text u-text-5">{{ last_auction.category }} - {{ last_auction.name }}</p>#}
+{#                <p class="u-align-center u-text u-text-6">{{ last_auction.price }} Kč</p>#}
+{#                <p class="u-align-center u-text u-text-7"><del>19.000 Kč</del></p>#}
+{#                <a href="{% url 'last_auction_update' last_auction.pk %}">upravit</a>#}
+{#                <a href="{% url 'last_auction_delete' last_auction.pk %}">smazat</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#</div>#}
+    
+    
+    
 
 {% endblock %}
 

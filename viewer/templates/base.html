@@ -24,8 +24,8 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #fff8f2;">
-    <div class="container">
-        <a href="#" style="max-width: 200px; height: auto;">
+    <a class="container">
+        <a href="{% url 'index' %}" style="max-width: 200px; height: auto;">
           <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1" style="max-width: 200px; height: auto;">
         </a>
         <a class="navbar-brand" href="/"></a>
@@ -57,12 +57,23 @@
 >
     <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath stroke=%27%23000%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3E%3C/svg%3E');"></span>
 </button>
+        <a href="/user/login/">přihlášení <img src="https://galerieumeni.cz/www/images/login.png" alt="login icon"></a>
+        <a href="/user/registration/">registrace <img src="https://galerieumeni.cz/www/images/reg.png" alt="ragistration icon"></a>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link active" href="{% url 'index' %}" style="color: black;">
                     Home
                 </a>
-                <a class="nav-item nav-link" href="{% url 'add_auction' %}" style="color: black;">
+                <a class="nav-item nav-link" href="{% url 'current_auctions' %}" style="color: black;">
+                    Current auctions
+                </a>
+                <a class="nav-item nav-link" href="{% url 'auction_archives' %}" style="color: black;">
+                    Auction archives
+                </a>
+                <a class="nav-item nav-link" href="{% url 'authors' %}" style="color: black;">
+                    Authors
+                </a>
+                <a class="nav-item nav-link" href="{% url 'add_auction_add' %}" style="color: black;">
                     Add auction
                 </a>
                 <a class="nav-item nav-link" href="{% url 'about' %}" style="color: black;">
@@ -70,6 +81,9 @@
                 </a>
                 <a class="nav-item nav-link" href="{% url 'contact' %}" style="color: black;">
                     Contact
+                </a>
+                <a href="{% url 'cart' %}" class="">
+                <img alt="" src="{% static 'cart.png' %}" width="30" height="auto" class="u-image u-image-default u-image-3">
                 </a>
             </div>
         </div>
