@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: CRUD - views.py a vytvoření databáze">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="prejmenovani va base na Add auction">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop-Martin" />
+        <entry key="$PROJECT_DIR$" value="feature_funkcni-advertisement" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,12 +43,12 @@
     &quot;assignee&quot;: &quot;Androixo&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MartinPraguer/CZ21_Final.git",
-    "accountId": "370b16cc-5e28-413d-832f-954497b41209"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MartinPraguer/CZ21_Final.git&quot;,
+    &quot;accountId&quot;: &quot;370b16cc-5e28-413d-832f-954497b41209&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -68,7 +71,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature__zobrazeniaukce&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
     &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -113,6 +116,7 @@
       <workItem from="1728124467317" duration="15000" />
       <workItem from="1728305186471" duration="4978000" />
       <workItem from="1728307422198" duration="18000" />
+      <workItem from="1728328068784" duration="11383000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
       <option name="closed" value="true" />
@@ -426,8 +430,7 @@
     <MESSAGE value="vytvoření populate_date.py a spuštění scriptu python manage.py runscript populate_date -v3" />
     <MESSAGE value="obnovení feature Andrej po smazání z githubu" />
     <MESSAGE value="databáze a views" />
-    <option name="LAST_COMMIT_MESSAGE" value="databáze a views" />
     <MESSAGE value="fix: CRUD - views.py a vytvoření databáze" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: CRUD - views.py a vytvoření databáze" />
+    <option name="LAST_COMMIT_MESSAGE" value="databáze a views" />
   </component>
 </project>

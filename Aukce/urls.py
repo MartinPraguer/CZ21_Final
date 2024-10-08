@@ -15,12 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, Add_auction, Auction
 from viewer import views
 from viewer.views import Add_auctionDetailView
+from django.contrib.auth.views import LogoutView
+from viewer.views import SignUpView
+from django.contrib.auth import views as auth_views
+
+
 
 # Registrace modelů do administrace
 admin.site.register(AccountStatus)
@@ -30,7 +35,7 @@ admin.site.register(Category)
 admin.site.register(Add_auction)
 admin.site.register(Auction)
 
-# Definice URL vzorů
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name='index'),
@@ -50,6 +55,11 @@ urlpatterns = [
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
     path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
+    path('sign-up/', SignUpView.as_view(), name='sign_up'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+
+
+
 
 ]
 

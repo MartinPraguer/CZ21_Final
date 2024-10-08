@@ -1,17 +1,23 @@
 from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import render
 from django.http import HttpResponse
-from viewer.models import Add_auction, Category
-from viewer.forms import Add_auctionForm
+
+from Aukce.settings import USE_TZ
+from viewer.models import Add_auction, Category, Profile
+from viewer.forms import AddAuctionForm, SignUpForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
 import logging
+from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, UserCreationForm)
 
 
+class SignUpView(CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy('login')  # Po úspěšné registraci přesměruje na stránku přihlášení
+    template_name = 'sign_up.html'
 
-# def hello(request, s):
-#     return HttpResponse(f'AHOJ {s}')
+
 
 def index(request):
     return render(request, template_name='base_4_obrazky.html', context={
@@ -157,12 +163,12 @@ class Add_auctionView(TemplateView):
     extra_context = {'add_auction': Add_auction.objects.order_by("-created")[:12]}
 class Add_auctionCreateView(CreateView):
     template_name = 'add_auction_form.html'
-    form_class = Add_auctionForm
+    form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
 class Add_auctionUpdateView(UpdateView):
     template_name = 'add_auction_form.html'
     model = Add_auction
-    form_class = Add_auctionForm
+    form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
 class Add_auctionDeleteView(DeleteView):
     template_name = 'add_auction_form.html'
@@ -183,6 +189,10 @@ from django.views.generic.detail import DetailView
 
 # zobrazení detailu konkretniho inzeratu
 
+class Add_auctionDetailView(DetailView):
+    model = Add_auction
+    template_name = 'add_auction_detail.html'
+    context_object_name = 'add_auction'
 class Add_auctionDetailView(DetailView):
     model = Add_auction
     template_name = 'add_auction_detail.html'

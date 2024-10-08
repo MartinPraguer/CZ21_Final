@@ -2,6 +2,14 @@ from django.db import models
 from django.db.models import Model, DO_NOTHING, CharField, DateField, ForeignKey, IntegerField, TextField, BooleanField, ImageField, DateTimeField
 from datetime import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.db.models import CASCADE, Model, OneToOneField, TextField
+
+
+class Profile(Model):
+    user = OneToOneField(User, on_delete=CASCADE)
+    biography = TextField()
+
 
 
 # from django.forms import
