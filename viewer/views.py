@@ -3,10 +3,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from Aukce.settings import USE_TZ
-from viewer.models import Add_auction, Category, Profile
+from viewer.models import AddAuction, Category, Profile
 from viewer.forms import AddAuctionForm, SignUpForm
 from viewer.models import AddAuction, Category
-from viewer.forms import Add_auctionForm
+from viewer.forms import AddAuctionForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -182,7 +182,7 @@ class Add_auctionView(TemplateView):
     extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
 class Add_auctionCreateView(CreateView):
     model = AddAuction
-    form_class = Add_auctionForm
+    form_class = AddAuctionForm
     template_name = 'add_auction_add.html'  # Název vaší šablony
     success_url = reverse_lazy('add_auction_create')  # Přesměrování po úspěšném vytvoření záznamu
 
@@ -196,10 +196,10 @@ class Add_auctionCreateView(CreateView):
     success_url = reverse_lazy('add_auction')
 class Add_auctionUpdateView(UpdateView):
     template_name = 'add_auction_form.html'
-    model = Add_auction
+    model = AddAuction
     form_class = AddAuctionForm
     model = AddAuction
-    form_class = Add_auctionForm
+    form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
 class Add_auctionDeleteView(DeleteView):
     template_name = 'add_auction_form.html'
@@ -221,7 +221,7 @@ from django.views.generic.detail import DetailView
 # zobrazení detailu konkretniho inzeratu
 
 class Add_auctionDetailView(DetailView):
-    model = Add_auction
+    model = AddAuction
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
 class Add_auctionDetailView(DetailView):

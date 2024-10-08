@@ -1,6 +1,6 @@
 from django import forms
 
-from viewer.models import Add_auction
+from viewer.models import AddAuction
 from viewer.models import AddAuction
 from django.forms import ModelForm
 from django.forms import (
