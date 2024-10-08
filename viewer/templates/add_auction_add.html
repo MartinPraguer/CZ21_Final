@@ -34,8 +34,10 @@
                 <br>
                 {% endif %}
                 <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
+                {% if user.is_superuser %}
                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

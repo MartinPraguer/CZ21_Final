@@ -1,7 +1,12 @@
 Aukce obrazů:
 
 [ ] CRUD - přejmenovat add, protože křičelo
+[ ] buy now - u kup teď odstranit přidávání příhozů
+[ ] login-log out tlačítko
+[ ] přidat obrázky k přihlášení/odhlášení a registraci
+[ ] posunout menu doleva
 [ ] záložka aukce
+[ ] ukázat kolik zbývá času do konce aukce
 [*] na stránce probíhající akce udělat forcyklus přidaných příhozů
 [ ] pořešit hlavy soch
 [ ] přidat, aby šlo přidávat vícero obrázku k jedné aukci
