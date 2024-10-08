@@ -13,11 +13,25 @@ import logging
 # def hello(request, s):
 #     return HttpResponse(f'AHOJ {s}')
 
+def add_auction(request):
+    last_auctions = AddAuction.objects.all() #.order_by("-created")[:16]
+    print(last_auctions)  # Debug: zjistit, jestli jsou nějaké aukce
+    return render(request, template_name='add_auction.html', context={
+        "last_auctions": last_auctions,})
+
+
+        # 'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
+        # 'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
+        # 'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
+
+
+
 def index(request):
-    return render(request, template_name='base_4_obrazky.html', context={
-        'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
-        'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
-        'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
+    return render(request, template_name='add_auction.html', context={
+        "last_auctions": AddAuction.objects.order_by("-created")[:16],
+        # 'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
+        # 'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
+        # 'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
     })
 
 
@@ -154,11 +168,18 @@ def podrobne_hledani(request):
     template_name = 'form.html'
 class Add_auctionView(TemplateView):
     template_name = 'add_auction.html'
-    extra_context = {'add_auction': AddAuction.objects.order_by("-created")[:12]}
+    extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
 class Add_auctionCreateView(CreateView):
-    template_name = 'add_auction_form.html'
+    model = AddAuction
     form_class = Add_auctionForm
-    success_url = reverse_lazy('add_auction')
+    template_name = 'add_auction_add.html'  # Název vaší šablony
+    success_url = reverse_lazy('add_auction_create')  # Přesměrování po úspěšném vytvoření záznamu
+
+    def get_context_data(self, **kwargs):
+        # Přidání dalších dat do kontextu
+        context = super().get_context_data(**kwargs)
+        context['last_auctions'] = AddAuction.objects.order_by("-created")[:12]
+        return context
 class Add_auctionUpdateView(UpdateView):
     template_name = 'add_auction_form.html'
     model = AddAuction

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
+from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
@@ -41,8 +41,9 @@ urlpatterns = [
     path("contact/", contact, name='contact'),
     path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
+    # path('add_auction/create', add_auction, name='add_auction'),
     path('add_auction/', Add_auctionView.as_view(), name='add_auction'),
-    path('add_auction/create', Add_auctionCreateView.as_view(), name='add_auction_add'),
+    path('add_auction/create/', Add_auctionCreateView.as_view(), name='add_auction_add'),
     path('add_auction/update/<pk>', Add_auctionUpdateView.as_view(), name='add_auction_update'),
     path('add_auction/delete/<pk>', Add_auctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
