@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView
+from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
@@ -53,6 +53,10 @@ urlpatterns = [
     path('test/', views.my_view),
 
     path('add_auction/<int:pk>/', views.auction_detail, name='add_auction-detail'),
+    path('current_auctions/', current_auctions, name='current_auctions'),
+    path('auction_archives/', auction_archives, name='auction_archives'),
+    path('authors/', authors, name='authors'),
+    path('shopping_cart/', shopping_cart, name='cart')
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
