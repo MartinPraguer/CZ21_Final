@@ -28,8 +28,9 @@ def add_auction(request):
 
 
 def index(request):
-    return render(request, template_name='add_auction.html', context={
-        "last_auctions": AddAuction.objects.order_by("-created")[:16],
+    return render(request, template_name='base_4_obrazky.html', context={
+    # return render(request, template_name='add_auction.html', context={
+    #     "last_auctions": AddAuction.objects.order_by("-created")[:16],
         # 'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
         # 'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
         # 'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
