@@ -260,17 +260,17 @@ def auction_detail(request, pk):
         'last_price': last_price,  # Přidání `last_price` do kontextu
     })
 
-def current_auctions(request, s):
-    return HttpResponse(f'AHOJ {s}')
+def current_auctions(request):
+    return HttpResponse(f'AHOJ')
 
-def auction_archives(request, s):
-    return HttpResponse(f'AHOJ {s}')
+def auction_archives(request):
+    return HttpResponse(f'AHOJ')
 
-def authors(request, s):
-    return HttpResponse(f'AHOJ {s}')
+def authors(request):
+    return HttpResponse(f'AHOJ')
 
-def shopping_cart(request, s):
-    return HttpResponse(f'AHOJ {s}')
+def shopping_cart(request):
+    return HttpResponse(f'AHOJ')
 
 
 
