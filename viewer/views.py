@@ -7,6 +7,7 @@ from django.views.generic import FormView, ListView, CreateView, UpdateView, Del
 from django.urls import reverse_lazy
 from django.db.models import Q
 import logging
+from django.utils import timezone
 
 
 
@@ -16,7 +17,7 @@ import logging
 def add_auction(request):
     last_auctions = AddAuction.objects.all() #.order_by("-created")[:16]
     print(last_auctions)  # Debug: zjistit, jestli jsou nějaké aukce
-    return render(request, template_name='add_auction.html', context={
+    return render(request, template_name='base_4_obrazky.html', context={
         "last_auctions": last_auctions,})
 
 
@@ -264,7 +265,14 @@ def current_auctions(request):
     return HttpResponse(f'AHOJ')
 
 def auction_archives(request):
-    return HttpResponse(f'AHOJ')
+
+    auction_archives = AddAuction.objects.filter(auction_end_date__lt=timezone.now()).order_by('-created')[:16]
+
+
+    return render(request, template_name='auction_archives.html', context={
+        'auction_archives': auction_archives,
+    })
+
 
 def authors(request):
     return HttpResponse(f'AHOJ')
