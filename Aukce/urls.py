@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
+from viewer.views import AddAuctionView, AddAuctionCreateView, AddAuctionUpdateView, AddAuctionDeleteView
 from django.urls import path
-from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
+from viewer.views import AddAuctionCreateView, AddAuctionUpdateView, AddAuctionDeleteView, AddAuctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
 
-from viewer.views import Add_auctionDetailView
+from viewer.views import AddAuctionDetailView
 from django.contrib.auth.views import LogoutView
 from viewer.views import SignUpView
 from django.contrib.auth import views as auth_views
@@ -49,16 +49,16 @@ urlpatterns = [
     path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
     # path('add_auction/create', add_auction, name='add_auction'),
-    path('add_auction/', Add_auctionView.as_view(), name='add_auction'),
-    path('add_auction/create/', Add_auctionCreateView.as_view(), name='add_auction_add'),
-    path('add_auction/update/<pk>', Add_auctionUpdateView.as_view(), name='add_auction_update'),
-    path('add_auction/delete/<pk>', Add_auctionDeleteView.as_view(), name='add_auction_delete'),
+    path('add_auction/', AddAuctionView.as_view(), name='add_auction'),
+    path('add_auction/create/', AddAuctionCreateView.as_view(), name='add_auction_add'),
+    path('add_auction/update/<pk>', AddAuctionUpdateView.as_view(), name='add_auction_update'),
+    path('add_auction/delete/<pk>', AddAuctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
-    path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
+    path('add_auction/<int:pk>/', AddAuctionDetailView.as_view(), name='add_auction-detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

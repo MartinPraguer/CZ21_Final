@@ -177,10 +177,10 @@ def podrobne_hledani(request):
 
 
     template_name = 'form.html'
-class Add_auctionView(TemplateView):
+class AddAuctionView(TemplateView):
     template_name = 'add_auction.html'
     extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
-class Add_auctionCreateView(CreateView):
+class AddAuctionCreateView(CreateView):
     model = AddAuction
     form_class = AddAuctionForm
     template_name = 'add_auction_add.html'  # Název vaší šablony
@@ -194,14 +194,14 @@ class Add_auctionCreateView(CreateView):
     template_name = 'add_auction_form.html'
     form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
-class Add_auctionUpdateView(UpdateView):
+class AddAuctionUpdateView(UpdateView):
     template_name = 'add_auction_form.html'
     model = AddAuction
     form_class = AddAuctionForm
     model = AddAuction
     form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
-class Add_auctionDeleteView(DeleteView):
+class AddAuctionDeleteView(DeleteView):
     template_name = 'add_auction_form.html'
     model = AddAuction
     success_url = reverse_lazy('add_auction')
@@ -220,11 +220,11 @@ from django.views.generic.detail import DetailView
 
 # zobrazení detailu konkretniho inzeratu
 
-class Add_auctionDetailView(DetailView):
+class AddAuctionDetailView(DetailView):
     model = AddAuction
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
-class Add_auctionDetailView(DetailView):
+class AddAuctionDetailView(DetailView):
     model = AddAuction
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
