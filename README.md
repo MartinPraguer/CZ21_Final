@@ -1,5 +1,6 @@
 Aukce obrazů:
 
+[ ] někde se pokazilo přihazování na detailu aukce
 [ ] pokazila se add_auction_add stránka, tak ji opravit
 [ ] CRUD - přejmenovat add, protože křičelo
 [ ] buy now - u kup teď odstranit přidávání příhozů
