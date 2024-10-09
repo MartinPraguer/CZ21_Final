@@ -1,4 +1,5 @@
 from django import forms
+from viewer.models import Bid
 
 from viewer.models import AddAuction
 from viewer.models import AddAuction
@@ -47,6 +48,12 @@ class BidForm(forms.ModelForm):
         widgets = {
             'amount': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
         }
+
+    def clean_amount(self):
+        amount = self.cleaned_data['amount']
+        if amount <= 0:
+            raise forms.ValidationError("Bid amount must be greater than 0.")
+        return amount
 
 
 

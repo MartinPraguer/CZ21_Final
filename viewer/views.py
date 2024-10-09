@@ -1,11 +1,11 @@
 from django.contrib.sessions.backends.base import SessionBase
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.shortcuts import get_object_or_404, redirect
 from Aukce.settings import USE_TZ
 from viewer.models import AddAuction, Category, Profile
-from viewer.forms import AddAuctionForm, SignUpForm
-from viewer.models import AddAuction, Category
+from viewer.forms import AddAuctionForm, SignUpForm, BidForm
+from viewer.models import AddAuction, Category, Bid
 from viewer.forms import AddAuctionForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
@@ -244,41 +244,49 @@ from .models import AddAuction, Bid
 from .forms import BidForm
 
 
+from django.utils import timezone
+from django.shortcuts import render
+
 def auction_detail(request, pk):
-    add_auction = get_object_or_404(AddAuction, pk=pk)
-    bids = add_auction.bids.all().order_by('-timestamp')
+    auction = get_object_or_404(AddAuction, pk=pk)
+    bids = auction.bids.all()  # Get all bids for this auction
+    current_time = timezone.now()
+    error_message = None  # To hold any error messages
 
-    # Získání posledního příhozu (nejvyšší nabídky), pokud existuje
-    last_bid = bids.first() if bids.exists() else None
+    # Check if the auction is still active
+    if current_time < auction.auction_start_date:
+        error_message = "The auction has not started yet."
+    elif current_time > auction.auction_end_date:
+        error_message = "The auction has already ended."
 
-    # Uložení `last_price` (cena před posledním příhozem)
-    last_price = add_auction.price
-
-    if request.method == 'POST':
+    if request.method == "POST" and not error_message:
         form = BidForm(request.POST)
         if form.is_valid():
-            bid = form.save(commit=False)
-            bid.add_auction = add_auction
-            bid.user = request.user  # Předpoklad, že uživatel je přihlášen
+            new_bid = form.save(commit=False)
+            new_bid.add_auction = auction  # Assign auction to the bid
+            new_bid.user = request.user  # Assign user who is placing the bid
 
-            # Uložení `last_price` před aktualizací ceny
-            add_auction.last_price = add_auction.price
-
-            # Aktualizace ceny aukce na základě nové nabídky
-            add_auction.price += bid.amount  # Nová cena po přičtení příhozu
-            add_auction.save()
-            bid.save()
-
-            return redirect('add_auction-detail', pk=add_auction.pk)
+            # Only check if the bid is higher than the minimum bid
+            if new_bid.amount >= auction.minimum_bid:
+                new_bid.save()
+                auction.price += new_bid.amount  # Increment auction price by the new bid
+                auction.save()
+            else:
+                error_message = "Your bid must be higher than the minimum bid."
+        else:
+            error_message = "There was an error with your bid. Please try again."
     else:
         form = BidForm()
 
-    return render(request, 'add_auction_detail.html', {
-        'add_auction': add_auction,
+    # Context to render the template, including form and any error messages
+    context = {
+        'auction': auction,
         'bids': bids,
         'form': form,
-        'last_price': last_price,  # Přidání `last_price` do kontextu
-    })
+        'error_message': error_message  # Include error message in context
+    }
+
+    return render(request, 'add_auction_detail.html', context)
 
 def current_auctions(request):
     return HttpResponse(f'AHOJ')

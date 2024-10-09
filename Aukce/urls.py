@@ -58,7 +58,7 @@ urlpatterns = [
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('test/', views.my_view),
-    path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
+    # path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -66,7 +66,7 @@ urlpatterns = [
     path('current_auctions/', current_auctions, name='current_auctions'),
     path('auction_archives/', auction_archives, name='auction_archives'),
     path('authors/', authors, name='authors'),
-    path('shopping_cart/', shopping_cart, name='cart')
+    path('shopping_cart/', shopping_cart, name='cart'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
