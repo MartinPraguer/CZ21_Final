@@ -237,6 +237,7 @@ class Add_auctionDetailView(DetailView):
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
 
+
     # metoda na zvyšování počtu zobrazení po každém kliknutí
 
     def get_object(self, queryset=None):
