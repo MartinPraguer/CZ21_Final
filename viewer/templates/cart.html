@@ -2,10 +2,10 @@
 {% block content %}
     <h2>Váš košík</h2>
     
-    {% if auctions_in_cart %}
+    {% if cart_items %}
         <ul>
-            {% for auction in auctions_in_cart %}
-                <li>{{ auction.name }} - {{ auction.buy_now_price }} Kč</li>
+            {% for cart in cart_items %}
+                <li>{{ cart.auction.name }} - {{ cart.price }} Kč</li>
             {% endfor %}
         </ul>
         <a href="{% url 'checkout' %}">Pokračovat k platbě</a>

@@ -20,7 +20,7 @@ from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpda
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction, Cart
 from viewer import views
 
 from viewer.views import Add_auctionDetailView
@@ -37,6 +37,7 @@ admin.site.register(UserAccounts)
 admin.site.register(Category)
 admin.site.register(AddAuction)
 admin.site.register(Auction)
+admin.site.register(Cart)
 
 
 urlpatterns = [
