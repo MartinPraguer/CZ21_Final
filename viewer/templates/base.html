@@ -24,7 +24,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #fff8f2;">
-    <a class="container">
+{#    <a class="container">#}
         <a href="{% url 'index' %}" style="max-width: 200px; height: auto;">
           <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1" style="max-width: 200px; height: auto;">
         </a>
@@ -41,6 +41,27 @@
 {#            <button type="submit">Odhlásit se</button>#}
 {#        </form>#}
         <style>
+            
+        {#.auction-categories {#}
+        {#display: flex;#}
+        {#justify-content: space-around ; /* Rozmístí položky rovnoměrně po celé šířce */#}
+        {#font-size: 20px; /* Zvýší velikost písma */#}
+        {#font-weight: bold; /* Zvýrazní text */#}
+        {#width: 100%; /* Roztáhne na celou šířku nadpisu */#}
+        {#margin-top: 10px; /* Přidá mezery nad a pod textem */#}
+        {#color: black;#}
+        }
+        
+        .auction-categories a {
+        text-decoration: none; /* Odstraní podtržení z odkazů */
+        color: white; /* Můžeš upravit barvu odkazů, případně přizpůsobit pozadí */
+        }
+        
+        .auction-categories a:hover {
+        text-decoration: underline;
+        color: black;/* Zvýrazní odkaz při najetí myší */
+        }
+        
         .navbar-toggler {
             border-color: black; /* Změní barvu rámečku kolem hamburger ikony */
         }
@@ -48,6 +69,24 @@
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
             /* Změní čárky na ikonu na černou barvu */
+        }
+        
+        .icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .login {
+            background-image: url('https://galerieumeni.cz/www/images/login.png');
+            filter: brightness(0) saturate(100%) invert(0) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        .registration {
+            background-image: url('https://galerieumeni.cz/www/images/reg.png');
+            filter: brightness(0) saturate(100%) invert(0) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
         }
     </style>
 <button
@@ -63,8 +102,8 @@
         <button type="submit">Logout</button>
         </form>
         {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'sign_up' %}">Sign up</a>
+            <a href="{% url 'login' %}"><img src="{% static "login.png" %}" style="max-width: 100px; height: auto;"></a>
+            <a href="{% url 'sign_up' %}"><img src="{% static "sign_up.png" %}" style="max-width: 100px; height: auto;"></a>
         {% endif %}
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
@@ -142,12 +181,12 @@
 </g></svg>
             </a>
           </div>
-          <div class="u-nav-container">
+{#          <div class="u-nav-container">#}
 {#            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'index' %}" style="padding: 10px 20px;">Home</a>#}
 {#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'add_auction' %}" style="padding: 10px 20px;">Add auction</a>#}
 {#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'about' %}" style="padding: 10px 20px;">About</a>#}
 {#</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'contact' %}" style="padding: 10px 20px;">Contact</a>#}
-</li></ul>
+{#</li></ul>#}
           </div>
           <div class="u-nav-container-collapse">
             <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
@@ -166,7 +205,7 @@
     <section class="u-align-center u-clearfix u-container-align-center u-palette-1-base u-section-1" src="" id="carousel_ef82">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-title u-text-1">Auction gallery</h1>
-          <p class="u-align-center u-text u-text-default u-text-2"><a href="{% url 'paintings' %}">   Paintings   </a> <a href="{% url 'statues' %}">   Statues   </a> <a href="{% url 'numismatics' %}">   Numismatics   </a> <a href="{% url 'jewelry' %}">   Jewelry   </a></p>
+          <p class="auction-categories"><a href="{% url 'paintings' %}">   Paintings   </a> <a href="{% url 'statues' %}">   Statues   </a> <a href="{% url 'numismatics' %}">   Numismatics   </a> <a href="{% url 'jewelry' %}">   Jewelry   </a></p>
       </div>
     </section>
 

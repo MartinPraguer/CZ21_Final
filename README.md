@@ -4,10 +4,10 @@ Auction gallery:
 [ ] nefunguje Back to Add Auctions - návrat z detailu aukce
 [ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
 [ ] pokazilo se vyhledávání
-[ ] někde se pokazilo přihazování na detailu aukce
+[*] někde se pokazilo přihazování na detailu aukce
 [ ] pokazila se add_auction_add stránka, tak ji opravit
 [ ] CRUD - přejmenovat add, protože křičelo
-[ ] buy now - u kup teď odstranit přidávání příhozů
+[*] buy now - u kup teď odstranit přidávání příhozů
 [*] login-log out tlačítko
 [ ] přidat obrázky k přihlášení/odhlášení a registraci
 [ ] posunout menu doleva
@@ -22,17 +22,17 @@ Auction gallery:
 [ ] udělat košík a koupi produktu
 [ ] udělat hodnocení nákupu - prodávající/kupující
 [ ] vytvořit uživatelské účty
-[ ] registrace/přihlášení/odhlášení
+[*] registrace/přihlášení/odhlášení
 [ ] rozjet stránky na rosti.cz
 [ ] administrace účtů - 3 typy účtů - createsuperuser/promotion/běžný účet
 [*] předělat CRUD - aby zobrazoval add_auction
 [*] přepsat advertisement na add_auction
-[ ] oddělat z hlavní stránky probíhající aukce a dát tam je obrázky s odkazem na další stránky
+[*] oddělat z hlavní stránky probíhající aukce a dát tam je obrázky s odkazem na další stránky
 [*] udělat jednu stránku probíhající aukce
 [ ] zprovoznit .js velkého obrázku
 [*] přidat okdaz kup teď u kup teď aukcí
 [ ] barevně zvýraznit promotion a kup teď
-[ ] dát odkazy na další stránku
+[ ] dát odkazy na další stránku -
 [*] CRUD - dodělat zbylých 10%, aby fungoval - nefunguje delete a neprojeví se změny úprav
 [*] hledej - přidat usera
 [*] zfunkčnit odkazy pod názvem Aukční galerie
