@@ -1,8 +1,13 @@
-Aukce obrazů:
+Auction gallery:
 
+[ ] nefunguje Back to Add Auctions - návrat z detailu aukce
+[ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
+[ ] pokazilo se vyhledávání
+[ ] někde se pokazilo přihazování na detailu aukce
+[ ] pokazila se add_auction_add stránka, tak ji opravit
 [ ] CRUD - přejmenovat add, protože křičelo
 [ ] buy now - u kup teď odstranit přidávání příhozů
-[ ] login-log out tlačítko
+[*] login-log out tlačítko
 [ ] přidat obrázky k přihlášení/odhlášení a registraci
 [ ] posunout menu doleva
 [ ] záložka aukce
@@ -45,5 +50,5 @@ Aukce obrazů:
 [*] home stránka
 [*] vkládání nabídky
 [*] přehled aukcí např. 10
-
+[ ] návrh od konzultanta, pouze na zvážení - volba měny, lupička na přiblížení detailu malby, šperku, sochy; forma dodání, faktura, dodání kam - fakturační adresa stejná jako místo dodání, osobní odběr, jestli je to na firmu, takže IČO a DIČO, možnost platby - převodem, paypal, kartou, při doručení, připojištění zásilky, možnost osobní prohlídky po dobou aukce, možnost konzultace ohledně ceny díla, kontaktní adresy, děláme něco mezi aukrem a galerií umění, jak je ošetřené kurátory štengrování při falešné bidování, doklad o pravosti díla za příplatek
 

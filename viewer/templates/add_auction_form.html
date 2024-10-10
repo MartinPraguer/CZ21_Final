@@ -1,5 +1,10 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+    <h2>Stránka pro vytvoření nové aukce</h2>
 
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -38,5 +43,32 @@
   });
 </script>
     
+<h2>Poslední přidané inzeráty:</h2>
+<p>Počet posledních aukcí: {{ last_auctions.count }}</p>
+<div class="add_auction-container">
+    {% for add_auction in last_auctions %}
+        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
+            <div class="u-container-layout u-similar-container u-container-layout-2">
+                {% if add_auction.photo %}
+                    <img class="u-expanded-width u-image u-image-default u-image-2" alt="" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                {% else %}
+                    <p>No image available</p> <!-- Placeholder if there is no photo -->
+                {% endif %}
+                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+                <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+                <p class="u-align-center u-text u-text-7">
+                    {% if add_auction.last_price %}
+                        <del>{{ add_auction.last_price|price_format }} Kč</del><br>
+                    {% endif %}
+                </p>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
+                {% if user.is_superuser %}
+                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
+                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
     
 {% endblock %}

@@ -332,7 +332,9 @@ def create_auction(request):
     else:
         form = AddAuctionForm()
 
-    return render(request, 'add_auction_form.html', {'form': form})
+    # Předání posledních aukcí do šablony
+    last_auctions = AddAuction.objects.order_by("-created")[:12]
+    return render(request, 'add_auction_form.html', {'form': form, 'last_auctions': last_auctions})
 
 
 class AddAuctionCreateView(CreateView):
