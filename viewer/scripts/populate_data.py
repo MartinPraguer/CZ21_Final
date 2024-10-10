@@ -1,4 +1,4 @@
-# spuštění - python manage.py runscript populate_date -v3
+# python manage.py runscript populate_data -v3
 
 
 import random
@@ -78,9 +78,24 @@ def run():
         category = random.choice(categories)
         name = random.choice(sample_names[category])
         description = random.choice(sample_descriptions[category])
-        minimum_bid = random.randint(50, 500)
-        buy_now_price = random.randint(minimum_bid + 100, minimum_bid + 1000)
+
+        # Náhodně určíme, zda se jedná o aukci typu "Buy Now" nebo "Place Bid"
         auction_type = random.choice(['buy_now', 'place_bid'])
+
+        # V závislosti na typu aukce nastavíme různá pole
+        if auction_type == 'buy_now':
+            buy_now_price = random.randint(1000, 100000)
+            price = None
+            start_price = None
+            previous_price = None
+            minimum_bid = None
+        else:  # Place Bid
+            buy_now_price = None
+            start_price = random.randint(1000, 100000)
+            price = start_price  # Základní cena při startu aukce
+            previous_price = None  # Na začátku aukce není žádná předchozí cena
+            minimum_bid = random.randint(500, 1000)
+
         promotion = random.choice([True, False])
         auction_start_date, auction_end_date = random_auction_dates()
         number_of_views = random.randint(0, 1000)
@@ -95,10 +110,13 @@ def run():
                 category=all_categories[category],
                 name=name,
                 description=description,
-                minimum_bid=minimum_bid,
-                buy_now_price=buy_now_price if auction_type == 'buy_now' else None,
-                auction_type=auction_type,
                 promotion=promotion,
+                auction_type=auction_type,
+                buy_now_price=buy_now_price,
+                price=price,
+                start_price=start_price,
+                previous_price=previous_price,
+                minimum_bid=minimum_bid,
                 auction_start_date=auction_start_date,
                 auction_end_date=auction_end_date,
                 number_of_views=number_of_views,

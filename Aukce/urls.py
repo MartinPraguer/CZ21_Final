@@ -19,7 +19,7 @@ from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
-from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view
+from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction
 from viewer import views
 
@@ -67,7 +67,9 @@ urlpatterns = [
     path('current_auctions/', current_auctions, name='current_auctions'),
     path('auction_archives/', auction_archives, name='auction_archives'),
     path('authors/', authors, name='authors'),
-    path('shopping_cart/', shopping_cart, name='cart'),
+    path('add_to_cart/<int:auction_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/', cart_view, name='cart_view'),
+    path('checkout/', checkout_view, name='checkout'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje

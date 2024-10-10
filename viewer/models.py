@@ -111,9 +111,9 @@ class AddAuction(Model):
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     # Políčka specifická pro "Place Bid"
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    penultimate_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    last_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 
@@ -127,10 +127,38 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Bid(models.Model):
-    add_auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE, related_name='bids')
+    auction = models.ForeignKey(AddAuction, related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} - {self.amount}"
+        return f"{self.user.username} - {self.amount} Kč"
+
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    # Přidání metody pro přidání do košíku
+    @classmethod
+    def add_to_cart(cls, user, auction):
+        # Získáme nebo vytvoříme položku v košíku
+        cart_item, created = cls.objects.get_or_create(
+            user=user,
+            auction=auction,
+            defaults={'price': auction.buy_now_price}
+        )
+
+        if not created:
+            # Pokud už existuje, aktualizujeme cenu
+            cart_item.price = auction.buy_now_price
+            cart_item.save()
+
+        return cart_item

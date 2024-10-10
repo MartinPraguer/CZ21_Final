@@ -254,47 +254,123 @@ from .forms import BidForm
 
 from django.utils import timezone
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect
+from .models import AddAuction, Cart
+
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import AddAuction
+
+# Funkce pro přidání do košíku
+from django.shortcuts import get_object_or_404, redirect
+from .models import AddAuction, Cart
+
+def add_to_cart(request, auction_id):
+    # Kontrola, zda je uživatel přihlášen
+    if not request.user.is_authenticated:
+        # Pokud uživatel není přihlášen, přesměruj ho na přihlašovací stránku
+        return redirect('login')
+
+    auction = get_object_or_404(AddAuction, pk=auction_id)
+
+    if auction.buy_now_price is None:
+        return redirect('auction_detail', pk=auction.pk)
+
+    # Získáme nebo vytvoříme položku v košíku a nastavíme její cenu
+    cart_item, created = Cart.objects.get_or_create(
+        user=request.user,
+        auction=auction,
+        defaults={'price': auction.buy_now_price}
+    )
+
+    if not created:
+        cart_item.price = auction.buy_now_price
+        cart_item.save()
+
+    # Přesměrujeme uživatele na stránku košíku
+    return redirect('cart_view')
+
+
+from .models import Bid
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model košíku
+
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model košíku
+
 
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
-    bids = auction.bids.all()  # Get all bids for this auction
-    current_time = timezone.now()
-    error_message = None  # To hold any error messages
 
-    # Check if the auction is still active
-    if current_time < auction.auction_start_date:
-        error_message = "The auction has not started yet."
-    elif current_time > auction.auction_end_date:
-        error_message = "The auction has already ended."
+    # Seřazení příhozů podle času, abychom je zobrazili chronologicky
+    bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
 
-    if request.method == "POST" and not error_message:
-        form = BidForm(request.POST)
-        if form.is_valid():
-            new_bid = form.save(commit=False)
-            new_bid.add_auction = auction  # Assign auction to the bid
-            new_bid.user = request.user  # Assign user who is placing the bid
-
-            # Only check if the bid is higher than the minimum bid
-            if new_bid.amount >= auction.minimum_bid:
-                new_bid.save()
-                auction.price += new_bid.amount  # Increment auction price by the new bid
-                auction.save()
+    if request.method == 'POST':
+        if auction.auction_type == 'buy_now':
+            if auction.buy_now_price is None:
+                return render(request, 'add_auction_detail.html', {
+                    'auction': auction,
+                    'bids': bids,
+                    'error_message': 'Cena "Buy Now" není nastavena.'
+                })
             else:
-                error_message = "Your bid must be higher than the minimum bid."
+                # Voláme metodu z modelu Cart
+                Cart.add_to_cart(request.user, auction)
+
+                # Přesměrujeme uživatele na stránku košíku
+                return redirect('cart_view')
+
+        # Logika pro "Place Bid" typ aukce
+        new_bid_value = request.POST.get('new_bid')
+
+        if new_bid_value:
+            try:
+                new_bid = int(new_bid_value)
+            except ValueError:
+                return render(request, 'add_auction_detail.html', {
+                    'auction': auction,
+                    'bids': bids,
+                    'error_message': 'Prosím zadejte platnou částku příhozu.'
+                })
+
+            if auction.auction_type == 'place_bid':
+                if auction.price is None:
+                    auction.price = auction.start_price
+                auction.previous_price = auction.price
+                auction.price += new_bid
+
+                # Uložíme nový příhoz
+                Bid.objects.create(auction=auction, user=request.user, amount=auction.price)
+                auction.save()
+
+                return redirect('add_auction-detail', pk=auction.pk)
         else:
-            error_message = "There was an error with your bid. Please try again."
-    else:
-        form = BidForm()
+            return render(request, 'add_auction_detail.html', {
+                'auction': auction,
+                'bids': bids,
+                'error_message': 'Musíte zadat částku příhozu.'
+            })
 
-    # Context to render the template, including form and any error messages
-    context = {
-        'auction': auction,
-        'bids': bids,
-        'form': form,
-        'error_message': error_message  # Include error message in context
-    }
+    return render(request, 'add_auction_detail.html', {'auction': auction, 'bids': bids})
 
-    return render(request, 'add_auction_detail.html', context)
+
+
+def cart_view(request):
+    # Zkontrolujeme, jestli je uživatel přihlášen
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    # Získáme všechny položky v košíku pro aktuálního uživatele
+    cart_items = Cart.objects.filter(user=request.user)
+
+    # Zobrazíme stránku košíku s položkami
+    return render(request, 'cart.html', {'cart_items': cart_items})
+
+from django.shortcuts import render
+
+def checkout_view(request):
+    return render(request, 'checkout.html')
+
+
 
 def current_auctions(request):
     return HttpResponse(f'AHOJ')

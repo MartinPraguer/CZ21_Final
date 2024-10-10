@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Váš košík</h2>
+    
+    {% if auctions_in_cart %}
+        <ul>
+            {% for auction in auctions_in_cart %}
+                <li>{{ auction.name }} - {{ auction.buy_now_price }} Kč</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'checkout' %}">Pokračovat k platbě</a>
+    {% else %}
+        <p>Váš košík je prázdný.</p>
+    {% endif %}
+{% endblock %}

@@ -36,8 +36,8 @@ class AddAuctionForm(ModelForm):
         model = AddAuction
         fields = '__all__'
         widgets = {
-            'penultimate_price': forms.HiddenInput(),
-            'last_price': forms.HiddenInput(),
+            'price': forms.HiddenInput(),
+            'previous_price': forms.HiddenInput(),
             'number_of_views': forms.HiddenInput(),
             'promotion': forms.HiddenInput(),
         }
