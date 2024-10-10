@@ -1,5 +1,6 @@
 Auction gallery:
 
+[ ] nejde mi rozjet routa cart_view
 [ ] nefunguje Back to Add Auctions - návrat z detailu aukce
 [ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
 [ ] pokazilo se vyhledávání

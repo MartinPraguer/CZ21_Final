@@ -115,7 +115,7 @@ def jewelry(request):
 
 def numismatics(request):
     # Získání kategorie "Numismatics"
-    numismatics_category = Category.objects.get(name="Jewelry")
+    numismatics_category = Category.objects.get(name="Numismatics")
 
     # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now"
     buy_now_add_auction = AddAuction.objects.filter(category=numismatics_category, auction_type='buy_now').order_by(
