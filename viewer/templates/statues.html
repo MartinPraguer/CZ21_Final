@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-<h1>Jewelry</h1>
+<h2>Statues</h2>
 
     <h3>Poslední přidané inzeráty kup teď:</h3>
 
@@ -20,7 +20,7 @@
                     <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
-                <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+                <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Buy now</a></p>
                 {% if user.is_superuser %}
                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>

@@ -46,17 +46,22 @@ def index(request):
     })
 
 
+
 def paintings(request):
     # Získání kategorie "Paintings"
     paintings_category = Category.objects.get(name="Paintings")
 
-    # Filtrujte pouze inzeráty s kategorií "Paintings"
-    buy_now_add_auction = AddAuction.objects.filter(category=paintings_category, buy_now=True).order_by(
+    # Filtrujte pouze inzeráty s kategorií "Paintings" a aukcemi typu "Buy Now"
+    buy_now_add_auction = AddAuction.objects.filter(category=paintings_category, auction_type='buy_now').order_by(
         "-created")[:4]
+
+    # Aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(category=paintings_category, promotion=True,
-                                                      buy_now=False).order_by("-created")[:4]
+                                                      auction_type='place_bid').order_by("-created")[:4]
+
+    # Aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(category=paintings_category, promotion=False,
-                                                         buy_now=False).order_by("-created")[:4]
+                                                         auction_type='place_bid').order_by("-created")[:4]
 
     return render(request, template_name='paintings.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
@@ -64,69 +69,72 @@ def paintings(request):
         'no_promotion_add_auctions': no_promotion_add_auction,
     })
 
-
 def statues(request):
     # Získání kategorie "Statues"
     statues_category = Category.objects.get(name="Statues")
 
-    # Filtrujte pouze inzeráty s kategorií "Statues"
-    buy_now_add_auction = AddAuction.objects.filter(category=statues_category, buy_now=True).order_by(
+    # Filtrujte pouze inzeráty s kategorií "Statues" a aukcemi typu "Buy Now"
+    buy_now_add_auction = AddAuction.objects.filter(category=statues_category, auction_type='buy_now').order_by(
         "-created")[:4]
+
+    # Aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(category=statues_category, promotion=True,
-                                                      buy_now=False).order_by("-created")[:4]
+                                                      auction_type='place_bid').order_by("-created")[:4]
+
+    # Aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(category=statues_category, promotion=False,
-                                                         buy_now=False).order_by("-created")[:4]
+                                                         auction_type='place_bid').order_by("-created")[:4]
 
     return render(request, template_name='statues.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
-        'no_promotion_add_auctions': no_promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction
     })
-
 
 def jewelry(request):
     # Získání kategorie "Jewelry"
     jewelry_category = Category.objects.get(name="Jewelry")
 
-    # Filtrujte pouze inzeráty s kategorií "Jewelry"
-    buy_now_add_auction = AddAuction.objects.filter(category=jewelry_category, buy_now=True).order_by(
+    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now"
+    buy_now_add_auction = AddAuction.objects.filter(category=jewelry_category, auction_type='buy_now').order_by(
         "-created")[:4]
+
+    # Aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(category=jewelry_category, promotion=True,
-                                                      buy_now=False).order_by("-created")[:4]
+                                                      auction_type='place_bid').order_by("-created")[:4]
+
+    # Aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(category=jewelry_category, promotion=False,
-                                                         buy_now=False).order_by("-created")[:4]
+                                                         auction_type='place_bid').order_by("-created")[:4]
 
     return render(request, template_name='jewelry.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
-        'no_promotion_add_auctions': no_promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction
     })
-
 
 def numismatics(request):
     # Získání kategorie "Numismatics"
-    numismatics_category = Category.objects.get(name="Numismatics")
+    numismatics_category = Category.objects.get(name="Jewelry")
 
-    # Filtrujte pouze inzeráty s kategorií "Nummismatics"
-    buy_now_add_auction = AddAuction.objects.filter(category=numismatics_category, buy_now=True).order_by(
+    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now"
+    buy_now_add_auction = AddAuction.objects.filter(category=numismatics_category, auction_type='buy_now').order_by(
         "-created")[:4]
+
+    # Aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=True,
-                                                      buy_now=False).order_by("-created")[:4]
+                                                      auction_type='place_bid').order_by("-created")[:4]
+
+    # Aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=False,
-                                                         buy_now=False).order_by("-created")[:4]
+                                                         auction_type='place_bid').order_by("-created")[:4]
 
     return render(request, template_name='numismatics.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
-        'no_promotion_add_auctions': no_promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction
     })
 
-# def numismatics(request):
-#     return render(
-#         request,
-#         "numismatics.html",
-#         context={}
-#     )
 
 def about(request):
     return render(
@@ -307,14 +315,40 @@ def authors(request):
 def shopping_cart(request):
     return HttpResponse(f'AHOJ')
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import AddAuctionForm
 
 
+@login_required
+def create_auction(request):
+    if request.method == 'POST':
+        form = AddAuctionForm(request.POST, request.FILES)
+        if form.is_valid():
+            auction = form.save(commit=False)  # Vytvoří instanci, ale neuloží ji do databáze
+            auction.user = request.user  # Nastaví aktuálního přihlášeného uživatele
+            auction.save()  # Uloží aukci s připojeným uživatelem
+            return redirect('auction_success')  # Přesměrování po úspěšném vytvoření
+    else:
+        form = AddAuctionForm()
+
+    return render(request, 'add_auction_form.html', {'form': form})
 
 
+class AddAuctionCreateView(CreateView):
+    model = AddAuction
+    form_class = AddAuctionForm
+    template_name = 'add_auction_form.html'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Nastavení uživatele
+        self.object = form.save()  # Uložení nové aukce
+        return render(self.request, 'auction_success.html', {'auction': self.object})
 
+from django.shortcuts import render
 
-
+def auction_success_view(request):
+    return render(request, 'auction_success.html')
 
 
 

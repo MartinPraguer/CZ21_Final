@@ -4,5 +4,10 @@ register = template.Library()
 
 @register.filter
 def price_format(value):
-    # Zformátuje číslo s tečkou jako oddělovačem tisíců
-    return f"{value:,.0f}".replace(",", ".")
+    try:
+        # Nejprve zkuste hodnotu převést na float
+        value = float(value)
+        return f"{value:,.0f}".replace(",", ".")
+    except (ValueError, TypeError):
+        # Pokud převod na číslo selže, vraťte původní hodnotu
+        return value

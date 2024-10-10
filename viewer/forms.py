@@ -32,11 +32,20 @@ class SignUpForm(UserCreationForm):
         return user
 
 class AddAuctionForm(ModelForm):
-  class Meta:
-    model = AddAuction
-    fields = '__all__'
+    class Meta:
+        model = AddAuction
+        fields = '__all__'
+        widgets = {
+            'penultimate_price': forms.HiddenInput(),
+            'last_price': forms.HiddenInput(),
+            'number_of_views': forms.HiddenInput(),
+            'promotion': forms.HiddenInput(),
+        }
 
-
+    def __init__(self, *args, **kwargs):
+        super(AddAuctionForm, self).__init__(*args, **kwargs)
+        # Zajištění, že pole user není zahrnuto ve formuláři
+        self.fields.pop('user')  # Odebere pole 'user' z formuláře, aby nebylo zobrazeno
 
 from django import forms
 from .models import Bid

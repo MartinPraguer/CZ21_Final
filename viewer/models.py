@@ -89,22 +89,32 @@ User = get_user_model()
 from django.db import models
 
 class AddAuction(Model):
+    photo = models.ImageField(upload_to='photos/')
     name = CharField(max_length=128)
     user = ForeignKey(User, on_delete=models.DO_NOTHING)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
     description = TextField()
-    photo = models.ImageField(upload_to='photos/')
-    minimum_bid = IntegerField(default=0)
-    # maximum_bid = IntegerField(default=0)
-    buy_now = BooleanField(default=False) # !zašknutí políčka buy_now = True!
-    promotion = BooleanField(default=False) # !zašknutí políčka promotion = True!
+    promotion = BooleanField(default=False)
     auction_start_date = DateTimeField(default=datetime.now)
     auction_end_date = DateTimeField(default=datetime.now)
     number_of_views = IntegerField(default=0)
-    created = DateTimeField(default=timezone.now)
-    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    created = DateTimeField(auto_now_add=True)
+
+    # Pro různé typy aukcí
+    auction_type = CharField(
+        max_length=10,
+        choices=[('buy_now', 'Buy Now'), ('place_bid', 'Place Bid')],
+        default='place_bid'
+    )
+
+    # Políčka specifická pro "Buy Now"
+    buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    # Políčka specifická pro "Place Bid"
+    start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    penultimate_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     last_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
 
 
