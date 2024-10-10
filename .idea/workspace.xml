@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="prejmenovani va base na Add auction">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -386,19 +378,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="feature_zobrazeniaukce" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
