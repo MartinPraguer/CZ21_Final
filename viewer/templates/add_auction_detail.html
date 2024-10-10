@@ -6,20 +6,27 @@
     <h1>{{ auction.name }}</h1>
     <p>Category: {{ auction.category }}</p>
     <p>Description: {{ auction.description }}</p>
+    <p>Auction Starts: {{ auction.auction_start_date }}</p>
+    <p>Auction Ends: {{ auction.auction_end_date }}</p>
 
     {% if auction.auction_type == 'place_bid' %}
         <p>Starting Price: {{ auction.start_price }} Kč</p>
         <p>Price: {{ auction.price }} Kč</p>
         <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
 
-        <!-- Formulář pro zadání nového příhozu -->
-        <h3>Place a Bid</h3>
-        <form method="post">
-            {% csrf_token %}
-            <label for="new_bid">Your Bid:</label>
-            <input type="number" name="new_bid" min="1" required>
-            <button type="submit">Place Bid</button>
-        </form>
+        <!-- Kontrola, zda aukce vypršela -->
+        {% if auction_expired %}
+            <p>Aukce již vypršela. Není možné přidávat další příhozy.</p>
+        {% else %}
+            <!-- Formulář pro zadání nového příhozu -->
+            <h3>Place a Bid</h3>
+            <form method="post">
+                {% csrf_token %}
+                <label for="new_bid">Your Bid:</label>
+                <input type="number" name="new_bid" min="1" required>
+                <button type="submit">Place Bid</button>
+            </form>
+        {% endif %}
 
         <!-- Zobrazení seznamu příhozů v tabulce -->
         <h2>Bids</h2>
@@ -45,10 +52,12 @@
         {% else %}
             <p>No bids yet.</p>
         {% endif %}
+
     {% elif auction.auction_type == 'buy_now' %}
         <p>Price: {{ auction.buy_now_price }} Kč</p>
         <h3>Buy Now</h3>
         <p>Auction ID: {{ auction.pk }}</p>
+
         <!-- Přidání akce do formuláře, která přidá položku do košíku -->
         <form method="post" action="{% url 'add_to_cart' auction.pk %}">
             {% csrf_token %}
@@ -58,4 +67,5 @@
 
     <a href="{% url 'add_auction' %}">Back to Add Auctions</a>
 </body>
+
 {% endblock %}

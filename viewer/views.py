@@ -304,7 +304,21 @@ def auction_detail(request, pk):
     # Seřazení příhozů podle času, abychom je zobrazili chronologicky
     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
 
+    # Kontrola, zda aukce už vypršela
+    if auction.auction_end_date and auction.auction_end_date < timezone.now():
+        auction_expired = True
+    else:
+        auction_expired = False
+
     if request.method == 'POST':
+        # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu
+        if auction_expired:
+            return render(request, 'add_auction_detail.html', {
+                'auction': auction,
+                'bids': bids,
+                'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy.'
+            })
+
         if auction.auction_type == 'buy_now':
             if auction.buy_now_price is None:
                 return render(request, 'add_auction_detail.html', {
@@ -350,7 +364,11 @@ def auction_detail(request, pk):
                 'error_message': 'Musíte zadat částku příhozu.'
             })
 
-    return render(request, 'add_auction_detail.html', {'auction': auction, 'bids': bids})
+    return render(request, 'add_auction_detail.html', {
+        'auction': auction,
+        'bids': bids,
+        'auction_expired': auction_expired  # Přidáme informaci o vypršení do šablony
+    })
 
 
 
@@ -429,7 +447,34 @@ def auction_success_view(request):
     return render(request, 'auction_success.html')
 
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import AddAuction
 
+def auction_list(request):
+    # Předpokládám, že máš tři typy aukcí: kup teď, promotion a bez promotion
+    buy_now_add_auctions = AddAuction.objects.filter(auction_type='buy_now')
+    promotion_add_auctions = AddAuction.objects.filter(auction_type='promotion')
+    no_promotion_add_auctions = AddAuction.objects.filter(auction_type='no_promotion')
+
+    # Použijeme Paginator pro každou sadu aukcí
+    paginator_buy_now = Paginator(buy_now_add_auctions, 4)  # 4 položky na stránku
+    paginator_promotion = Paginator(promotion_add_auctions, 4)  # 4 položky na stránku
+    paginator_no_promotion = Paginator(no_promotion_add_auctions, 4)  # 4 položky na stránku
+
+    # Získáme číslo aktuální stránky z požadavku GET (např. ?page=2)
+    page_number = request.GET.get('page', 1)  # výchozí stránka 1
+
+    # Získáme aukce pro aktuální stránku
+    buy_now_page_obj = paginator_buy_now.get_page(page_number)
+    promotion_page_obj = paginator_promotion.get_page(page_number)
+    no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    return render(request, 'auction_list.html', {
+        'buy_now_page_obj': buy_now_page_obj,
+        'promotion_page_obj': promotion_page_obj,
+        'no_promotion_page_obj': no_promotion_page_obj,
+    })
 
 
 
