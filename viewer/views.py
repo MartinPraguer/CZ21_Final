@@ -319,6 +319,7 @@ def auction_detail(request, pk):
                 'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy.'
             })
 
+        # Logika pro "Buy Now" typ aukce
         if auction.auction_type == 'buy_now':
             if auction.buy_now_price is None:
                 return render(request, 'add_auction_detail.html', {
@@ -327,10 +328,8 @@ def auction_detail(request, pk):
                     'error_message': 'Cena "Buy Now" není nastavena.'
                 })
             else:
-                # Voláme metodu z modelu Cart
+                # Přidáme do košíku
                 Cart.add_to_cart(request.user, auction)
-
-                # Přesměrujeme uživatele na stránku košíku
                 return redirect('cart_view')
 
         # Logika pro "Place Bid" typ aukce
@@ -346,17 +345,28 @@ def auction_detail(request, pk):
                     'error_message': 'Prosím zadejte platnou částku příhozu.'
                 })
 
-            if auction.auction_type == 'place_bid':
-                if auction.price is None:
-                    auction.price = auction.start_price
-                auction.previous_price = auction.price
-                auction.price += new_bid
+            # Kontrola minimálního příhozu
+            if auction.minimum_bid and new_bid < auction.minimum_bid:
+                return render(request, 'add_auction_detail.html', {
+                    'auction': auction,
+                    'bids': bids,
+                    'error_message': f'You placed a lower than minimum bid. Minimum bid is {auction.minimum_bid} Kč.'
+                })
 
-                # Uložíme nový příhoz
-                Bid.objects.create(auction=auction, user=request.user, amount=auction.price)
-                auction.save()
+            # Pokud aukce nemá žádnou cenu, začínáme se start_price
+            if auction.price is None:
+                auction.price = auction.start_price
 
-                return redirect('add_auction-detail', pk=auction.pk)
+            auction.previous_price = auction.price
+            auction.price += new_bid  # Zvýšíme cenu o nový příhoz
+
+            # Uložíme nový příhoz
+            Bid.objects.create(auction=auction, user=request.user, amount=new_bid)
+            auction.name_bider = request.user  # Nastavení posledního přihazujícího
+            auction.save()
+
+            return redirect('add_auction-detail', pk=auction.pk)
+
         else:
             return render(request, 'add_auction_detail.html', {
                 'auction': auction,
@@ -369,7 +379,6 @@ def auction_detail(request, pk):
         'bids': bids,
         'auction_expired': auction_expired  # Přidáme informaci o vypršení do šablony
     })
-
 
 
 def cart_view(request):

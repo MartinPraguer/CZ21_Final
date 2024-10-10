@@ -17,18 +17,13 @@ photos = [f for f in os.listdir(PHOTO_DIR) if f.endswith(('.jpg', '.gif', '.png'
 
 # Funkce pro generování náhodného data začátku a konce aukce
 def random_auction_dates():
-    # Start aukce od aktuálního času
     auction_start_date = timezone.now()
-
-    # Konec aukce bude náhodně mezi 10 a 15 dny po startu
     random_days = random.randint(10, 15)
     auction_end_date = auction_start_date + timedelta(days=random_days)
-
     return auction_start_date, auction_end_date
 
 # Funkce `run()` jako vstupní bod skriptu
 def run():
-    # Data pro generování záznamů
     categories = ['Paintings', 'Statues', 'Numismatics', 'Jewelry']
 
     sample_descriptions = {
@@ -61,7 +56,6 @@ def run():
         'Jewelry': ["Ruby Necklace", "Emerald Ring", "Diamond Earrings"]
     }
 
-    # Rozdělení souborů fotografií podle kategorií
     categorized_photos = {
         'Paintings': [f for f in photos if f.startswith('obraz')],
         'Statues': [f for f in photos if f.startswith('socha')],
@@ -69,46 +63,47 @@ def run():
         'Jewelry': [f for f in photos if f.startswith('šperk')]
     }
 
-    all_categories = {cat: Category.objects.get_or_create(name=cat)[0] for cat in categories}
-    all_users = list(User.objects.all())
+    user_nicks = [
+        "SkylineWalker", "ThunderBlade", "MysticVoyager", "PixelCrafter", "ShadowHunter23",
+        "NeonNinja", "BlazeRunner", "FrozenPhoenix", "CyberSailor", "EchoJumper",
+        "IronWolfX", "CosmicRider", "LunarKnight7", "SwiftFalcon", "CrimsonEcho"
+    ]
 
-    # Naplňte model AddAuction náhodnými daty
+    all_users = [User.objects.get_or_create(username=nick)[0] for nick in user_nicks]
+    all_categories = {cat: Category.objects.get_or_create(name=cat)[0] for cat in categories}
+
     for _ in range(100):
         user = random.choice(all_users)
         category = random.choice(categories)
         name = random.choice(sample_names[category])
         description = random.choice(sample_descriptions[category])
 
-        # Náhodně určíme, zda se jedná o aukci typu "Buy Now" nebo "Place Bid"
         auction_type = random.choice(['buy_now', 'place_bid'])
 
-        # V závislosti na typu aukce nastavíme různá pole
         if auction_type == 'buy_now':
             buy_now_price = random.randint(1000, 100000)
             price = None
             start_price = None
             previous_price = None
             minimum_bid = None
-        else:  # Place Bid
+        else:
             buy_now_price = None
             start_price = random.randint(1000, 100000)
-            price = start_price  # Základní cena při startu aukce
-            previous_price = None  # Na začátku aukce není žádná předchozí cena
+            price = start_price
+            previous_price = None
             minimum_bid = random.randint(500, 1000)
 
         promotion = random.choice([True, False])
         auction_start_date, auction_end_date = random_auction_dates()
         number_of_views = random.randint(0, 1000)
 
-        # Náhodně vybere fotku z příslušné kategorie
         if categorized_photos[category]:
             random_photo = random.choice(categorized_photos[category])
             photo_path = os.path.join(PHOTO_DIR, random_photo)
 
             add_auction = AddAuction(
-                user=user,
+                user_creater=user,
                 category=all_categories[category],
-                name=name,
                 description=description,
                 promotion=promotion,
                 auction_type=auction_type,
@@ -122,7 +117,6 @@ def run():
                 number_of_views=number_of_views,
             )
 
-            # Přidání fotografie k záznamu AddAuction
             if os.path.exists(photo_path):
                 with open(photo_path, 'rb') as photo_file:
                     add_auction.photo.save(os.path.join(SAVE_DIR, random_photo), File(photo_file), save=True)

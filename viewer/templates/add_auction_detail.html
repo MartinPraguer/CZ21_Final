@@ -2,18 +2,31 @@
 {% block content %}
 
 <body>
-    <img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}" style="max-width: 300px;">
+    <body>
+    <img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}">
     <h1>{{ auction.name }}</h1>
     <p>Category: {{ auction.category }}</p>
     <p>Description: {{ auction.description }}</p>
-    <p>Auction Starts: {{ auction.auction_start_date }}</p>
-    <p>Auction Ends: {{ auction.auction_end_date }}</p>
+    <p>Minimum Bid: {{ auction.user_creater }}</p>
+    <p>Minimum Bid: {{ auction.minimum_bid }}</p>
+    <p>Minimum Bid: {{ auction.price }}</p>
+{% if auction.name_buyer != auction.name_bider %}
+    <p>Last Bider: {{ auction.name_bider }}</p>
+{% else %}
+    <p>Buyer and Last Bider: {{ auction.name_buyer }}</p>
+{% endif %}
+    <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
+    <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
 
     {% if auction.auction_type == 'place_bid' %}
         <p>Starting Price: {{ auction.start_price }} Kč</p>
         <p>Price: {{ auction.price }} Kč</p>
         <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
-
+        
+        
+        {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
         <!-- Kontrola, zda aukce vypršela -->
         {% if auction_expired %}
             <p>Aukce již vypršela. Není možné přidávat další příhozy.</p>
@@ -34,14 +47,16 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Amount</th>
+                        <th>Price</th>
                         <th>Bid</th>
+                        <th>Time</th>
                         <th>User</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for bid in bids %}
                     <tr>
+                        <td>{{ auction.price }}</td>
                         <td>{{ bid.amount }} Kč</td>
                         <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
                         <td>{{ bid.user }}</td>

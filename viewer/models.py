@@ -90,8 +90,11 @@ from django.db import models
 
 class AddAuction(Model):
     photo = models.ImageField(upload_to='photos/')
-    name = CharField(max_length=128)
-    user = ForeignKey(User, on_delete=models.DO_NOTHING)
+    user_creater = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')  # Aukce vytvořena uživatelem
+    name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True,
+                            blank=True)  # Uživatelem přihazováno
+    name_buyer = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True,
+                              blank=True)  # Uživatelem vystaveno
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
     description = TextField()
     promotion = BooleanField(default=False)
