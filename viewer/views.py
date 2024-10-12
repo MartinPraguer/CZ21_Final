@@ -491,6 +491,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .models import AddAuction, Bid, Cart
 
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from .models import AddAuction, Bid
+
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
 
@@ -498,11 +502,11 @@ def auction_detail(request, pk):
     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
 
     # Kontrola, zda aukce už vypršela
-    if auction.auction_end_date and auction.auction_end_date < timezone.now():
-        auction_expired = True
+    auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
+
+    if auction_expired:
         time_left = None  # Aukce vypršela, není zbývající čas
     else:
-        auction_expired = False
         # Výpočet zbývajícího času
         time_left = auction.auction_end_date - timezone.now()
 
@@ -512,12 +516,12 @@ def auction_detail(request, pk):
         minutes, seconds = divmod(remainder, 60)
 
     if request.method == 'POST':
-        # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu
+        # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu nebo koupi
         if auction_expired:
             return render(request, 'add_auction_detail.html', {
                 'auction': auction,
                 'bids': bids,
-                'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy.'
+                'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy ani koupit položku.'
             })
 
         # Logika pro "Buy Now" typ aukce
@@ -529,9 +533,10 @@ def auction_detail(request, pk):
                     'error_message': 'Cena "Buy Now" není nastavena.'
                 })
             else:
-                # Přidáme do košíku
-                Cart.add_to_cart(request.user, auction)
-                return redirect('cart_view')
+                # Přidáme do košíku pouze pokud aukce nevypršela
+                if not auction_expired:
+                    Cart.add_to_cart(request.user, auction)
+                    return redirect('cart_view')
 
         # Logika pro "Place Bid" typ aukce
         new_bid_value = request.POST.get('new_bid')
@@ -575,10 +580,11 @@ def auction_detail(request, pk):
                 'error_message': 'Musíte zadat částku příhozu.'
             })
 
+    # Předejte proměnné do šablony
     return render(request, 'add_auction_detail.html', {
         'auction': auction,
         'bids': bids,
-        'auction_expired': auction_expired,  # Přidáme informaci o vypršení do šablony
+        'auction_expired': auction_expired,  # Informace o vypršení aukce
         'days': days if not auction_expired else 0,
         'hours': hours if not auction_expired else 0,
         'minutes': minutes if not auction_expired else 0

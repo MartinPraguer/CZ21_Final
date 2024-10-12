@@ -11,8 +11,8 @@ Auction gallery:
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
 [ ] vyvořit testy
 [ ] vytvořit promotions účty a napárovat to s promotions kategoriemi
-[ ] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
-[ ] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
+[*] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
+[*] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
 [*] nejde mi rozjet routa cart_view
 [ ] nefunguje Back to Add Auctions - návrat z detailu aukce
 [ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
