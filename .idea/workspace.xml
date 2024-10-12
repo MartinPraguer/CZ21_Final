@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="aktualizace README.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/scripts/populate_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/scripts/populate_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/static/90fc53c9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/auction_archives.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auction_archives.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/auction_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auction_list1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/current_auctions.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/current_auctions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/jewelry.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/jewelry.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/numismatics.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/numismatics.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/paintings.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/paintings.html" afterDir="false" />
@@ -34,6 +33,7 @@
         <option value="CSS File" />
         <option value="Python Script" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -105,7 +105,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
+        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
       </set>
     </attachedChunks>
   </component>
@@ -128,6 +129,7 @@
       <workItem from="1728586745217" duration="3000" />
       <workItem from="1728588029967" duration="2000" />
       <workItem from="1728597952863" duration="2000" />
+      <workItem from="1728749021492" duration="4539000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
       <option name="closed" value="true" />
@@ -393,7 +395,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728586365677</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="fix: detailu aukce, aukčního formuláře, úprava models, forms, views, urls, 4 kategorií a tvorba populate_data.py">
+      <option name="closed" value="true" />
+      <created>1728735478324</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1728735478324</updated>
+    </task>
+    <task id="LOCAL-00035" summary="aktualizace README.md">
+      <option name="closed" value="true" />
+      <created>1728738459186</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1728738459186</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,8 +466,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Logo a favicon" />
-    <MESSAGE value="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="zfunčnit Obrazy-Numismatika obrázky přes obrázky a Zobrazit&#10;zfunkčnit odkazy pod názvem Aukční galerie" />
     <MESSAGE value="změna barev base.html" />
@@ -474,6 +490,8 @@
     <MESSAGE value="změna views.py, urls.py, statues.html, nově auction_list.html, login a sign png" />
     <MESSAGE value="fix: detalu aukce" />
     <MESSAGE value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
+    <MESSAGE value="fix: detailu aukce, aukčního formuláře, úprava models, forms, views, urls, 4 kategorií a tvorba populate_data.py" />
+    <MESSAGE value="aktualizace README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="aktualizace README.md" />
   </component>
 </project>

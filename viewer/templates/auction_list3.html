@@ -1,0 +1,27 @@
+<div class="add_auction-container">
+    {% for add_auction in page_obj %}
+        <!-- Zobrazit aukce -->
+        <div class="auction">
+            <p>{{ add_auction.name_auction }}</p>
+            <p>{{ add_auction.price }} Kč</p>
+            <!-- Další kód pro zobrazení aukcí -->
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Stránkování -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>

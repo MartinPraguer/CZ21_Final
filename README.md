@@ -6,7 +6,8 @@ Auction gallery:
 [ ] finalized - přepsat veškeré texty do angličtiny
 [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
 [ ] finalized - odstranit z html kódu poznámky
-[ ] finalized - upravit a popsat .py soubory, zejména view, vyházet co není potřeba v models.py
+[ ] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py
+[ ] přejmenovat záložku Authors na Prodávající/kupující
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
 [ ] vyvořit testy
 [ ] vytvořit promotions účty a napárovat to s promotions kategoriemi

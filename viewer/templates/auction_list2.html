@@ -4,14 +4,58 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-<h1>Statues</h1>
+<style>
+    /* Styl pro Buy Now aukce */
+    .buy-now-auction {
+        border: 3px solid gold; /* Zlatý rámeček */
+        background-color: #fff8dc; /* Světle žluté pozadí */
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styl pro Promotion aukce */
+    .promotion-auction {
+        border: 3px solid #c79b24; /* Zlatý rámeček */
+        background-color: #fff4e0; /* Světle oranžové pozadí */
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Přidání hover efektu pro zlepšení interakce */
+    .buy-now-auction:hover, .promotion-auction:hover {
+        transform: scale(1.02);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    /* Styl pro aktuální stránku */
+    .current-page {
+        font-weight: bold;
+        color: darkorange; /* Zvýraznění aktuální stránky */
+    }
+
+    /* Styl pro čísla stránek */
+    .pagination a {
+        margin: 0 5px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .pagination a:hover {
+        text-decoration: underline;
+        color: darkorange;
+    }
+</style>
+
+<h2>Numismatics</h2>
 
 <h3>Poslední přidané inzeráty kup teď:</h3>
 
+<!-- Aukce "Buy Now" -->
 <div class="add_auction-container">
-    {% load humanize %}
     {% for add_auction in buy_now_page_obj %}
-        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
+        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white buy-now-auction">
             <div class="u-container-layout u-similar-container u-container-layout-2">
                 {% if add_auction.photo %}
                     <a href="{% url 'add_auction-detail' add_auction.pk %}">
@@ -20,7 +64,7 @@
                 {% else %}
                     <p>No image available</p>
                 {% endif %}
-                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now_price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Buy now</a></p>
                 {% if user.is_superuser %}
@@ -39,9 +83,14 @@
             <a href="?page={{ buy_now_page_obj.previous_page_number }}">Previous</a>
         {% endif %}
 
-        <span class="current">
-            Page {{ buy_now_page_obj.number }} of {{ buy_now_page_obj.paginator.num_pages }}
-        </span>
+        <!-- Smyčka pro zobrazení čísel stránek -->
+        {% for num in buy_now_page_obj.paginator.page_range %}
+            {% if buy_now_page_obj.number == num %}
+                <span class="current-page">Page {{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
 
         {% if buy_now_page_obj.has_next %}
             <a href="?page={{ buy_now_page_obj.next_page_number }}">Next</a>
@@ -51,9 +100,10 @@
 
 <h3>Poslední přidané inzeráty s promotion:</h3>
 
+<!-- Aukce "Promotion" -->
 <div class="add_auction-container">
     {% for add_auction in promotion_page_obj %}
-        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
+        <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white promotion-auction">
             <div class="u-container-layout u-similar-container u-container-layout-2">
                 {% if add_auction.photo %}
                     <a href="{% url 'add_auction-detail' add_auction.pk %}">
@@ -62,7 +112,7 @@
                 {% else %}
                     <p>No image available</p>
                 {% endif %}
-                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
                 <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
                 {% if user.is_superuser %}
@@ -81,9 +131,14 @@
             <a href="?page={{ promotion_page_obj.previous_page_number }}">Previous</a>
         {% endif %}
 
-        <span class="current">
-            Page {{ promotion_page_obj.number }} of {{ promotion_page_obj.paginator.num_pages }}
-        </span>
+        <!-- Smyčka pro zobrazení čísel stránek -->
+        {% for num in promotion_page_obj.paginator.page_range %}
+            {% if promotion_page_obj.number == num %}
+                <span class="current-page">Page {{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
 
         {% if promotion_page_obj.has_next %}
             <a href="?page={{ promotion_page_obj.next_page_number }}">Next</a>
@@ -93,25 +148,31 @@
 
 <h3>Poslední přidané inzeráty bez promotion:</h3>
 
+<!-- Kontejner pro všechny inzeráty -->
 <div class="add_auction-container">
     {% for add_auction in no_promotion_page_obj %}
         <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
             <div class="u-container-layout u-similar-container u-container-layout-2">
                 {% if add_auction.photo %}
                     <a href="{% url 'add_auction-detail' add_auction.pk %}">
-                        <img class="u-expanded-width u-image u-image-default u-image-2" alt="" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                        <img class="u-expanded-width u-image u-image-default u-image-2" alt="" data-image-width="2000" data-image-height="1330" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
                     </a>
                 {% else %}
-                    <p>No image available</p>
+                    <p>No image available</p> <!-- Placeholder for when there is no photo -->
                 {% endif %}
-                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name }}</p>
+
+                <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
+
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                {% if add_auction.previous_price %}
+
+                {% if add_auction.previous_price is not None %}
                     <p class="u-align-center u-text u-text-7">
                         <del>{{ add_auction.previous_price|price_format }} Kč</del><br>
                     </p>
                 {% endif %}
+
                 <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Place Bid</a></p>
+
                 {% if user.is_superuser %}
                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
@@ -128,9 +189,14 @@
             <a href="?page={{ no_promotion_page_obj.previous_page_number }}">Previous</a>
         {% endif %}
 
-        <span class="current">
-            Page {{ no_promotion_page_obj.number }} of {{ no_promotion_page_obj.paginator.num_pages }}
-        </span>
+        <!-- Smyčka pro zobrazení čísel stránek -->
+        {% for num in no_promotion_page_obj.paginator.page_range %}
+            {% if no_promotion_page_obj.number == num %}
+                <span class="current-page">Page {{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
 
         {% if no_promotion_page_obj.has_next %}
             <a href="?page={{ no_promotion_page_obj.next_page_number }}">Next</a>
