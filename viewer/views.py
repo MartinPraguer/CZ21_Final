@@ -52,18 +52,34 @@ def paintings(request):
     # Získání kategorie "Paintings"
     paintings_category = Category.objects.get(name="Paintings")
 
-    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now", které ještě neskončily
+    # Získání aktuálního času
     current_time = timezone.now()
-    buy_now_add_auction = AddAuction.objects.filter(category=paintings_category, auction_type='buy_now', auction_end_date__gt=current_time).order_by("-created")
+
+    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    buy_now_add_auction = AddAuction.objects.filter(
+        category=paintings_category,
+        auction_type='buy_now',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce s propagací, které nejsou "Buy Now"
-    promotion_add_auction = AddAuction.objects.filter(category=paintings_category, promotion=True, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    promotion_add_auction = AddAuction.objects.filter(
+        category=paintings_category,
+        promotion=True,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce bez propagace, které nejsou "Buy Now"
-    no_promotion_add_auction = AddAuction.objects.filter(category=paintings_category, promotion=False, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    no_promotion_add_auction = AddAuction.objects.filter(
+        category=paintings_category,
+        promotion=False,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 4 aukce na stránku
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
     paginator_promotion = Paginator(promotion_add_auction, 8)
     paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
 
@@ -75,8 +91,19 @@ def paintings(request):
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
 
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='paintings.html', context={
-        'page_name': 'Paintings',
+        'page_name': 'Jewelry',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
@@ -87,21 +114,37 @@ from django.utils import timezone
 from django.shortcuts import render
 
 def statues(request):
-    # Získání kategorie "Statues"
+    # Získání kategorie "statues"
     statues_category = Category.objects.get(name="Statues")
 
-    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now", které ještě neskončily
+    # Získání aktuálního času
     current_time = timezone.now()
-    buy_now_add_auction = AddAuction.objects.filter(category=statues_category, auction_type='buy_now', auction_end_date__gt=current_time).order_by("-created")
+
+    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    buy_now_add_auction = AddAuction.objects.filter(
+        category=statues_category,
+        auction_type='buy_now',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce s propagací, které nejsou "Buy Now"
-    promotion_add_auction = AddAuction.objects.filter(category=statues_category, promotion=True, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    promotion_add_auction = AddAuction.objects.filter(
+        category=statues_category,
+        promotion=True,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce bez propagace, které nejsou "Buy Now"
-    no_promotion_add_auction = AddAuction.objects.filter(category=statues_category, promotion=False, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    no_promotion_add_auction = AddAuction.objects.filter(
+        category=statues_category,
+        promotion=False,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 4 aukce na stránku
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
     paginator_promotion = Paginator(promotion_add_auction, 8)
     paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
 
@@ -113,30 +156,62 @@ def statues(request):
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
 
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='statues.html', context={
-        'page_name': 'Statues',
+        'page_name': 'Jewelry',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
 
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.utils import timezone
+from .models import AddAuction, Category
+
 def jewelry(request):
     # Získání kategorie "Jewelry"
     jewelry_category = Category.objects.get(name="Jewelry")
 
-    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now", které ještě neskončily
+    # Získání aktuálního času
     current_time = timezone.now()
-    buy_now_add_auction = AddAuction.objects.filter(category=jewelry_category, auction_type='buy_now', auction_end_date__gt=current_time).order_by("-created")
+
+    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    buy_now_add_auction = AddAuction.objects.filter(
+        category=jewelry_category,
+        auction_type='buy_now',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce s propagací, které nejsou "Buy Now"
-    promotion_add_auction = AddAuction.objects.filter(category=jewelry_category, promotion=True, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    promotion_add_auction = AddAuction.objects.filter(
+        category=jewelry_category,
+        promotion=True,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce bez propagace, které nejsou "Buy Now"
-    no_promotion_add_auction = AddAuction.objects.filter(category=jewelry_category, promotion=False, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    no_promotion_add_auction = AddAuction.objects.filter(
+        category=jewelry_category,
+        promotion=False,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 4 aukce na stránku
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
     paginator_promotion = Paginator(promotion_add_auction, 8)
     paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
 
@@ -147,6 +222,17 @@ def jewelry(request):
     buy_now_page_obj = paginator_buy_now.get_page(page_number)
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     return render(request, template_name='jewelry.html', context={
         'page_name': 'Jewelry',
@@ -154,6 +240,8 @@ def jewelry(request):
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
+
+
 from django.utils import timezone
 from django.shortcuts import render
 from .models import AddAuction, Category
@@ -162,18 +250,34 @@ def numismatics(request):
     # Získání kategorie "Numismatics"
     numismatics_category = Category.objects.get(name="Numismatics")
 
-    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now", které ještě neskončily
+    # Získání aktuálního času
     current_time = timezone.now()
-    buy_now_add_auction = AddAuction.objects.filter(category=numismatics_category, auction_type='buy_now', auction_end_date__gt=current_time).order_by("-created")
+
+    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    buy_now_add_auction = AddAuction.objects.filter(
+        category=numismatics_category,
+        auction_type='buy_now',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce s propagací, které nejsou "Buy Now"
-    promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=True, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    promotion_add_auction = AddAuction.objects.filter(
+        category=numismatics_category,
+        promotion=True,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Aukce bez propagace, které nejsou "Buy Now"
-    no_promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=False, auction_type='place_bid', auction_end_date__gt=current_time).order_by("-created")
+    no_promotion_add_auction = AddAuction.objects.filter(
+        category=numismatics_category,
+        promotion=False,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time
+    ).order_by("-created")
 
     # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 4 aukce na stránku
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
     paginator_promotion = Paginator(promotion_add_auction, 8)
     paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
 
@@ -185,8 +289,19 @@ def numismatics(request):
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
 
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='numismatics.html', context={
-        'page_name': 'Numismatics',
+        'page_name': 'Jewelry',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
@@ -488,19 +603,6 @@ def checkout_view(request):
 
 
 
-def current_auctions(request):
-    return HttpResponse(f'AHOJ')
-
-def auction_archives(request):
-
-    auction_archives = AddAuction.objects.filter(auction_end_date__lt=timezone.now()).order_by('-created')[:16]
-
-
-    return render(request, template_name='auction_archives.html', context={
-        'auction_archives': auction_archives,
-    })
-
-
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.shortcuts import render
@@ -530,6 +632,17 @@ def auction_archives(request):
     buy_now_page_obj = paginator_buy_now.get_page(page_number)
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     # Předejte název stránky
     return render(request, template_name='auction_archives.html', context={
@@ -575,6 +688,17 @@ def current_auctions(request):
     buy_now_page_obj = paginator_buy_now.get_page(page_number)
     promotion_page_obj = paginator_promotion.get_page(page_number)
     no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     # Předejte název stránky
     return render(request, template_name='current_auctions.html', context={
