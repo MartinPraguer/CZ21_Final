@@ -1,11 +1,10 @@
 # python manage.py runscript populate_data -v3
 
-
 import random
 import os
 from datetime import timedelta
 from django.utils import timezone
-from viewer.models import AddAuction, User, Category
+from viewer.models import AddAuction, User, Category, Bid
 from django.core.files import File
 
 # Nastavení cesty k adresáři s fotografiemi
@@ -18,12 +17,32 @@ photos = [f for f in os.listdir(PHOTO_DIR) if f.endswith(('.jpg', '.gif', '.png'
 # Funkce pro generování náhodného data začátku a konce aukce
 def random_auction_dates():
     auction_start_date = timezone.now()
-    random_days = random.randint(10, 15)
+    random_days = random.randint(0, 20)  # Rozmezí 0-20 dní pro aukce
     auction_end_date = auction_start_date + timedelta(days=random_days)
     return auction_start_date, auction_end_date
 
+# Funkce pro vytvoření náhodných příhozů (5-10) a nákupy pomocí Buy Now
+def create_random_bids_and_buy_now(auction, users):
+    if auction.auction_type == 'place_bid':
+        num_bids = random.randint(5, 10)  # 5 až 10 náhodných příhozů
+        for _ in range(num_bids):
+            user = random.choice(users)
+            bid_amount = auction.start_price + random.randint(100, 1000)  # Náhodný příhoz
+            Bid.objects.create(auction=auction, user=user, amount=bid_amount)
+            auction.name_bider = user  # Nastavení posledního přihazujícího
+            auction.price = bid_amount  # Aktualizace ceny
+            auction.save()
+    elif auction.auction_type == 'buy_now':
+        user = random.choice(users)
+        auction.name_buyer = user  # Uživatelem zakoupeno
+        auction.save()
+
 # Funkce `run()` jako vstupní bod skriptu
 def run():
+    # Vytvoření superuživatele
+    if not User.objects.filter(username='1234').exists():
+        User.objects.create_superuser(username='1234', password='1234', email='')
+
     categories = ['Paintings', 'Statues', 'Numismatics', 'Jewelry']
 
     sample_descriptions = {
@@ -75,7 +94,7 @@ def run():
     for _ in range(100):
         user = random.choice(all_users)
         category = random.choice(categories)
-        name = random.choice(sample_names[category])
+        name_auction = random.choice(sample_names[category])
         description = random.choice(sample_descriptions[category])
 
         auction_type = random.choice(['buy_now', 'place_bid'])
@@ -104,6 +123,7 @@ def run():
             add_auction = AddAuction(
                 user_creater=user,
                 category=all_categories[category],
+                name_auction=name_auction,
                 description=description,
                 promotion=promotion,
                 auction_type=auction_type,
@@ -122,5 +142,8 @@ def run():
                     add_auction.photo.save(os.path.join(SAVE_DIR, random_photo), File(photo_file), save=True)
 
             add_auction.save()
+
+            # Vytvoření náhodných příhozů a nákupu "Buy Now"
+            create_random_bids_and_buy_now(add_auction, all_users)
 
     print("Data populated successfully!")

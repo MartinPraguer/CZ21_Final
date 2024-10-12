@@ -90,11 +90,10 @@ from django.db import models
 
 class AddAuction(Model):
     photo = models.ImageField(upload_to='photos/')
-    user_creater = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')  # Aukce vytvořena uživatelem
-    name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True,
-                            blank=True)  # Uživatelem přihazováno
-    name_buyer = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True,
-                              blank=True)  # Uživatelem vystaveno
+    name_auction = CharField(max_length=128)  # Zde se používá 'name_auction'
+    user_creater = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
+    name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
+    name_buyer = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True, blank=True)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
     description = TextField()
     promotion = BooleanField(default=False)
@@ -103,26 +102,24 @@ class AddAuction(Model):
     number_of_views = IntegerField(default=0)
     created = DateTimeField(auto_now_add=True)
 
-    # Pro různé typy aukcí
+    # Typ aukce
     auction_type = CharField(
         max_length=10,
         choices=[('buy_now', 'Buy Now'), ('place_bid', 'Place Bid')],
         default='place_bid'
     )
 
-    # Políčka specifická pro "Buy Now"
+    # "Buy Now" políčka
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    # Políčka specifická pro "Place Bid"
+    # "Place Bid" políčka
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-
-
     def __str__(self):
-        return f"{self.name} - {self.user} -{self.category} - {self.description}"
+        return f"{self.name_auction} - {self.user_creater} - {self.category} - {self.description}"
 
 
 

@@ -47,6 +47,40 @@ def index(request):
 
 
 
+
+def numismatics(request):
+    # Získání kategorie "Numismatics"
+    numismatics_category = Category.objects.get(name="Numismatics")
+
+    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now"
+    buy_now_add_auction = AddAuction.objects.filter(category=numismatics_category, auction_type='buy_now').order_by(
+        "-created")[:4]
+
+    # Aukce s propagací, které nejsou "Buy Now"
+    promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=True,
+                                                      auction_type='place_bid').order_by("-created")[:4]
+
+    # Aukce bez propagace, které nejsou "Buy Now"
+    no_promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=False,
+                                                         auction_type='place_bid').order_by("-created")[:4]
+
+    # Přepočítáme zbývající čas u každé aukce
+    for auction_list in [buy_now_add_auction, promotion_add_auction, no_promotion_add_auction]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
+    return render(request, template_name='numismatics.html', context={
+        'buy_now_add_auctions': buy_now_add_auction,
+        'promotion_add_auctions': promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction
+    })
+
 def paintings(request):
     # Získání kategorie "Paintings"
     paintings_category = Category.objects.get(name="Paintings")
@@ -63,10 +97,21 @@ def paintings(request):
     no_promotion_add_auction = AddAuction.objects.filter(category=paintings_category, promotion=False,
                                                          auction_type='place_bid').order_by("-created")[:4]
 
+    # Přepočítáme zbývající čas u každé aukce
+    for auction_list in [buy_now_add_auction, promotion_add_auction, no_promotion_add_auction]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='paintings.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
-        'no_promotion_add_auctions': no_promotion_add_auction,
+        'no_promotion_add_auctions': no_promotion_add_auction
     })
 
 def statues(request):
@@ -84,6 +129,17 @@ def statues(request):
     # Aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(category=statues_category, promotion=False,
                                                          auction_type='place_bid').order_by("-created")[:4]
+
+    # Přepočítáme zbývající čas u každé aukce
+    for auction_list in [buy_now_add_auction, promotion_add_auction, no_promotion_add_auction]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     return render(request, template_name='statues.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
@@ -107,11 +163,25 @@ def jewelry(request):
     no_promotion_add_auction = AddAuction.objects.filter(category=jewelry_category, promotion=False,
                                                          auction_type='place_bid').order_by("-created")[:4]
 
+    # Přepočítáme zbývající čas u každé aukce
+    for auction_list in [buy_now_add_auction, promotion_add_auction, no_promotion_add_auction]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='jewelry.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
         'no_promotion_add_auctions': no_promotion_add_auction
     })
+from django.utils import timezone
+from django.shortcuts import render
+from .models import AddAuction, Category
 
 def numismatics(request):
     # Získání kategorie "Numismatics"
@@ -129,11 +199,23 @@ def numismatics(request):
     no_promotion_add_auction = AddAuction.objects.filter(category=numismatics_category, promotion=False,
                                                          auction_type='place_bid').order_by("-created")[:4]
 
+    # Přepočítáme zbývající čas u každé aukce
+    for auction_list in [buy_now_add_auction, promotion_add_auction, no_promotion_add_auction]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
     return render(request, template_name='numismatics.html', context={
         'buy_now_add_auctions': buy_now_add_auction,
         'promotion_add_auctions': promotion_add_auction,
         'no_promotion_add_auctions': no_promotion_add_auction
     })
+
 
 
 def about(request):
@@ -297,6 +379,26 @@ from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model koš�
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model košíku
 
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
+from .models import AddAuction, Bid, Cart
+
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
+from .models import AddAuction, Bid, Cart
+
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
+from .models import AddAuction, Bid, Cart
+
+
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
+from .models import AddAuction, Bid, Cart
 
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
@@ -307,8 +409,16 @@ def auction_detail(request, pk):
     # Kontrola, zda aukce už vypršela
     if auction.auction_end_date and auction.auction_end_date < timezone.now():
         auction_expired = True
+        time_left = None  # Aukce vypršela, není zbývající čas
     else:
         auction_expired = False
+        # Výpočet zbývajícího času
+        time_left = auction.auction_end_date - timezone.now()
+
+        # Přepočet sekund na dny, hodiny, minuty
+        days = time_left.days
+        hours, remainder = divmod(time_left.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
 
     if request.method == 'POST':
         # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu
@@ -377,7 +487,10 @@ def auction_detail(request, pk):
     return render(request, 'add_auction_detail.html', {
         'auction': auction,
         'bids': bids,
-        'auction_expired': auction_expired  # Přidáme informaci o vypršení do šablony
+        'auction_expired': auction_expired,  # Přidáme informaci o vypršení do šablony
+        'days': days if not auction_expired else 0,
+        'hours': hours if not auction_expired else 0,
+        'minutes': minutes if not auction_expired else 0
     })
 
 
@@ -440,20 +553,55 @@ def create_auction(request):
     return render(request, 'add_auction_form.html', {'form': form, 'last_auctions': last_auctions})
 
 
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from .models import AddAuction
+from .forms import AddAuctionForm
+from django.views.generic.edit import CreateView
+from django.contrib import messages
+
+
+from django.urls import reverse
+from django.shortcuts import redirect
+from django.contrib import messages
+
 class AddAuctionCreateView(CreateView):
     model = AddAuction
     form_class = AddAuctionForm
     template_name = 'add_auction_form.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Přidej do kontextu informaci, zda je uživatel přihlášen
+        context['user_authenticated'] = self.request.user.is_authenticated
+        return context
+
     def form_valid(self, form):
-        form.instance.user = self.request.user  # Nastavení uživatele
-        self.object = form.save()  # Uložení nové aukce
-        return render(self.request, 'auction_success.html', {'auction': self.object})
+        # Pokud uživatel není přihlášen, přesměruje ho na login stránku
+        if not self.request.user.is_authenticated:
+            messages.error(self.request, "You must be logged in to create an auction.")
+            return redirect(reverse('login') + f"?next={self.request.path}")
+
+        # Pokud je uživatel přihlášen, nastavíme ho jako tvůrce aukce
+        form.instance.user_creater = self.request.user
+        auction = form.save()  # Uloží aukci a přiřadí ji k proměnné
+        # Přesměrování na stránku úspěchu s předáním ID aukce
+        return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
+
+
 
 from django.shortcuts import render
 
-def auction_success_view(request):
-    return render(request, 'auction_success.html')
+from django.shortcuts import render, get_object_or_404
+from .models import AddAuction
+
+def auction_success_view(request, pk):
+    # Získej aukci na základě primárního klíče (pk)
+    auction = get_object_or_404(AddAuction, pk=pk)
+
+    # Předání aukce do kontextu
+    return render(request, 'auction_success.html', {'auction': auction})
 
 
 from django.core.paginator import Paginator

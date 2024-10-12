@@ -4,14 +4,27 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-    <h2>Stránka pro vytvoření nové aukce</h2>
+<h2>Stránka pro vytvoření nové aukce</h2>
 
+<!-- Upozornění pro nepřihlášené uživatele -->
+{% if not user_authenticated %}
+    <div style="color: red; font-weight: bold; border: 1px solid red; padding: 10px; background-color: #ffdddd;">
+        You cannot add an auction, you are not logged in.
+    </div>
+{% endif %}
+
+<!-- Formulář pro přihlášené uživatele -->
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}  <!-- Vykreslení všech polí formuláře -->
     
-    <button type="submit">Create Auction</button>
+    <button type="submit" {% if not user_authenticated %}disabled{% endif %}>Create Auction</button>
 </form>
+
+<!-- Zpráva pro nepřihlášené uživatele -->
+{% if not user_authenticated %}
+    <p><a href="{% url 'login' %}?next={{ request.path }}" style="color: blue; text-decoration: underline;">Please log in to create an auction</a></p>
+{% endif %}
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -37,6 +50,7 @@
   });
 </script>
     
+
 <h2>Poslední přidané inzeráty:</h2>
 <p>Počet posledních aukcí: {{ last_auctions.count }}</p>
 <div class="add_auction-container">
@@ -64,5 +78,5 @@
         </div>
     {% endfor %}
 </div>
-    
+
 {% endblock %}

@@ -4,23 +4,39 @@
 <body>
     <body>
     <img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}">
-    <h1>{{ auction.name }}</h1>
+    <h2>{{ auction.name_auction }}</h2>
     <p>Category: {{ auction.category }}</p>
     <p>Description: {{ auction.description }}</p>
-    <p>Minimum Bid: {{ auction.user_creater }}</p>
-    <p>Minimum Bid: {{ auction.minimum_bid }}</p>
-    <p>Minimum Bid: {{ auction.price }}</p>
-{% if auction.name_buyer != auction.name_bider %}
-    <p>Last Bider: {{ auction.name_bider }}</p>
-{% else %}
-    <p>Buyer and Last Bider: {{ auction.name_buyer }}</p>
-{% endif %}
+    <p>Auction Creater: {{ auction.user_creater }}</p>
+    
+    
+    
+    
     <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
     <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
+{% if auction_expired %}
+    <p>Auction has expired</p>
+{% else %}
+    <p>Time Left: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes</p>
+{% endif %}
 
     {% if auction.auction_type == 'place_bid' %}
+        {% if auction.name_bider %}
+    <!-- Zkontrolujeme, zda bider není stejný jako buyer -->
+    {% if auction.name_buyer != auction.name_bider %}
+        <p>Last Bid: {{ auction.name_bider }} is the user bidding in the auction.</p>
+    {% else %}
+        <p>Last Bid: {{ auction.name_buyer }} is the buyer as they won the auction.</p>
+    {% endif %}
+{% else %}
+    <!-- Pokud žádný bider neexistuje -->
+    <p>No bids yet</p>
+{% endif %}
+        
         <p>Starting Price: {{ auction.start_price }} Kč</p>
-        <p>Price: {{ auction.price }} Kč</p>
+        {% if auction.price %}
+    <p>Price: {{ auction.price }} Kč</p>
+{% endif %}
         <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
         
         

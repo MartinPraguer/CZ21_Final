@@ -4,15 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="prejmenovani va base na Add auction">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/advertisement_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/scripts/populate_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/scripts/populate_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/jewelry.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/jewelry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/numismatics.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/numismatics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/paintings.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/paintings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/statues.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/statues.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,12 +25,15 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -72,7 +80,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
-    &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/static&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -84,10 +92,10 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\scripts" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates" />
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -97,8 +105,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.22855.92" />
-        <option value="bundled-python-sdk-b068d85d1acf-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.22855.92" />
+        <option value="bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298" />
       </set>
     </attachedChunks>
   </component>
@@ -117,6 +124,10 @@
       <workItem from="1728305186471" duration="4978000" />
       <workItem from="1728307422198" duration="18000" />
       <workItem from="1728328068784" duration="11383000" />
+      <workItem from="1728574245592" duration="4000" />
+      <workItem from="1728586745217" duration="3000" />
+      <workItem from="1728588029967" duration="2000" />
+      <workItem from="1728597952863" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="zkouska text 4444">
       <option name="closed" value="true" />
@@ -350,7 +361,39 @@
       <option name="project" value="LOCAL" />
       <updated>1728303639175</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fix: zobrazování 4 kategorií, numismatics ve views.py a README.md">
+      <option name="closed" value="true" />
+      <created>1728562400245</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1728562400245</updated>
+    </task>
+    <task id="LOCAL-00031" summary="změna views.py, urls.py, statues.html, nově auction_list.html, login a sign png">
+      <option name="closed" value="true" />
+      <created>1728574669265</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1728574669265</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fix: detalu aukce">
+      <option name="closed" value="true" />
+      <created>1728579619792</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1728579619792</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py">
+      <option name="closed" value="true" />
+      <created>1728586365677</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1728586365677</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,10 +448,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="zkouška README" />
-    <MESSAGE value="nahrávání nové index.html" />
-    <MESSAGE value="překopávání index.html" />
-    <MESSAGE value="hotová base.html a index.html" />
     <MESSAGE value="Logo a favicon" />
     <MESSAGE value="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
@@ -431,6 +470,10 @@
     <MESSAGE value="obnovení feature Andrej po smazání z githubu" />
     <MESSAGE value="databáze a views" />
     <MESSAGE value="fix: CRUD - views.py a vytvoření databáze" />
-    <option name="LAST_COMMIT_MESSAGE" value="databáze a views" />
+    <MESSAGE value="fix: zobrazování 4 kategorií, numismatics ve views.py a README.md" />
+    <MESSAGE value="změna views.py, urls.py, statues.html, nově auction_list.html, login a sign png" />
+    <MESSAGE value="fix: detalu aukce" />
+    <MESSAGE value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
   </component>
 </project>
