@@ -1,25 +1,37 @@
 Auction gallery:
 
-[ ] nejde mi rozjet routa cart_view
+[*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
+[*] opravit, aby nešla dát částka pod minimální příhoz
+[ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
+[ ] finalized - přepsat veškeré texty do angličtiny
+[ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
+[ ] finalized - odstranit z html kódu poznámky
+[ ] finalized - upravit a popsat .py soubory, zejména view, vyházet co není potřeba v models.py
+[ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
+[ ] vyvořit testy
+[ ] vytvořit promotions účty a napárovat to s promotions kategoriemi
+[ ] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
+[ ] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
+[*] nejde mi rozjet routa cart_view
 [ ] nefunguje Back to Add Auctions - návrat z detailu aukce
 [ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
 [ ] pokazilo se vyhledávání
 [*] někde se pokazilo přihazování na detailu aukce
-[ ] pokazila se add_auction_add stránka, tak ji opravit
-[ ] CRUD - přejmenovat add, protože křičelo
+[-] pokazila se add_auction_add stránka, tak ji opravit - jedeme už add_action_form
+[-] CRUD - přejmenovat add, protože křičelo - nevím kde to Andrejovi křičelo, u mě všechno OK
 [*] buy now - u kup teď odstranit přidávání příhozů
 [*] login-log out tlačítko
-[ ] přidat obrázky k přihlášení/odhlášení a registraci
-[ ] posunout menu doleva
-[ ] záložka aukce
-[ ] ukázat kolik zbývá času do konce aukce
+[*-] přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
+[*] posunout menu doleva
+[-] záložka aukce - nevím jak to bylo myšleno
+[*] ukázat kolik zbývá času do konce aukce
 [*] na stránce probíhající akce udělat forcyklus přidaných příhozů
 [ ] pořešit hlavy soch
 [ ] přidat, aby šlo přidávat vícero obrázku k jedné aukci
 [*] pokazily se obrázky velkých kategorií, tak to opravit
-[ ] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie
-[ ] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
-[ ] udělat košík a koupi produktu
+[-] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie - už nevím jak jsem to myslel
+[-] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
+[*] udělat košík a koupi produktu
 [ ] udělat hodnocení nákupu - prodávající/kupující
 [ ] vytvořit uživatelské účty
 [*] registrace/přihlášení/odhlášení
@@ -32,7 +44,6 @@ Auction gallery:
 [ ] zprovoznit .js velkého obrázku
 [*] přidat okdaz kup teď u kup teď aukcí
 [ ] barevně zvýraznit promotion a kup teď
-[ ] dát odkazy na další stránku -
 [*] CRUD - dodělat zbylých 10%, aby fungoval - nefunguje delete a neprojeví se změny úprav
 [*] hledej - přidat usera
 [*] zfunkčnit odkazy pod názvem Aukční galerie
