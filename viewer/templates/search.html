@@ -7,13 +7,16 @@
         <ul>
             {% for ad in searchs %}
                 <li>
-                    <strong>{{ ad.name }}</strong><br>
-                    Category: {{ ad.category }}<br>
-                    User: {{ ad.user }}<br>
-                    Description: {{ ad.description }}<br>
-                    {% if ad.photo %}
+                     {% if ad.photo %}
                         <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">
-                    {% endif %}
+                    {% endif %}<br>
+                    <strong>{{ ad.name_auction }}</strong><br>
+                    Category: {{ ad.category }}<br>
+                    Description: {{ ad.description }}<br>
+                    Auction creater: {{ ad.user_creater }}<br>
+                    {% if ad.name_buyer %}
+                    Auction buyer: {{ ad.name_buyer }}<br>
+                    {% endif %}</br><br>
                 </li>
             {% endfor %}
         </ul>

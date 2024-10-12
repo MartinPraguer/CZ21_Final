@@ -323,12 +323,24 @@ def contact(request):
         context={}
     )
 
+from django.db.models import Q
+
 def search(request):
-    hledany_vyraz = request.GET.get('hledej', '')
+    hledany_vyraz = request.GET.get('Search', '').strip()
     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
-    return render(request, template_name='search.html', context={
+
+    return render(request, template_name='detailed_search.html', context={
         "searchs": AddAuction.objects.filter(
-            Q(name__icontains=hledany_vyraz) | Q(name__icontains=hledany_vyraz_capitalized) | Q(description__icontains=hledany_vyraz) | Q(description__icontains=hledany_vyraz_capitalized) | Q(user__icontains=hledany_vyraz) | Q(user__icontains=hledany_vyraz_capitalized)
+            Q(name_auction__icontains=hledany_vyraz) |
+            Q(name_auction__icontains=hledany_vyraz_capitalized) |
+            Q(description__icontains=hledany_vyraz) |
+            Q(description__icontains=hledany_vyraz_capitalized) |
+            Q(user_creater__username__icontains=hledany_vyraz) |  # Filtr na username
+            Q(user_creater__username__icontains=hledany_vyraz_capitalized) |
+            Q(user_creater__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
+            Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |
+            Q(user_creater__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
+            Q(user_creater__last_name__icontains=hledany_vyraz_capitalized)
         )
     })
 
