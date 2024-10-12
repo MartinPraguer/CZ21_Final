@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="aktualizace README.md">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: času u stránek 4 kategorií a current_auctions.html a auction_archives.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/static/90fc53c9.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/auction_archives.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auction_archives.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/auction_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auction_list1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/current_auctions.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/current_auctions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/jewelry.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/jewelry.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/numismatics.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/numismatics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/paintings.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/paintings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/statues.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/statues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature_funkcni-advertisement" />
+        <entry key="$PROJECT_DIR$" value="31e02cfda8daab6dade7df1febec540402768409" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -411,7 +403,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728738459186</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fix: času u stránek 4 kategorií a current_auctions.html a auction_archives.html">
+      <option name="closed" value="true" />
+      <created>1728760522286</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1728760522286</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,26 +447,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="feature_zobrazeniaukce" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="zfunčnit Obrazy-Numismatika obrázky přes obrázky a Zobrazit&#10;zfunkčnit odkazy pod názvem Aukční galerie" />
     <MESSAGE value="změna barev base.html" />
     <MESSAGE value="přidání hamburgeru base.html" />
@@ -492,6 +479,7 @@
     <MESSAGE value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
     <MESSAGE value="fix: detailu aukce, aukčního formuláře, úprava models, forms, views, urls, 4 kategorií a tvorba populate_data.py" />
     <MESSAGE value="aktualizace README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="aktualizace README.md" />
+    <MESSAGE value="fix: času u stránek 4 kategorií a current_auctions.html a auction_archives.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: času u stránek 4 kategorií a current_auctions.html a auction_archives.html" />
   </component>
 </project>

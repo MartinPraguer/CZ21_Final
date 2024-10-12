@@ -1,102 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
 
-<body>
-    <body>
-    <img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}">
-    <h2>{{ auction.name_auction }}</h2>
-    <p>Category: {{ auction.category }}</p>
-    <p>Description: {{ auction.description }}</p>
-    <p>Auction Creater: {{ auction.user_creater }}</p>
-    
-    
-    
-    
-    <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
-    <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
+<img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}">
+<h2>{{ auction.name_auction }}</h2>
+<p>Category: {{ auction.category }}</p>
+<p>Description: {{ auction.description }}</p>
+<p>Auction Creater: {{ auction.user_creater }}</p>
+
+<p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
+<p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
 {% if auction_expired %}
     <p>Auction has expired</p>
 {% else %}
     <p>Time Left: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes</p>
 {% endif %}
 
-    {% if auction.auction_type == 'place_bid' %}
-        {% if auction.name_bider %}
-    <!-- Zkontrolujeme, zda bider není stejný jako buyer -->
-    {% if auction.name_buyer != auction.name_bider %}
-        <p>Last Bid: {{ auction.name_bider }} is the user bidding in the auction.</p>
+{% if auction.auction_type == 'buy_now' %}
+    <p>Price: {{ auction.buy_now_price }} Kč</p>
+    <h3>Buy Now</h3>
+
+    {% if auction_expired %}
+        <p style="color: red;">This auction has already expired. It cannot be bought.</p>
     {% else %}
-        <p>Last Bid: {{ auction.name_buyer }} is the buyer as they won the auction.</p>
-    {% endif %}
-{% else %}
-    <!-- Pokud žádný bider neexistuje -->
-    <p>No bids yet</p>
-{% endif %}
-        
-        <p>Starting Price: {{ auction.start_price }} Kč</p>
-        {% if auction.price %}
-    <p>Price: {{ auction.price }} Kč</p>
-{% endif %}
-        <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
-        
-        
-        {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
-        {% endif %}
-        <!-- Kontrola, zda aukce vypršela -->
-        {% if auction_expired %}
-            <p>Aukce již vypršela. Není možné přidávat další příhozy.</p>
-        {% else %}
-            <!-- Formulář pro zadání nového příhozu -->
-            <h3>Place a Bid</h3>
-            <form method="post">
-                {% csrf_token %}
-                <label for="new_bid">Your Bid:</label>
-                <input type="number" name="new_bid" min="1" required>
-                <button type="submit">Place Bid</button>
-            </form>
-        {% endif %}
 
-        <!-- Zobrazení seznamu příhozů v tabulce -->
-        <h2>Bids</h2>
-        {% if bids %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Price</th>
-                        <th>Bid</th>
-                        <th>Time</th>
-                        <th>User</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bid in bids %}
-                    <tr>
-                        <td>{{ auction.price }}</td>
-                        <td>{{ bid.amount }} Kč</td>
-                        <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
-                        <td>{{ bid.user }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No bids yet.</p>
-        {% endif %}
-
-    {% elif auction.auction_type == 'buy_now' %}
-        <p>Price: {{ auction.buy_now_price }} Kč</p>
-        <h3>Buy Now</h3>
-        <p>Auction ID: {{ auction.pk }}</p>
-
-        <!-- Přidání akce do formuláře, která přidá položku do košíku -->
         <form method="post" action="{% url 'add_to_cart' auction.pk %}">
             {% csrf_token %}
             <button type="submit">Add to Cart</button>
         </form>
     {% endif %}
+{% endif %}
 
-    <a href="{% url 'add_auction' %}">Back to Add Auctions</a>
-</body>
+{% if auction.auction_type == 'place_bid' %}
+    <p>Starting Price: {{ auction.start_price }} Kč</p>
+    {% if auction.price %}
+        <p>Price: {{ auction.price }} Kč</p>
+    {% endif %}
+    <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
+
+    {% if auction_expired %}
+        <p style="color: red;">The auction has already ended. It is not possible to add more bids.</p>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="new_bid">Your Bid:</label>
+            <input type="number" name="new_bid" min="1" required>
+            <button type="submit">Place Bid</button>
+        </form>
+    {% endif %}
+    
+    <h2>Bids</h2>
+    {% if bids %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Price</th>
+                    <th>Bid</th>
+                    <th>Time</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bid in bids %}
+                <tr>
+                    <td>{{ auction.price }}</td>
+                    <td>{{ bid.amount }} Kč</td>
+                    <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
+                    <td>{{ bid.user }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+{% endif %}
+
+<a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
 {% endblock %}
