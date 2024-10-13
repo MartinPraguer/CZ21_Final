@@ -95,15 +95,15 @@
 >
     <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath stroke=%27%23000%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3E%3C/svg%3E');"></span>
 </button>
-        {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-        </form>
-        {% else %}
-            <a href="{% url 'login' %}"><img src="{% static "login.png" %}" style="max-width: 100px; height: auto;"></a>
-            <a href="{% url 'sign_up' %}"><img src="{% static "sign_up.png" %}" style="max-width: 100px; height: auto;"></a>
-        {% endif %}
+{#        {% if user.is_authenticated %}#}
+{#        <form method="POST" action="{% url 'logout' %}">#}
+{#        {% csrf_token %}#}
+{#        <button type="submit">Logout</button>#}
+{#        </form>#}
+{#        {% else %}#}
+{#            <a href="{% url 'login' %}"><img src="{% static "login.png" %}" style="max-width: 100px; height: auto;"></a>#}
+{#            <a href="{% url 'sign_up' %}"><img src="{% static "sign_up.png" %}" style="max-width: 100px; height: auto;"></a>#}
+{#        {% endif %}#}
         {% include 'navbar.html' %}
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">

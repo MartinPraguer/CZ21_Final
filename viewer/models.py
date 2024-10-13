@@ -43,31 +43,31 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Auction(models.Model):
-    name = CharField(max_length=128)
-    category = ForeignKey(Category, on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
-    description = TextField(default="No description provided")
-    photo = ImageField(upload_to='photos/', null=True, blank=True)
-    minimum_bid = IntegerField(default=0)
-    price = IntegerField(default=0)
-    buy_now = BooleanField(default=False)
-    promotion = BooleanField(default=False)
-    auction_start_date = DateTimeField(auto_now_add=True)
-    auction_end_date = DateTimeField(auto_now_add=True)
-    number_of_views = IntegerField(default=0)
+# class Auction(models.Model):
+#     name = CharField(max_length=128)
+#     category = ForeignKey(Category, on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
+#     description = TextField(default="No description provided")
+#     photo = ImageField(upload_to='photos/', null=True, blank=True)
+#     minimum_bid = IntegerField(default=0)
+#     price = IntegerField(default=0)
+#     buy_now = BooleanField(default=False)
+#     promotion = BooleanField(default=False)
+#     auction_start_date = DateTimeField(auto_now_add=True)
+#     auction_end_date = DateTimeField(auto_now_add=True)
+#     number_of_views = IntegerField(default=0)
 
-    def __str__(self):
-        return f"{self.name} - {self.category} - {self.description}"
+    # def __str__(self):
+    #     return f"{self.name} - {self.category} - {self.description}"
 
-class TransactionEvaluation(models.Model):
-    auction = ForeignKey(Auction, on_delete=models.DO_NOTHING)
-    seller_rating = IntegerField()
-    sellers_comment = TextField()
-    buyer_rating = IntegerField()
-    buyers_comment = TextField()
+# class TransactionEvaluation(models.Model):
+#     auction = ForeignKey(Auction, on_delete=models.DO_NOTHING)
+#     seller_rating = IntegerField()
+#     sellers_comment = TextField()
+#     buyer_rating = IntegerField()
+#     buyers_comment = TextField()
 
-    def __str__(self):
-        return f"{self.auction} - {self.seller_rating} - {self.buyer_rating}"
+    # def __str__(self):
+    #     return f"{self.auction} - {self.seller_rating} - {self.buyer_rating}"
 
 
 class AddAuction(models.Model):

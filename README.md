@@ -2,6 +2,7 @@ Auction gallery:
 
 [*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 [*] opravit, aby nešla dát částka pod minimální příhoz
+[ ] opravit detailní hledání - chybí description, a otestovat ho
 [ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
 [ ] finalized - přepsat veškeré texty do angličtiny
 [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
