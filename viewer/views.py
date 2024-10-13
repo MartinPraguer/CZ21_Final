@@ -32,21 +32,22 @@ class SignUpView(View):
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                username = form.cleaned_data.get('username')
-                if User.objects.filter(username=username).exists():
-                    form.add_error('username', 'Uživatel s tímto jménem již existuje.')
-                else:
-                    user = form.save()
+                user = form.save()
 
-                    # Zde použij vybraný typ účtu z formuláře
-                    account_type = form.cleaned_data.get('account_type')
+                # Zde použij vybraný typ účtu z formuláře
+                account_type = form.cleaned_data.get('account_type')
+
+                # Zkontroluj, zda již existuje záznam v UserAccounts
+                if not UserAccounts.objects.filter(user=user).exists():
                     UserAccounts.objects.create(user=user, account_type=account_type)
+                else:
+                    form.add_error(None, 'Uživatel již má účet.')  # Pokud je potřeba, můžeš přidat vlastní chybu
 
-                    login(request, user)
-                    return redirect('login')
+                login(request, user)  # Automatické přihlášení po registraci
+                return redirect('login')
 
             except IntegrityError:
-                form.add_error('username', 'Uživatel s tímto jménem již existuje.')
+                form.add_error(None, 'Chyba při vytváření účtu. Zkuste to prosím znovu.')
 
         return render(request, 'sign_up.html', {'form': form})
 # def hello(request, s):
