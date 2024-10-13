@@ -75,8 +75,8 @@ class AddAuctionForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AddAuctionForm, self).__init__(*args, **kwargs)
-        # Zajištění, že pole 'user_creater', 'name_bider', a 'name_buyer' nejsou zahrnuta ve formuláři
-        self.fields.pop('user_creater')  # Odebere pole 'user_creater' z formuláře
+        # Zajištění, že pole 'user_creator', 'name_bider', a 'name_buyer' nejsou zahrnuta ve formuláři
+        self.fields.pop('user_creator')  # Odebere pole 'user_creator' z formuláře
         self.fields.pop('name_bider')  # Odebere pole 'name_bider' z formuláře
         self.fields.pop('name_buyer')
 

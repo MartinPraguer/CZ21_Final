@@ -365,8 +365,8 @@ from django.db.models import Q
 #             Q(name_auction__icontains=hledany_vyraz_capitalized) |
 #             Q(description__icontains=hledany_vyraz) |
 #             Q(description__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creater__username__icontains=hledany_vyraz) |  # Filtr na username
-#             Q(user_creater__username__icontains=hledany_vyraz_capitalized) |
+#             Q(user_creator__username__icontains=hledany_vyraz) |  # Filtr na username
+#             Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
 #             Q(user_creater__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
 #             Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |
 #             Q(user_creater__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
@@ -869,7 +869,7 @@ class AddAuctionCreateView(CreateView):
             return redirect(reverse('login') + f"?next={self.request.path}")
 
         # Pokud je uživatel přihlášen, nastavíme ho jako tvůrce aukce
-        form.instance.user_creater = self.request.user
+        form.instance.user_creator = self.request.user
         auction = form.save()  # Uloží aukci a přiřadí ji k proměnné
         # Přesměrování na stránku úspěchu s předáním ID aukce
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
