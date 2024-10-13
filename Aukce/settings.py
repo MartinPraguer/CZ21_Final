@@ -162,3 +162,5 @@ CACHES = {
     }
 }
 
+STRIPE_PUBLIC_KEY = 'váš veřejný klíč ze Stripe'
+STRIPE_SECRET_KEY = 'váš tajný klíč ze Stripe'

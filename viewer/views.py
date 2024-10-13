@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from Aukce.settings import USE_TZ
 from viewer.models import AddAuction, Category, Profile
 from viewer.forms import AddAuctionForm, SignUpForm, BidForm
-from viewer.models import AddAuction, Category, Bid
+from viewer.models import AddAuction, Category, Bid, Cart
 from viewer.forms import AddAuctionForm, SignUpForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
@@ -17,11 +17,17 @@ from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, U
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from viewer.models import Profile, UserAccounts, AccountType
+from viewer.models import Profile, UserAccounts, AccountType, Cart
 
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError
+from django.db import IntegrityError, models
 from django.contrib.auth.models import User
+import stripe
+from django.conf import settings
+from django.http import JsonResponse
+
+
+
 
 class SignUpView(View):
     def get(self, request):
@@ -34,24 +40,82 @@ class SignUpView(View):
             try:
                 user = form.save()
 
-                # Zde použij vybraný typ účtu z formuláře
+                # Vybraný typ účtu z formuláře
                 account_type = form.cleaned_data.get('account_type')
 
                 # Zkontroluj, zda již existuje záznam v UserAccounts
                 if not UserAccounts.objects.filter(user=user).exists():
-                    UserAccounts.objects.create(user=user, account_type=account_type)
-                else:
-                    form.add_error(None, 'Uživatel již má účet.')  # Pokud je potřeba, můžeš přidat vlastní chybu
+                    user_account = UserAccounts.objects.create(user=user, account_type=account_type)
 
-                login(request, user)  # Automatické přihlášení po registraci
-                return redirect('login')
+                    # Pokud uživatel vybere prémiový účet, nastav předplatné
+                    if account_type.account_type == 'Premium':
+                        user_account.set_premium_subscription()
+
+                    login(request, user)  # Automatické přihlášení po registraci
+                    return redirect('login')
+                else:
+                    form.add_error(None, 'Uživatel již má účet.')
 
             except IntegrityError:
                 form.add_error(None, 'Chyba při vytváření účtu. Zkuste to prosím znovu.')
 
         return render(request, 'sign_up.html', {'form': form})
-# def hello(request, s):
-#     return HttpResponse(f'AHOJ {s}')
+
+# platebni brana
+class PaymentView(View):
+    def get(self, request, payment_type):
+        user = request.user
+        cart_total_amount = 0
+
+        if payment_type == 'cart':
+            # Získej celkovou cenu z košíku
+            cart_total_amount = Cart.objects.filter(user=user).aggregate(total=models.Sum('price'))['total'] or 0
+
+        context = {
+            'payment_type': payment_type,
+            'stripe_public_key': 'YOUR_STRIPE_PUBLIC_KEY',  # Nahraď svým veřejným klíčem
+            'cart_total_amount': cart_total_amount,  # Přidáno pro košík
+        }
+        return render(request, 'payment.html', context)
+
+    def post(self, request, payment_type):
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+
+        user = request.user
+
+        if payment_type == 'subscription':
+            # Cena za předplatné
+            amount = 25000  # 250 Kč v haléřích
+            description = 'Předplatné'
+        elif payment_type == 'cart':
+            # Získej celkovou cenu z košíku
+            cart_total = Cart.objects.filter(user=user).aggregate(total=models.Sum('price'))['total'] or 0
+            amount = int(cart_total * 100)  # Celková cena v haléřích
+            description = 'Celková cena za košík'
+        else:
+            return JsonResponse({'error': 'Neplatný typ platby'}, status=400)
+
+        # Vytvoření checkout session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'czk',
+                        'product_data': {
+                            'name': description,
+                        },
+                        'unit_amount': amount,
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url='http://localhost:8000/success/',
+            cancel_url='http://localhost:8000/cancel/',
+        )
+
+        return JsonResponse({'id': session.id})
 
 def add_auction(request):
     last_auctions = AddAuction.objects.all() #.order_by("-created")[:16]
