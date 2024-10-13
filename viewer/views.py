@@ -439,12 +439,12 @@ def detailed_search(request):
             Q(name_auction__icontains=hledany_vyraz_capitalized) |
             Q(description__icontains=hledany_vyraz) |
             Q(description__icontains=hledany_vyraz_capitalized) |
-            Q(user_creater__username__icontains=hledany_vyraz) |
-            Q(user_creater__username__icontains=hledany_vyraz_capitalized) |
-            Q(user_creater__first_name__icontains=hledany_vyraz) |  # Opravený zápis
-            Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |  # Opravený zápis
-            Q(user_creater__last_name__icontains=hledany_vyraz) |
-            Q(user_creater__last_name__icontains=hledany_vyraz_capitalized)
+            Q(user_creator__username__icontains=hledany_vyraz) |
+            Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
+            Q(user_creator__first_name__icontains=hledany_vyraz) |  # Opravený zápis
+            Q(user_creator__first_name__icontains=hledany_vyraz_capitalized) |  # Opravený zápis
+            Q(user_creator__last_name__icontains=hledany_vyraz) |
+            Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
         )
 
     return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
