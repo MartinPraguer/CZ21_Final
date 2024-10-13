@@ -10,7 +10,10 @@
             <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50">
         {% endif %}
 
-        <a href="{% url 'logout' %}">Odhlásit se</a>
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link">Odhlásit se</button>
+        </form>
     {% else %}
         <a href="{% url 'login' %}">Přihlásit se</a>
         <a href="{% url 'sign_up' %}">Registrovat se</a>
