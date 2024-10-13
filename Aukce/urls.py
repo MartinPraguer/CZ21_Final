@@ -79,7 +79,7 @@ urlpatterns = [
     path('auction_list3/', auction_list3, name='auction_list3'),
     path('payment/<str:payment_type>/', PaymentView.as_view(), name='payment'),
     path('success/', TemplateView.as_view(template_name="success.html"), name='success'),
-    path('error/', TemplateView.as_view(template_name="error.html"), name='error')
+    path('error/', TemplateView.as_view(template_name="error.html"), name='error'),
     path('list_users/', list_users, name='list_users'),
     path('users/<int:user_id>/', user_detail, name='user_detail'),
 ]
