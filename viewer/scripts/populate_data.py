@@ -121,7 +121,7 @@ def run():
             photo_path = os.path.join(PHOTO_DIR, random_photo)
 
             add_auction = AddAuction(
-                user_creater=user,
+                user_creator=user,
                 category=all_categories[category],
                 name_auction=name_auction,
                 description=description,

@@ -1,104 +1,88 @@
 from django.db import models
-from django.db.models import Model, DO_NOTHING, CharField, DateField, ForeignKey, IntegerField, TextField, BooleanField, ImageField, DateTimeField
-from datetime import datetime
-from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models import CASCADE, Model, OneToOneField, TextField
+from django.db.models import OneToOneField, ForeignKey, CharField, DateTimeField, IntegerField, TextField, BooleanField, ImageField
 
-
-class Profile(Model):
-    user = OneToOneField(User, on_delete=CASCADE)
-    biography = TextField()
-
-
-
-# from django.forms import
-
-
-# jaký je rozdíl mezi db.models a forms Charfield
-
-class AccountStatus(Model): #aktivní/neaktivní/blokovaný
+class AccountStatus(models.Model):
     account_status = CharField(max_length=128)
 
     def __str__(self):
-        return f"status účtu: {self.account_status}"
+        return self.account_status
 
-class AccountType(Model): #běžný/prémium
+class AccountType(models.Model):
     account_type = CharField(max_length=128)
 
     def __str__(self):
-        return f"typ účtu: {self.account_type}"
+        return self.account_type
 
-class UserAccounts(Model):
-    pass
-    '''
-    email = CharField(max_length=128)
-    password = CharField(max_length=128)
-    nickname = CharField(max_length=128)
-    first_name = CharField(max_length=128)
-    last_name = CharField(max_length=128)
-    city = CharField(max_length=128)
-    address = CharField(max_length=128)
-    house_number = CharField(max_length=128)
-    zip_code = CharField(max_length=128)
-    created = DateTimeField(auto_now_add=True)
-    account_status = ForeignKey(AccountStatus, on_delete=DO_NOTHING) #aktivní/neaktivní/blokovaný
-    # avatar = odkaz na jpg/gif
-    account_type = ForeignKey(AccountType, on_delete=DO_NOTHING) #běžný/prémium
+class UserAccounts(models.Model):  # Přidání modelu UserAccounts
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    account_type = models.ForeignKey(AccountType, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Přidej další pole podle potřeby
 
     def __str__(self):
-        return f"{self.nickname}"
-'''
-class Category(Model):
+        return self.user.username
+
+class Profile(models.Model):
+    user = OneToOneField(User, on_delete=models.CASCADE)
+    city = CharField(max_length=128, default="City")
+    address = CharField(max_length=256, default="Address")  # Ulice, číslo domu
+    zip_code = CharField(max_length=10, default="00000")
+    created_at = DateTimeField(auto_now_add=True)
+    account_status = OneToOneField(AccountStatus, on_delete=models.SET_NULL, null=True)
+    avatar = ImageField(upload_to='avatars/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+
+class Category(models.Model):
     name = CharField(max_length=128)
 
     def __str__(self):
         return f"{self.name}"
 
-class Auction(Model):
+class Auction(models.Model):
     name = CharField(max_length=128)
-    category = ForeignKey('Category', on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
+    category = ForeignKey(Category, on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
     description = TextField(default="No description provided")
-    photo =  ImageField(upload_to='photos/', null=True, blank=True)
+    photo = ImageField(upload_to='photos/', null=True, blank=True)
     minimum_bid = IntegerField(default=0)
-    # maximum_bid = IntegerField(default=0)
     price = IntegerField(default=0)
     buy_now = BooleanField(default=False)
     promotion = BooleanField(default=False)
-    auction_start_date = DateTimeField(default=datetime.now)
-    auction_end_date = DateTimeField(default=datetime.now)
+    auction_start_date = DateTimeField(auto_now_add=True)
+    auction_end_date = DateTimeField(auto_now_add=True)
     number_of_views = IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} - {self.category} - {self.description}"
 
-
-class TransactionEvalution(Model):
-    auction = ForeignKey(Auction, on_delete=DO_NOTHING)
+class TransactionEvaluation(models.Model):
+    auction = ForeignKey(Auction, on_delete=models.DO_NOTHING)
     seller_rating = IntegerField()
     sellers_comment = TextField()
     buyer_rating = IntegerField()
     buyers_comment = TextField()
 
     def __str__(self):
-        return f"{self.auction} - {self.sell_rating} - {self.buyer_rating}"
+        return f"{self.auction} - {self.seller_rating} - {self.buyer_rating}"
 
-from django.contrib.auth import get_user_model
-User = get_user_model()
 
-from django.db import models
-
-class AddAuction(Model):
-    photo = models.ImageField(upload_to='photos/')
+class AddAuction(models.Model):
+    photo = ImageField(upload_to='photos/')
     name_auction = CharField(max_length=128)  # Zde se používá 'name_auction'
-    user_creater = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
+    user_creator = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
     name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
     name_buyer = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True, blank=True)
     category = ForeignKey(Category, on_delete=models.DO_NOTHING)
-    description = TextField()
-    promotion = BooleanField(default=False)
-    auction_start_date = DateTimeField(default=datetime.now)
-    auction_end_date = DateTimeField(default=datetime.now)
+
+    # Přidání výchozí hodnoty pro popis
+    description = TextField(default="No description provided")
+    promotion = BooleanField(default=False)  # Toto pole zůstává jako nullable
+    auction_start_date = DateTimeField(auto_now_add=True)
+    auction_end_date = DateTimeField(auto_now_add=True)
     number_of_views = IntegerField(default=0)
     created = DateTimeField(auto_now_add=True)
 
@@ -123,12 +107,7 @@ class AddAuction(Model):
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name_auction} - {self.user_creater} - {self.category} - {self.description}"
-
-
-
-from django.db import models
-from django.contrib.auth.models import User
+        return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
 class Bid(models.Model):
     auction = models.ForeignKey(AddAuction, related_name='bids', on_delete=models.CASCADE)
@@ -139,15 +118,9 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.amount} Kč"
 
-
-from django.db import models
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-
-
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE)
+    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Přidání metody pro přidání do košíku
