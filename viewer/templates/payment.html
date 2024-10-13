@@ -3,23 +3,30 @@
 
 <h1>Platba za {{ payment_type }}</h1>
 
+<!-- Zobrazíme obsah košíku, pokud se jedná o platbu za košík -->
+{% if payment_type == 'cart' %}
+    <h2>Položky v košíku:</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.auction.name_auction }} - {{ item.price|floatformat:2 }} Kč</li> <!-- Opraveno formátování ceny -->
+        {% endfor %}
+    </ul>
+    <p>Celková částka: {{ cart_total_amount|floatformat:2 }} Kč</p> <!-- Opraveno formátování celkové částky -->
+{% endif %}
+
 <form action="{% url 'payment' payment_type %}" method="post">
     {% csrf_token %}
 
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="{{ stripe_public_key }}"
-        data-name="Premium Account"
+        data-name="{% if payment_type == 'subscription' %}Premium Account{% else %}Platba za košík{% endif %}"
         data-description="{% if payment_type == 'subscription' %}Platba za prémiový účet{% else %}Platba za položky v košíku{% endif %}"
         data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
         data-locale="auto"
         data-currency="czk"
-        data-amount="{% if payment_type == 'subscription' %}25000{% else %}{{ cart_total_amount }}{% endif %}">  <!-- 250 Kč v haléřích -->
+        data-amount="{{ cart_total_amount_in_halere }}">  <!-- částka v haléřích -->
     </script>
-
-    <button type="submit" id="checkout-button">
-        Zaplatit
-    </button>
 </form>
 
 {% endblock %}

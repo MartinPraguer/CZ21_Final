@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-<style>    
+<style>
     .buy-now-auction {
         border: 3px solid gold;
         background-color: #fff8dc;
@@ -43,7 +43,7 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                
+
                 <!-- Zobrazení zbývajícího času -->
                 <p>
                     {% if add_auction.days_left > 0 %}
@@ -98,7 +98,7 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now_price|price_format }} Kč</p>
-                
+
                 <!-- Zobrazení zbývajícího času -->
                 <p>
                     {% if add_auction.days_left > 0 %}
@@ -112,7 +112,7 @@
                     {% endif %}
                 </p>
 
-                <p class="u-align-center u-text u-text-8"><a href="{% url 'add_auction-detail' add_auction.pk %}">Buy now</a></p>
+                <p class="u-align-center u-text u-text-8"><a href="{% url 'cart_view' %}?add_auction_id={{ auction.id }}" class="btn btn-success">Buy Now</a></p>
                 {% if user.is_superuser %}
                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
@@ -153,7 +153,7 @@
                 {% endif %}
                 <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                 <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
-                
+
                 <!-- Zobrazení zbývajícího času -->
                 <p>
                     {% if add_auction.days_left > 0 %}

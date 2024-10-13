@@ -1,5 +1,5 @@
 from django.contrib.sessions.backends.base import SessionBase
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from Aukce.settings import USE_TZ
@@ -17,7 +17,7 @@ from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, U
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from viewer.models import Profile, UserAccounts, AccountType, Cart
+from viewer.models import Profile, UserAccounts, AccountType, Cart, AddAuction
 
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, models
@@ -64,6 +64,12 @@ class SignUpView(View):
 # platebni brana a odkazy na vyzkouseni Pro předplatné: http://localhost:8000/payment/subscription/
 # Pro košík: http://localhost:8000/payment/cart/
 
+from django.views import View
+from django.http import JsonResponse
+from django.conf import settings
+import stripe
+from .models import Cart
+
 class PaymentView(View):
     def get(self, request, payment_type):
         user = request.user
@@ -71,53 +77,73 @@ class PaymentView(View):
 
         if payment_type == 'cart':
             # Získej celkovou cenu z košíku
-            cart_total_amount = Cart.objects.filter(user=user).aggregate(total=models.Sum('price'))['total'] or 0
+            cart_total_amount = Cart.get_cart_total(user)
+            cart_total_amount_in_halere = int(cart_total_amount * 100)  # Převod na haléře
 
         context = {
             'payment_type': payment_type,
             'stripe_public_key': 'YOUR_STRIPE_PUBLIC_KEY',  # Nahraď svým veřejným klíčem
-            'cart_total_amount': cart_total_amount,  # Přidáno pro košík
+            'cart_total_amount': cart_total_amount,  # Celková cena pro zobrazení
+            'cart_total_amount_in_halere': cart_total_amount_in_halere if payment_type == 'cart' else 25000,  # Cena v haléřích
+            'cart_items': Cart.objects.filter(user=user),  # Zobrazení položek v košíku
         }
         return render(request, 'payment.html', context)
 
     def post(self, request, payment_type):
         stripe.api_key = settings.STRIPE_SECRET_KEY
-
         user = request.user
 
         if payment_type == 'subscription':
             # Cena za předplatné
             amount = 25000  # 250 Kč v haléřích
             description = 'Předplatné'
+            line_items = [{
+                'price_data': {
+                    'currency': 'czk',
+                    'product_data': {
+                        'name': description,
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }]
         elif payment_type == 'cart':
             # Získej celkovou cenu z košíku
-            cart_total = Cart.objects.filter(user=user).aggregate(total=models.Sum('price'))['total'] or 0
+            cart_total = Cart.get_cart_total(user)
             amount = int(cart_total * 100)  # Celková cena v haléřích
             description = 'Celková cena za košík'
+
+            # Vytvoříme řádky pro každou položku v košíku
+            cart_items = Cart.objects.filter(user=user)
+            line_items = []
+            for item in cart_items:
+                line_items.append({
+                    'price_data': {
+                        'currency': 'czk',
+                        'product_data': {
+                            'name': item.auction.name_auction,  # Název aukce/položky
+                        },
+                        'unit_amount': int(item.price * 100),  # Cena v haléřích
+                    },
+                    'quantity': 1,
+                })
+
+            if not line_items:
+                return JsonResponse({'error': 'Košík je prázdný'}, status=400)
         else:
             return JsonResponse({'error': 'Neplatný typ platby'}, status=400)
 
         # Vytvoření checkout session
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            line_items=[
-                {
-                    'price_data': {
-                        'currency': 'czk',
-                        'product_data': {
-                            'name': description,
-                        },
-                        'unit_amount': amount,
-                    },
-                    'quantity': 1,
-                },
-            ],
+            line_items=line_items,  # Odeslání všech položek v košíku
             mode='payment',
             success_url='http://localhost:8000/success/',
             cancel_url='http://localhost:8000/cancel/',
         )
 
         return JsonResponse({'id': session.id})
+
 
 def add_auction(request):
     last_auctions = AddAuction.objects.all() #.order_by("-created")[:16]
@@ -443,6 +469,8 @@ from django.shortcuts import render
 from .forms import AuctionSearchForm
 from .models import AddAuction
 from django.db.models import Q
+
+
 def detailed_search(request):
     hledany_vyraz = request.GET.get('Search', '').strip()
     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
@@ -742,19 +770,34 @@ def auction_detail(request, pk):
         'minutes': minutes if not auction_expired else 0
     })
 
-
+# Funkce pro zobrazení a správu košíku
 def cart_view(request):
-    # Zkontrolujeme, jestli je uživatel přihlášen
     if not request.user.is_authenticated:
         return redirect('login')
 
-    # Získáme všechny položky v košíku pro aktuálního uživatele
+    # Zpracování přidání položky do košíku ze stránky aukcí
+    auction_id = request.GET.get('add_auction_id')
+    if auction_id:
+        auction = get_object_or_404(AddAuction, id=auction_id)
+        Cart.add_to_cart(request.user, auction)
+        return redirect('cart_view')
+
+    # Zpracování odstranění položky z košíku
+    remove_auction_id = request.GET.get('remove_auction_id')
+    if remove_auction_id:
+        cart_item = Cart.objects.filter(user=request.user, auction_id=remove_auction_id).first()
+        if cart_item:
+            cart_item.delete()
+
+    # Získání položek v košíku
     cart_items = Cart.objects.filter(user=request.user)
+    cart_total_amount = Cart.get_cart_total(request.user)
 
-    # Zobrazíme stránku košíku s položkami
-    return render(request, 'cart.html', {'cart_items': cart_items})
+    return render(request, 'cart.html', {
+        'cart_items': cart_items,
+        'cart_total_amount': cart_total_amount,
+    })
 
-from django.shortcuts import render
 
 def checkout_view(request):
     return render(request, 'checkout.html')

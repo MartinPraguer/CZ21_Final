@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Váš košík</h2>
-    
+
     {% if cart_items %}
-        <ul>
-            {% for cart in cart_items %}
-                <li>{{ cart.auction.name }} - {{ cart.price }} Kč</li>
-            {% endfor %}
-        </ul>
-        <a href="{% url 'checkout' %}">Pokračovat k platbě</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Název položky</th>
+                    <th>Cena</th>
+                    <th>Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart in cart_items %}
+                    <tr>
+                        <td>{{ cart.auction.name_auction }}</td> <!-- Zobrazí název položky -->
+                        <td>{{ cart.price }} Kč</td> <!-- Zobrazí cenu za kus -->
+                        <td>
+                            <!-- Tlačítko pro odstranění položky -->
+                            <a href="?remove_auction_id={{ cart.auction.id }}" class="btn btn-danger">Odstranit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Zobrazení celkové částky košíku -->
+        <h3>Celková cena: {{ cart_total_amount }} Kč</h3>
+
+        <!-- Stylizované tlačítko pro přechod k platbě -->
+        <a href="{% url 'payment' 'cart' %}" class="btn btn-primary">Pokračovat k platbě</a>
     {% else %}
         <p>Váš košík je prázdný.</p>
     {% endif %}

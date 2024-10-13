@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import OneToOneField, ForeignKey, CharField, DateTimeField, IntegerField, TextField, BooleanField, ImageField
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Sum
 
 class AccountStatus(models.Model):
     account_status = CharField(max_length=128)
@@ -154,15 +155,16 @@ class Cart(models.Model):
 
     @classmethod
     def add_to_cart(cls, user, auction):
+        # Pokusíme se najít položku v košíku podle uživatele a aukce
         cart_item, created = cls.objects.get_or_create(
             user=user,
-            auction=auction,
-            defaults={'price': auction.buy_now_price}
+            auction=auction,  # Každá aukce je jedinečná položka, takže přidáváme vždy jedinečnou položku
+            defaults={'price': auction.buy_now_price}  # Cena z "Buy Now"
         )
 
         if not created:
-            cart_item.price = auction.buy_now_price
-            cart_item.save()
+            # Položka už je v košíku, takže nepřidáme znovu
+            print(f"Položka {auction.name_auction} je už v košíku uživatele {user.username}.")
 
         return cart_item
 # toto je navic k puvodnimu Cart

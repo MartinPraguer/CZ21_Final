@@ -82,6 +82,8 @@ urlpatterns = [
     path('error/', TemplateView.as_view(template_name="error.html"), name='error'),
     path('list_users/', list_users, name='list_users'),
     path('users/<int:user_id>/', user_detail, name='user_detail'),
+    path('cart/', views.cart_view, name='cart_view'),  # URL pro zobrazení košíku
+    path('checkout/', views.PaymentView.as_view(), name='checkout'),  # URL pro platbu
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
