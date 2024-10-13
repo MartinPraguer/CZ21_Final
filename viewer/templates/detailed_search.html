@@ -1,59 +1,56 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-<h1>Detail search</h1>
 
-<form method="get" action="{% url 'podrobne_hledani' %}">
-{% csrf_token %}
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name"><br>
+    <h1>Vyhledávání aukcí</h1>
 
-        <label for="category">Category:</label>
-    <select name="category" id="category">
-        <option value="">--Category--</option>
-        {% for category in categorys %}
-            <option value="{{ category.name }}">{{ category.name }}</option>
-        {% endfor %}
-    </select><br>
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit">Vyhledat</button>
+    </form>
 
-    <label for="user">User:</label>
-    <input type="text" name="user" id="user"><br>
+    <h2>Výsledky vyhledávání</h2>
 
-
-    <button type="submit">Hledat</button>
-</form>
-
-    <h1>Search Results</h1>
     {% if searchs %}
         <ul>
-            {% for ad in searchs %}
+            {% for auction in searchs %}
                 <li>
-                     {% if ad.photo %}
-                        <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">
+                
+                {% if auction.photo %}
+                        <img src="{{ auction.photo.url }}" alt="{{ auction.name }}" style="max-width: 200px;">
                     {% endif %}<br>
-                    <strong>{{ ad.name_auction }}</strong><br>
-                    Category: {{ ad.category }}<br>
-                    Description: {{ ad.description }}<br>
-                    Auction creater: {{ ad.user_creater }}<br>
-                    {% if ad.name_buyer %}
-                    Auction buyer: {{ ad.name_buyer }}<br>
-                    {% endif %}</br><br>
+                
+                    <h3>{{ auction.name_auction }}</h3>
+                    <p>Kategorie: {{ auction.category }}</p>
+                    <p>Cena: {{ auction.price }} | Buy Now cena: {{ auction.buy_now_price }}</p>
+                    <p>Datum začátku: {{ auction.auction_start_date }} | Datum konce: {{ auction.auction_end_date }}</p>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No results found for your search.</p>
+        <p>Nebyly nalezeny žádné aukce.</p>
     {% endif %}    
     
     
-    
-    
-<h3>Výsledky hledání:</h3>
-<ul>
-    {% for advertisement in advertisements %}
-        <li>{{ advertisement.name }} - {{ advertisement.user }} - {{ advertisement.category }}</li>
-    {% empty %}
-        <li>Žádné výsledky nenalezeny.</li>
-    {% endfor %}
-</ul>
+{#    <h1>Search Results</h1>#}
+{#    {% if searchs %}#}
+{#        <ul>#}
+{#            {% for ad in searchs %}#}
+{#                <li>#}
+{#                     {% if ad.photo %}#}
+{#                        <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">#}
+{#                    {% endif %}<br>#}
+{#                    <strong>{{ ad.name_auction }}</strong><br>#}
+{#                    Category: {{ ad.category }}<br>#}
+{#                    Description: {{ ad.description }}<br>#}
+{#                    Auction creater: {{ ad.user_creater }}<br>#}
+{#                    {% if ad.name_buyer %}#}
+{#                    Auction buyer: {{ ad.name_buyer }}<br>#}
+{#                    {% endif %}</br><br>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <p>No results found for your search.</p>#}
+{#    {% endif %}#}
 {% endblock %}

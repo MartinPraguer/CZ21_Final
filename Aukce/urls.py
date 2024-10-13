@@ -19,7 +19,7 @@ from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
-from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, auction_list2, auction_list3
+from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, auction_list2, auction_list3
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction, Cart
 from viewer import views
 
@@ -45,9 +45,9 @@ urlpatterns = [
     path("", index, name='index'),
     # path("pridat_inzerat", pridat_inzerat)
     path("about/", about, name='about'),
-    path("search/", search, name='search'),
+    # path("search/", search, name='search'),
     path("contact/", contact, name='contact'),
-    path("podrobne_hledani/", podrobne_hledani, name="podrobne_hledani"),
+    path("detailed_search/", detailed_search, name="detailed_search"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
     # path('add_auction/create', add_auction, name='add_auction'),
     path('add_auction/', Add_auctionView.as_view(), name='add_auction'),

@@ -66,6 +66,21 @@ class BidForm(forms.ModelForm):
             raise forms.ValidationError("Bid amount must be greater than 0.")
         return amount
 
+from django import forms
+from .models import AddAuction, Category
+
+class AuctionSearchForm(forms.Form):
+    name_auction = forms.CharField(required=False, label='Název aukce', max_length=128)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=False, label='Kategorie')
+
+    # Zde přímo přidáme volby
+    AUCTION_TYPE_CHOICES = [('buy_now', 'Buy Now'), ('place_bid', 'Place Bid')]
+    auction_type = forms.ChoiceField(choices=AUCTION_TYPE_CHOICES, required=False, label='Typ aukce')
+
+    price_from = forms.DecimalField(required=False, label='Cena od', max_digits=10, decimal_places=2)
+    price_to = forms.DecimalField(required=False, label='Cena do', max_digits=10, decimal_places=2)
+    auction_start_date_from = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku od')
+    auction_start_date_to = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku do')
 
 
 

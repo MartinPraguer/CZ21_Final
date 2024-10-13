@@ -103,9 +103,13 @@ class AddAuction(Model):
     created = DateTimeField(auto_now_add=True)
 
     # Typ aukce
-    auction_type = CharField(
+    AUCTION_TYPE_CHOICES = [
+        ('buy_now', 'Buy Now'),
+        ('place_bid', 'Place Bid'),
+    ]
+    auction_type = models.CharField(
         max_length=10,
-        choices=[('buy_now', 'Buy Now'), ('place_bid', 'Place Bid')],
+        choices=AUCTION_TYPE_CHOICES,
         default='place_bid'
     )
 

@@ -325,48 +325,101 @@ def contact(request):
 
 from django.db.models import Q
 
-def search(request):
+# def search(request):
+#     hledany_vyraz = request.GET.get('Search', '').strip()
+#     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
+#
+#     return render(request, template_name='detailed_search.html', context={
+#         "searchs": AddAuction.objects.filter(
+#             Q(name_auction__icontains=hledany_vyraz) |
+#             Q(name_auction__icontains=hledany_vyraz_capitalized) |
+#             Q(description__icontains=hledany_vyraz) |
+#             Q(description__icontains=hledany_vyraz_capitalized) |
+#             Q(user_creater__username__icontains=hledany_vyraz) |  # Filtr na username
+#             Q(user_creater__username__icontains=hledany_vyraz_capitalized) |
+#             Q(user_creater__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
+#             Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |
+#             Q(user_creater__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
+#             Q(user_creater__last_name__icontains=hledany_vyraz_capitalized)
+#         )
+#     })
+from django.shortcuts import render
+from .forms import AuctionSearchForm
+from .models import AddAuction
+from django.db.models import Q
+def detailed_search(request):
     hledany_vyraz = request.GET.get('Search', '').strip()
     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
 
-    return render(request, template_name='detailed_search.html', context={
-        "searchs": AddAuction.objects.filter(
+    form = AuctionSearchForm(request.GET or None)
+    auctions = AddAuction.objects.all()
+
+    if form.is_valid():
+        # Filtrace podle názvu aukce (pomocí formuláře)
+        name_auction = form.cleaned_data.get('name_auction')
+        if name_auction:
+            auctions = auctions.filter(Q(name_auction__icontains=name_auction))
+
+        # Filtrace podle kategorie
+        category = form.cleaned_data.get('category')
+        if category:
+            auctions = auctions.filter(category=category)
+
+        # Filtrace podle typu aukce
+        auction_type = form.cleaned_data.get('auction_type')
+        if auction_type:
+            auctions = auctions.filter(auction_type=auction_type)
+
+        # Filtrace podle ceny
+        price_from = form.cleaned_data.get('price_from')
+        price_to = form.cleaned_data.get('price_to')
+        if price_from:
+            auctions = auctions.filter(price__gte=price_from)
+        if price_to:
+            auctions = auctions.filter(price__lte=price_to)
+
+        # Filtrace podle ceny Buy Now
+        buy_now_price_from = form.cleaned_data.get('buy_now_price_from')
+        buy_now_price_to = form.cleaned_data.get('buy_now_price_to')
+        if buy_now_price_from:
+            auctions = auctions.filter(buy_now_price__gte=buy_now_price_from)
+        if buy_now_price_to:
+            auctions = auctions.filter(buy_now_price__lte=buy_now_price_to)
+
+        # Filtrace podle data začátku aukce
+        auction_start_date_from = form.cleaned_data.get('auction_start_date_from')
+        auction_start_date_to = form.cleaned_data.get('auction_start_date_to')
+        if auction_start_date_from:
+            auctions = auctions.filter(auction_start_date__gte=auction_start_date_from)
+        if auction_start_date_to:
+            auctions = auctions.filter(auction_start_date__lte=auction_start_date_to)
+
+        # Filtrace podle data konce aukce
+        auction_end_date_from = form.cleaned_data.get('auction_end_date_from')
+        auction_end_date_to = form.cleaned_data.get('auction_end_date_to')
+        if auction_end_date_from:
+            auctions = auctions.filter(auction_end_date__gte=auction_end_date_from)
+        if auction_end_date_to:
+            auctions = auctions.filter(auction_end_date__lte=auction_end_date_to)
+
+    # Filtrace podle hledaného výrazu (search)
+    if hledany_vyraz:
+        auctions = auctions.filter(
             Q(name_auction__icontains=hledany_vyraz) |
             Q(name_auction__icontains=hledany_vyraz_capitalized) |
             Q(description__icontains=hledany_vyraz) |
             Q(description__icontains=hledany_vyraz_capitalized) |
-            Q(user_creater__username__icontains=hledany_vyraz) |  # Filtr na username
+            Q(user_creater__username__icontains=hledany_vyraz) |
             Q(user_creater__username__icontains=hledany_vyraz_capitalized) |
-            Q(user_creater__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
-            Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |
-            Q(user_creater__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
+            Q(user_creater__first_name__icontains=hledany_vyraz) |  # Opravený zápis
+            Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |  # Opravený zápis
+            Q(user_creater__last_name__icontains=hledany_vyraz) |
             Q(user_creater__last_name__icontains=hledany_vyraz_capitalized)
         )
-    })
 
-def podrobne_hledani(request):
-    name = request.GET.get('name', '')
-    user = request.GET.get('user', '')
-    category_name = request.GET.get('category', '')
-
-    add_auction = AddAuction.objects.filter()
-
-    if name:
-        add_auction = add_auction.filter(name__icontains=name)
-    if user:
-        add_auction = add_auction.filter(user__username__icontains=user)
-    if category_name and category_name != '--Category--':  # Zkontrolujte, že hodnota není výchozí
-        add_auction = add_auction.filter(category__name__icontains=category_name)
+    return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
 
 
-    categorys = Category.objects.all()
-
-
-    return render(request, template_name='podrobne_hledani.html', context={
-        "add_auction": add_auction,
-        "categorys": categorys,
-
-    })
 
 
     template_name = 'form.html'
