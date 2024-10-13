@@ -11,19 +11,33 @@ class AccountStatus(models.Model):
         return self.account_status
 
 class AccountType(models.Model):
-    account_type = CharField(max_length=128)
+    account_type = models.CharField(max_length=128)
 
     def __str__(self):
         return self.account_type
 
-class UserAccounts(models.Model):  # Přidání modelu UserAccounts
+
+class UserAccounts(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_type = models.ForeignKey(AccountType, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    # Přidej další pole podle potřeby
+    is_premium = models.BooleanField(default=False)
+    premium_expiry_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.account_type}"
+
+    # Kontrola, zda je předplatné stále aktivní
+    def check_premium_status(self):
+        if self.premium_expiry_date and self.premium_expiry_date > timezone.now():
+            return True
+        return False
+
+    # Nastavení prémiového účtu na jeden měsíc
+    def set_premium_subscription(self):
+        self.premium_expiry_date = timezone.now() + timedelta(days=30)
+        self.is_premium = True
+        self.save()
 
 class Profile(models.Model):
     user = OneToOneField(User, on_delete=models.CASCADE)
@@ -138,10 +152,8 @@ class Cart(models.Model):
     auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # Přidání metody pro přidání do košíku
     @classmethod
     def add_to_cart(cls, user, auction):
-        # Získáme nebo vytvoříme položku v košíku
         cart_item, created = cls.objects.get_or_create(
             user=user,
             auction=auction,
@@ -149,8 +161,12 @@ class Cart(models.Model):
         )
 
         if not created:
-            # Pokud už existuje, aktualizujeme cenu
             cart_item.price = auction.buy_now_price
             cart_item.save()
 
         return cart_item
+# toto je navic k puvodnimu Cart
+    @classmethod
+    def get_cart_total(cls, user):
+        total = cls.objects.filter(user=user).aggregate(Sum('price'))['price__sum']
+        return total or 0
