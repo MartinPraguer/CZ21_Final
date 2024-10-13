@@ -1,5 +1,6 @@
 Auction gallery:
 
+
 [*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 [*] opravit, aby nešla dát částka pod minimální příhoz
 [*] users list a detail uživatelů
