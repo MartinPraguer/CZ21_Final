@@ -367,10 +367,10 @@ from django.db.models import Q
 #             Q(description__icontains=hledany_vyraz_capitalized) |
 #             Q(user_creator__username__icontains=hledany_vyraz) |  # Filtr na username
 #             Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creater__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
-#             Q(user_creater__first_name__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creater__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
-#             Q(user_creater__last_name__icontains=hledany_vyraz_capitalized)
+#             Q(user_creator__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
+#             Q(user_creator__first_name__icontains=hledany_vyraz_capitalized) |
+#             Q(user_creator__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
+#             Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
 #         )
 #     })
 from django.shortcuts import render
