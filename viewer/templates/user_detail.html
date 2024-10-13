@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+    <h2>{{ user.username }}'s Auction Details</h2>
+
+    <h3>Created Auctions:</h3>
+    <ul>
+        {% for auction in created_auctions %}
+            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</li>
+        {% empty %}
+            <li>No auctions created</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Bided Auctions:</h3>
+    <ul>
+        {% for auction in bided_auctions %}
+            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Current Bid: {{ auction.price }})</li>
+        {% empty %}
+            <li>No auctions bided</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Bought Auctions:</h3>
+    <ul>
+        {% for auction in bought_auctions %}
+            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</li>
+        {% empty %}
+            <li>No auctions bought</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

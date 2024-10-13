@@ -973,6 +973,33 @@ def auction_list3(request):
         'page_obj': page_obj,  # Pošli objekt s paginací do šablony
     })
 
+from django.contrib.auth.models import User
+from django.shortcuts import render
+
+def list_users(request):
+    user_creator = User.objects.all()  # Získání všech uživatelů
+    return render(request, 'list_users.html', {'users': user_creator})
+
+
+from django.contrib.auth.models import User
+from .models import AddAuction
+from django.shortcuts import render, get_object_or_404
+
+
+def user_detail(request, user_id):
+    user = get_object_or_404(User, id=user_id)  # Získání uživatele na základě jeho ID
+    created_auctions = user.created_auctions.all()  # Aukce, které uživatel vytvořil
+    bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
+    bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
+
+    return render(request, 'user_detail.html', {
+        'user': user,
+        'created_auctions': created_auctions,
+        'bided_auctions': bided_auctions,
+        'bought_auctions': bought_auctions,
+    })
+
+
 
 # STÁHNUTO OD MARTINA Z SDACIA
 # def pridat_inzerat(request):

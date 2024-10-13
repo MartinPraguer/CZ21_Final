@@ -19,7 +19,7 @@ from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
-from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, auction_list2, auction_list3
+from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about, contact, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
@@ -77,6 +77,8 @@ urlpatterns = [
     path('auction_list1/', auction_list1, name='auction_list1'),
     path('auction_list2/', auction_list2, name='auction_list2'),
     path('auction_list3/', auction_list3, name='auction_list3'),
+    path('list_users/', list_users, name='list_users'),
+    path('users/<int:user_id>/', user_detail, name='user_detail'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
