@@ -670,13 +670,15 @@ def auction_detail(request, pk):
     else:
         # Výpočet zbývajícího času
         time_left = auction.auction_end_date - timezone.now()
-
-        # Přepočet sekund na dny, hodiny, minuty
         days = time_left.days
         hours, remainder = divmod(time_left.seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
 
     if request.method == 'POST':
+        # Kontrola, zda je uživatel přihlášen
+        if not request.user.is_authenticated:
+            return redirect('login')  # Přesměruje nepřihlášeného uživatele na přihlašovací stránku
+
         # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu nebo koupi
         if auction_expired:
             return render(request, 'add_auction_detail.html', {
@@ -684,20 +686,6 @@ def auction_detail(request, pk):
                 'bids': bids,
                 'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy ani koupit položku.'
             })
-
-        # Logika pro "Buy Now" typ aukce
-        if auction.auction_type == 'buy_now':
-            if auction.buy_now_price is None:
-                return render(request, 'add_auction_detail.html', {
-                    'auction': auction,
-                    'bids': bids,
-                    'error_message': 'Cena "Buy Now" není nastavena.'
-                })
-            else:
-                # Přidáme do košíku pouze pokud aukce nevypršela
-                if not auction_expired:
-                    Cart.add_to_cart(request.user, auction)
-                    return redirect('cart_view')
 
         # Logika pro "Place Bid" typ aukce
         new_bid_value = request.POST.get('new_bid')
@@ -727,10 +715,13 @@ def auction_detail(request, pk):
             auction.previous_price = auction.price
             auction.price += new_bid  # Zvýšíme cenu o nový příhoz
 
-            # Uložíme nový příhoz
-            Bid.objects.create(auction=auction, user=request.user, amount=new_bid)
-            auction.name_bider = request.user  # Nastavení posledního přihazujícího
-            auction.save()
+            # Uložíme nový příhoz pouze pro přihlášené uživatele
+            if request.user.is_authenticated:
+                Bid.objects.create(auction=auction, user=request.user, amount=new_bid)
+                auction.name_bider = request.user  # Nastavení posledního přihazujícího
+                auction.save()
+            else:
+                return redirect('login')
 
             return redirect('add_auction-detail', pk=auction.pk)
 

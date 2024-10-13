@@ -5,6 +5,7 @@ Auction gallery:
 [*] opravit, aby nešla dát částka pod minimální příhoz
 [*] users list a detail uživatelů
 [*-] opravit detailní hledání - chybí description, a otestovat ho - neotestované
+[ ] napojit Androjovu větev s koupí na to co již máme a udělat pomyslný nákup s tím, že se daná aukce odebere ze seznamu akcí
 [ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
 [ ] finalized - přepsat veškeré texty do angličtiny
 [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
@@ -13,7 +14,7 @@ Auction gallery:
 [ ] opravit názvy tříd
 [*] přejmenovat záložku Authors na Prodávající/kupující
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
-[ ] vyvořit testy
+[ ] vyvořit 3-4 testy
 [ ] vytvořit promotions účty a napárovat to s promotions kategoriemi
 [*] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 [*] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
