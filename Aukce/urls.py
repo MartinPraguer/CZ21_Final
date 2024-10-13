@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
+
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3

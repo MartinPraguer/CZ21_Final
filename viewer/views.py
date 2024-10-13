@@ -64,7 +64,7 @@ class SignUpView(View):
 # platebni brana a odkazy na vyzkouseni Pro předplatné: http://localhost:8000/payment/subscription/
 # Pro košík: http://localhost:8000/payment/cart/
 
-class PaymentView(View)
+class PaymentView(View):
     def get(self, request, payment_type):
         user = request.user
         cart_total_amount = 0
