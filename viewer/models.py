@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import OneToOneField, ForeignKey, CharField, DateTimeField, IntegerField, TextField, BooleanField, ImageField
+from django.utils import timezone
+from datetime import timedelta
 
 class AccountStatus(models.Model):
     account_status = CharField(max_length=128)
@@ -82,7 +84,20 @@ class AddAuction(models.Model):
     description = TextField(default="No description provided")
     promotion = BooleanField(default=False)  # Toto pole zůstává jako nullable
     auction_start_date = DateTimeField(auto_now_add=True)
-    auction_end_date = DateTimeField(auto_now_add=True)
+    auction_end_date = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Ověření, zda je auction_start_date None, a nastavení na aktuální čas, pokud je None
+        if not self.auction_start_date:
+            self.auction_start_date = timezone.now()
+
+        # Pokud auction_end_date není nastaveno, přidáme týden k auction_start_date
+        if not self.auction_end_date:
+            self.auction_end_date = self.auction_start_date + timedelta(weeks=1)
+
+        super().save(*args, **kwargs)
+
+
     number_of_views = IntegerField(default=0)
     created = DateTimeField(auto_now_add=True)
 

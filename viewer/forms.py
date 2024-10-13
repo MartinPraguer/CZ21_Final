@@ -71,6 +71,7 @@ class AddAuctionForm(ModelForm):
             'previous_price': forms.HiddenInput(),
             'number_of_views': forms.HiddenInput(),
             'promotion': forms.HiddenInput(),
+            'auction_end_date': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
