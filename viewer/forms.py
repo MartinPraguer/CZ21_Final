@@ -2,7 +2,7 @@ from django import forms
 from viewer.models import Bid
 
 from viewer.models import AddAuction
-from viewer.models import AddAuction
+from viewer.models import AddAuction, UserAccounts, AccountType
 from django.forms import ModelForm
 from django.forms import (
   CharField, DateField, Form, IntegerField, ModelChoiceField, Textarea, SelectDateWidget
@@ -10,26 +10,57 @@ from django.forms import (
 import re
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
 from django.db.transaction import atomic
-from django.forms import CharField, Form, Textarea, EmailField
-from viewer.models import Profile
+from django.forms import CharField, Form, Textarea, EmailField, ModelForm
+from viewer.models import Profile, AccountStatus, AccountType
 from django.contrib.auth.models import User
 
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, help_text='Required.')
-    last_name = forms.CharField(max_length=30, required=True, help_text='Required.')
     email = forms.EmailField(max_length=254, required=True, help_text='Required. Enter a valid email address.')
+    city = forms.CharField(max_length=128, required=True)
+    address = forms.CharField(max_length=256, required=True)
+    zip_code = forms.CharField(max_length=10, required=True)
+    avatar = forms.ImageField(required=False)
+    account_type = forms.ModelChoiceField(queryset=AccountType.objects.all(), required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2', 'city', 'address', 'zip_code', 'avatar', 'account_type')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Uživatel s tímto uživatelským jménem již existuje.")
+        return username
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_active = False  # Disable account until it is confirmed via email
+        print(f"DEBUG: Username being saved: {user.username}")  # Zobrazí uživatelské jméno
         if commit:
             user.save()
+            print(f"DEBUG: User {user.username} saved successfully.")
+
+            # Přidej profil
+            profile = Profile.objects.create(
+                user=user,
+                city=self.cleaned_data['city'],
+                address=self.cleaned_data['address'],
+                zip_code=self.cleaned_data['zip_code'],
+                avatar=self.cleaned_data['avatar']
+            )
+
+            # Uložení typu účtu
+            account_type = self.cleaned_data['account_type']
+            UserAccounts.objects.create(user=user, account_type=account_type)
+
         return user
+
+class UserAccountForm(forms.ModelForm):
+    class Meta:
+        model = UserAccounts
+        fields = ['account_type']
+
+    account_type = forms.ModelChoiceField(queryset=AccountType.objects.all(), empty_label="Vyberte typ účtu")
 
 class AddAuctionForm(ModelForm):
     class Meta:
@@ -48,6 +79,8 @@ class AddAuctionForm(ModelForm):
         self.fields.pop('user_creater')  # Odebere pole 'user_creater' z formuláře
         self.fields.pop('name_bider')  # Odebere pole 'name_bider' z formuláře
         self.fields.pop('name_buyer')
+
+
 
 from django import forms
 from .models import Bid

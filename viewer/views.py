@@ -1,25 +1,54 @@
 from django.contrib.sessions.backends.base import SessionBase
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from Aukce.settings import USE_TZ
 from viewer.models import AddAuction, Category, Profile
 from viewer.forms import AddAuctionForm, SignUpForm, BidForm
 from viewer.models import AddAuction, Category, Bid
-from viewer.forms import AddAuctionForm
+from viewer.forms import AddAuctionForm, SignUpForm
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.db.models import Q
 import logging
+from django.views import View
 from django.utils import timezone
 from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, UserCreationForm)
+from django.contrib.auth import login
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from viewer.models import Profile, UserAccounts, AccountType
 
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.contrib.auth.models import User
 
-class SignUpView(CreateView):
-    form_class = SignUpForm
-    success_url = reverse_lazy('login')  # Po úspěšné registraci přesměruje na stránku přihlášení
-    template_name = 'sign_up.html'
+class SignUpView(View):
+    def get(self, request):
+        form = SignUpForm()
+        return render(request, 'sign_up.html', {'form': form})
 
+    def post(self, request):
+        form = SignUpForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                username = form.cleaned_data.get('username')
+                if User.objects.filter(username=username).exists():
+                    form.add_error('username', 'Uživatel s tímto jménem již existuje.')
+                else:
+                    user = form.save()
+
+                    # Zde použij vybraný typ účtu z formuláře
+                    account_type = form.cleaned_data.get('account_type')
+                    UserAccounts.objects.create(user=user, account_type=account_type)
+
+                    login(request, user)
+                    return redirect('login')
+
+            except IntegrityError:
+                form.add_error('username', 'Uživatel s tímto jménem již existuje.')
+
+        return render(request, 'sign_up.html', {'form': form})
 # def hello(request, s):
 #     return HttpResponse(f'AHOJ {s}')
 

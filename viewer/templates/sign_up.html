@@ -2,11 +2,26 @@
 
 {% block content %}
   <div class="container">
-    <h2>Sign Up</h2>
-    <form method="post">
+    <h2>Registrace</h2>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        <ul>
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="form-group">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary">Registrovat</button>
     </form>
+
+    <p><a href="{% url 'login' %}">Máte již účet? Přihlaste se.</a></p>
   </div>
 {% endblock %}

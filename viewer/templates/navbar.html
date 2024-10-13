@@ -1,0 +1,18 @@
+<!-- navbar.html -->
+{% load static %}
+<nav>
+    {% if user.is_authenticated %}
+        <p>Přihlášen jako {{ user.username }}</p>
+
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="user-avatar" width="50" height="50">
+        {% else %}
+            <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50">
+        {% endif %}
+
+        <a href="{% url 'logout' %}">Odhlásit se</a>
+    {% else %}
+        <a href="{% url 'login' %}">Přihlásit se</a>
+        <a href="{% url 'sign_up' %}">Registrovat se</a>
+    {% endif %}
+</nav>

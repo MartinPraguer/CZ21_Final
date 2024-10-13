@@ -14,13 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+"""
+URL configuration for Aukce project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
 from django.contrib import admin
 from django.urls import path, include
 from viewer.views import Add_auctionView, Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, search, podrobne_hledani, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list
-from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction, Cart
+from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Auction, Cart, Profile
 from viewer import views
 
 from viewer.views import Add_auctionDetailView
@@ -38,7 +54,7 @@ admin.site.register(Category)
 admin.site.register(AddAuction)
 admin.site.register(Auction)
 admin.site.register(Cart)
-
+admin.site.register(Profile)
 
 urlpatterns = [
     path("admin/", admin.site.urls),

@@ -4,20 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py">
+    <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="readme opravit nazvy trid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/scripts/populate_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/scripts/populate_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/jewelry.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/jewelry.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/numismatics.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/numismatics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/paintings.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/paintings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/statues.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/statues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/sign_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/sign_up.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,33 +69,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
-    &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/static&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "django.template.preview.state": "SHOW_EDITOR",
+    "git-widget-placeholder": "develop-Martin",
+    "last_opened_file_path": "C:/Users/Andrun/PycharmProjects/CZ21_Final/media/avatars",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Andrun\PycharmProjects\CZ21_Final\media\avatars" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\scripts" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates" />
-      <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Andrun\PycharmProjects\CZ21_Final\viewer\static" />
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\static" />
     </key>
   </component>
@@ -393,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728586365677</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="readme opravit nazvy trid">
+      <option name="closed" value="true" />
+      <created>1728747655286</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1728747655286</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,7 +454,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Logo a favicon" />
     <MESSAGE value="částečně rozpracované podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="hotové podrobne_hledani - urls.py, views.py, podrobne_hledani.html" />
     <MESSAGE value="zfunčnit Obrazy-Numismatika obrázky přes obrázky a Zobrazit&#10;zfunkčnit odkazy pod názvem Aukční galerie" />
@@ -474,6 +479,7 @@
     <MESSAGE value="změna views.py, urls.py, statues.html, nově auction_list.html, login a sign png" />
     <MESSAGE value="fix: detalu aukce" />
     <MESSAGE value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Vylepšení detailu aukce, úprava models, views, a tvorba populate_data.py" />
+    <MESSAGE value="readme opravit nazvy trid" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme opravit nazvy trid" />
   </component>
 </project>
