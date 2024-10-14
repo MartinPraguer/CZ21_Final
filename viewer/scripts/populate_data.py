@@ -25,12 +25,17 @@ def random_auction_dates():
 def create_random_bids_and_buy_now(auction, users):
     if auction.auction_type == 'place_bid':
         num_bids = random.randint(5, 10)  # 5 až 10 náhodných příhozů
+        current_price = auction.start_price  # Začínáme od počáteční ceny
         for _ in range(num_bids):
             user = random.choice(users)
-            bid_amount = auction.start_price + random.randint(100, 1000)  # Náhodný příhoz
-            Bid.objects.create(auction=auction, user=user, amount=bid_amount)
+            # Přidáme minimální příhoz (minimum_bid) k aktuální ceně a k tomu náhodné zvýšení
+            bid_increment = random.randint(auction.minimum_bid, auction.minimum_bid + 1000)
+            current_price += bid_increment  # Nová celková cena po příhozu
+
+            # Vytvoříme nový příhoz
+            Bid.objects.create(auction=auction, user=user, amount=bid_increment)
             auction.name_bider = user  # Nastavení posledního přihazujícího
-            auction.price = bid_amount  # Aktualizace ceny
+            auction.price = current_price  # Aktualizace ceny
             auction.save()
     elif auction.auction_type == 'buy_now':
         user = random.choice(users)

@@ -951,6 +951,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib import messages
 
+
 class AddAuctionCreateView(CreateView):
     model = AddAuction
     form_class = AddAuctionForm
@@ -958,7 +959,64 @@ class AddAuctionCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Přidej do kontextu informaci, zda je uživatel přihlášen
+
+        # Získání všech kategorií (případně můžeš změnit na konkrétní kategorii)
+        category = Category.objects.all()
+
+        # Získání aktuálního času
+        current_time = timezone.now()
+
+        # Filtrujte pouze aukce s kategorií a aukcemi typu "Buy Now", které ještě neskončily
+        buy_now_add_auction = AddAuction.objects.filter(
+            auction_type='buy_now',
+            auction_end_date__gt=current_time
+        ).order_by("-created")
+
+        # Aukce s propagací, které nejsou "Buy Now"
+        promotion_add_auction = AddAuction.objects.filter(
+            promotion=True,
+            auction_type='place_bid',
+            auction_end_date__gt=current_time
+        ).order_by("-created")
+
+        # Aukce bez propagace, které nejsou "Buy Now"
+        no_promotion_add_auction = AddAuction.objects.filter(
+            promotion=False,
+            auction_type='place_bid',
+            auction_end_date__gt=current_time
+        ).order_by("-created")
+
+        # Vytvoření paginatoru pro jednotlivé aukce
+        paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
+        paginator_promotion = Paginator(promotion_add_auction, 8)
+        paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
+
+        # Získání čísla stránky z `self.request.GET`
+        page_number = self.request.GET.get('page')
+
+        # Získání aukcí pro konkrétní stránku
+        buy_now_page_obj = paginator_buy_now.get_page(page_number)
+        promotion_page_obj = paginator_promotion.get_page(page_number)
+        no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+        # Přepočítáme zbývající čas u každé aukce po stránkování
+        for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+            for auction in auction_list:
+                if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                    time_left = auction.auction_end_date - timezone.now()
+                    auction.days_left = time_left.days
+                    auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                    auction.minutes_left, _ = divmod(remainder, 60)
+                else:
+                    auction.days_left = auction.hours_left = auction.minutes_left = 0
+
+        # Přidání dat do kontextu
+        context['page_name'] = 'Last auction'
+        context['buy_now_page_obj'] = buy_now_page_obj
+        context['promotion_page_obj'] = promotion_page_obj
+        context['no_promotion_page_obj'] = no_promotion_page_obj
+
+        # Informace o přihlášení uživatele
         context['user_authenticated'] = self.request.user.is_authenticated
         return context
 
@@ -971,6 +1029,7 @@ class AddAuctionCreateView(CreateView):
         # Pokud je uživatel přihlášen, nastavíme ho jako tvůrce aukce
         form.instance.user_creator = self.request.user
         auction = form.save()  # Uloží aukci a přiřadí ji k proměnné
+
         # Přesměrování na stránku úspěchu s předáním ID aukce
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
