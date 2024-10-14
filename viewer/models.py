@@ -136,9 +136,10 @@ class AddAuction(models.Model):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
 class Bid(models.Model):
-    auction = models.ForeignKey(AddAuction, related_name='bids', on_delete=models.CASCADE)
+    auction = models.ForeignKey('AddAuction', related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Příhoz uživatele
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Cena po přičtení tohoto příhozu
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

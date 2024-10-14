@@ -581,7 +581,7 @@ def auction_detail(request, pk):
     auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
 
     if auction_expired:
-        time_left = None  # Aukce vypršela, není zbývající čas
+        time_left = None
     else:
         # Výpočet zbývajícího času
         time_left = auction.auction_end_date - timezone.now()
@@ -590,19 +590,9 @@ def auction_detail(request, pk):
         minutes, seconds = divmod(remainder, 60)
 
     if request.method == 'POST':
-        # Kontrola, zda je uživatel přihlášen
         if not request.user.is_authenticated:
-            return redirect('login')  # Přesměruje nepřihlášeného uživatele na přihlašovací stránku
+            return redirect('login')
 
-        # Pokud aukce vypršela, zobrazíme chybovou zprávu a zamezíme příhozu nebo koupi
-        if auction_expired:
-            return render(request, 'add_auction_detail.html', {
-                'auction': auction,
-                'bids': bids,
-                'error_message': 'Tato aukce již vypršela. Není možné přidávat příhozy ani koupit položku.'
-            })
-
-        # Logika pro "Place Bid" typ aukce
         new_bid_value = request.POST.get('new_bid')
 
         if new_bid_value:
@@ -615,28 +605,31 @@ def auction_detail(request, pk):
                     'error_message': 'Prosím zadejte platnou částku příhozu.'
                 })
 
-            # Kontrola minimálního příhozu
             if auction.minimum_bid and new_bid < auction.minimum_bid:
                 return render(request, 'add_auction_detail.html', {
                     'auction': auction,
                     'bids': bids,
-                    'error_message': f'You placed a lower than minimum bid. Minimum bid is {auction.minimum_bid} Kč.'
+                    'error_message': f'Your bid is lower than the minimum bid. Minimum bid is {auction.minimum_bid} Kč.'
                 })
 
             # Pokud aukce nemá žádnou cenu, začínáme se start_price
             if auction.price is None:
                 auction.price = auction.start_price
 
+            # Nastavení previous_price na aktuální cenu
             auction.previous_price = auction.price
-            auction.price += new_bid  # Zvýšíme cenu o nový příhoz
 
-            # Uložíme nový příhoz pouze pro přihlášené uživatele
-            if request.user.is_authenticated:
-                Bid.objects.create(auction=auction, user=request.user, amount=new_bid)
-                auction.name_bider = request.user  # Nastavení posledního přihazujícího
-                auction.save()
-            else:
-                return redirect('login')
+            # Zvýšení ceny o nový příhoz
+            auction.price += new_bid
+
+            # Uložení nového příhozu s cenou po příhozu
+            Bid.objects.create(auction=auction, user=request.user, amount=new_bid, price=auction.price)
+
+            # Nastavení posledního přihazujícího
+            auction.name_bider = request.user
+
+            # Uložení aukce s novou cenou
+            auction.save()
 
             return redirect('add_auction-detail', pk=auction.pk)
 
@@ -647,11 +640,10 @@ def auction_detail(request, pk):
                 'error_message': 'Musíte zadat částku příhozu.'
             })
 
-    # Předejte proměnné do šablony
     return render(request, 'add_auction_detail.html', {
         'auction': auction,
         'bids': bids,
-        'auction_expired': auction_expired,  # Informace o vypršení aukce
+        'auction_expired': auction_expired,
         'days': days if not auction_expired else 0,
         'hours': hours if not auction_expired else 0,
         'minutes': minutes if not auction_expired else 0

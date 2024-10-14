@@ -72,7 +72,7 @@
             <tbody>
                 {% for bid in bids %}
                 <tr>
-                    <td>{{ auction.price }}</td>
+                    <td>{{ bid.price }}</td>
                     <td>{{ bid.amount }} Kč</td>
                     <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
                     <td>{{ bid.user }}</td>
