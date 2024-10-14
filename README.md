@@ -1,6 +1,7 @@
 Auction gallery:
 
-
+[*] fix populační dat, aby správně ukazovaly příhozy
+[ ] někam se vytratila přeškrknutá cena z Place bid
 [*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 [*] opravit, aby nešla dát částka pod minimální příhoz
 [*] users list a detail uživatelů
@@ -14,13 +15,13 @@ Auction gallery:
 [ ] opravit názvy tříd
 [*] přejmenovat záložku Authors na Prodávající/kupující
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
-[ ] vyvořit 3-4 testy
+[*-] vyvořit 3-4 testy - ještě to zkorigovat
 [ ] vytvořit promotions účty a napárovat to s promotions kategoriemi
 [*] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 [*] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
 [*] nejde mi rozjet routa cart_view
 [*] nefunguje Back to Add Auctions - návrat z detailu aukce
-[ ] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
+[*] stránka přidání nových aukcí nezobrazuje poslední přidané aukce
 [*] pokazilo se vyhledávání
 [*] někde se pokazilo přihazování na detailu aukce
 [-] pokazila se add_auction_add stránka, tak ji opravit - jedeme už add_action_form
