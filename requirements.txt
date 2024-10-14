@@ -1,6 +1,7 @@
 django_extensions
 pillow
 pip install stripe
+selenium
 
 pip install coverage
 coverage run --source='.' manage.py test
