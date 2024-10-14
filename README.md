@@ -1,10 +1,11 @@
 Auction gallery:
 
-[ ] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
+[ ] testovat, testovat, testovat
+[*] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
 [ ] zelené buy now rozbijí logiku nákupu u již skončených aukcí, jde je přidat do košíku
 [*] je potřeba fixnout zobrazení vícero obrázků u aukce, aby to jelo konzistentně
 [*] fix populační dat, aby správně ukazovaly příhozy
-[ ] někam se vytratila přeškrknutá cena z Place bid
+[*] někam se vytratila přeškrknutá cena z Place bid
 [*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 [*] opravit, aby nešla dát částka pod minimální příhoz
 [*] users list a detail uživatelů
@@ -14,8 +15,8 @@ Auction gallery:
 [ ] finalized - přepsat veškeré texty do angličtiny
 [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
 [ ] finalized - odstranit z html kódu poznámky
-[ ] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py
-[ ] opravit názvy tříd
+[*-] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
+[*] opravit názvy tříd
 [*] přejmenovat záložku Authors na Prodávající/kupující
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
 [*-] vyvořit 3-4 testy - ještě to zkorigovat
@@ -39,7 +40,7 @@ Auction gallery:
 [ ] pořešit hlavy soch
 [*] přidat, aby šlo přidávat vícero obrázku k jedné aukci
 [*] pokazily se obrázky velkých kategorií, tak to opravit
-[-] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie - už nevím jak jsem to myslel
+[ ] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie - už nevím jak jsem to myslel
 [-] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
 [*] udělat košík a koupi produktu
 [ ] udělat hodnocení nákupu - prodávající/kupující
