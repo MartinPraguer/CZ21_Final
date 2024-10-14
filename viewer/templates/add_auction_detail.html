@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+    
 <!-- Zobrazení obrázků pro danou aukci -->
 {% if auction.images.all %}
     <h3>Images:</h3>
     <div>
         {% for image in auction.images.all %}
-            <img src="{{ image.image.url }}" alt="Image for {{ auction.name_auction }}" style="width: 300px; height: auto;">
+            <a href="{{ image.image.url }}" data-lightbox="auction-images"><img src="{{ image.image.url }}" alt="Image for {{ auction.name_auction }}" style="width: 300px; height: auto;"></a>
         {% endfor %}
     </div>
 {% else %}
@@ -87,4 +88,6 @@
 
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    
 {% endblock %}
