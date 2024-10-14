@@ -50,7 +50,6 @@
   });
 </script>
 
-
 <style>
     /* Wrapper for centering all content */
     .center-wrapper {
@@ -67,8 +66,8 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         display: inline-block;
         margin: 15px;
-        vertical-align: top; /* This ensures inline-block elements align properly */
-        width: 250px; /* Fixed width to make them align neatly */
+        vertical-align: top;
+        width: 250px;
     }
 
     .pagination {
@@ -81,6 +80,26 @@
         transform: scale(1.02);
         transition: transform 0.2s ease-in-out;
     }
+
+    /* Slideshow */
+    .slideshow-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Obrázky mají pevnou velikost */
+    .slideshow-image {
+        width: 100%; /* Pevná šířka obrázku */
+        height: 200px; /* Pevná výška obrázku */
+        object-fit: cover; /* Obrázky se přizpůsobí a oříznou, aby zapadly do velikosti */
+        display: none; /* Skryjeme obrázky, které nejsou aktivní */
+        border-radius: 5px;
+    }
+
+    /* Aktivní obrázek */
+    .slideshow-image.active {
+        display: block;
+    }
 </style>
 
 <!-- Start of centered content wrapper -->
@@ -92,13 +111,21 @@
         {% for add_auction in promotion_page_obj %}
             <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white promotion-auction">
                 <div class="u-container-layout u-similar-container u-container-layout-2">
-                    {% if add_auction.photo %}
+
+                    <!-- Zobrazení obrázků pro aukci (slideshow) -->
+                    {% if add_auction.images.all %}
                         <a href="{% url 'add_auction-detail' add_auction.pk %}">
-                            <img class="u-expanded-width u-image u-image-default u-image-2" alt="" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                            <!-- Slideshow kontejner pro tuto aukci -->
+                            <div class="slideshow-container" id="slideshow-{{ add_auction.pk }}">
+                                {% for image in add_auction.images.all %}
+                                    <img class="slideshow-image" alt="Image for {{ add_auction.name_auction }}" src="{{ image.image.url }}">
+                                {% endfor %}
+                            </div>
                         </a>
                     {% else %}
                         <p>No image available</p>
                     {% endif %}
+
                     <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                     <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
 
@@ -147,13 +174,21 @@
         {% for add_auction in buy_now_page_obj %}
             <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white buy-now-auction">
                 <div class="u-container-layout u-similar-container u-container-layout-2">
-                    {% if add_auction.photo %}
+
+                    <!-- Zobrazení obrázků pro aukci (slideshow) -->
+                    {% if add_auction.images.all %}
                         <a href="{% url 'add_auction-detail' add_auction.pk %}">
-                            <img class="u-expanded-width u-image u-image-default u-image-2" alt="" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                            <!-- Slideshow kontejner pro tuto aukci -->
+                            <div class="slideshow-container" id="slideshow-{{ add_auction.pk }}">
+                                {% for image in add_auction.images.all %}
+                                    <img class="slideshow-image" alt="Image for {{ add_auction.name_auction }}" src="{{ image.image.url }}">
+                                {% endfor %}
+                            </div>
                         </a>
                     {% else %}
                         <p>No image available</p>
                     {% endif %}
+
                     <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                     <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now_price|price_format }} Kč</p>
 
@@ -170,7 +205,7 @@
                         {% endif %}
                     </p>
 
-                    <p class="u-align-center u-text u-text-8"><a href="{% url 'cart_view' %}?add_auction_id={{ auction.id }}" class="btn btn-success">Buy Now</a></p>
+                    <p class="u-align-center u-text u-text-8"><a href="{% url 'cart_view' %}?add_auction_id={{ add_auction.id }}" class="btn btn-success">Buy Now</a></p>
                     {% if user.is_superuser %}
                     <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                     <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
@@ -202,13 +237,21 @@
         {% for add_auction in no_promotion_page_obj %}
             <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
                 <div class="u-container-layout u-similar-container u-container-layout-2">
-                    {% if add_auction.photo %}
+
+                    <!-- Zobrazení obrázků pro aukci (slideshow) -->
+                    {% if add_auction.images.all %}
                         <a href="{% url 'add_auction-detail' add_auction.pk %}">
-                            <img class="u-expanded-width u-image u-image-default u-image-2" alt="" src="{{ add_auction.photo.url }}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                            <!-- Slideshow kontejner pro tuto aukci -->
+                            <div class="slideshow-container" id="slideshow-{{ add_auction.pk }}">
+                                {% for image in add_auction.images.all %}
+                                    <img class="slideshow-image" alt="Image for {{ add_auction.name_auction }}" src="{{ image.image.url }}">
+                                {% endfor %}
+                            </div>
                         </a>
                     {% else %}
                         <p>No image available</p>
                     {% endif %}
+
                     <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
                     <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
 
@@ -259,24 +302,27 @@
 </div> <!-- End of centered content wrapper -->
 
 <script>
-    // Uložit pozici při kliknutí na stránkovací odkazy
     document.addEventListener('DOMContentLoaded', function() {
-        const paginationLinks = document.querySelectorAll('.pagination a');
+        const slideshows = document.querySelectorAll('[id^="slideshow-"]');
 
-        paginationLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // Uložit aktuální scroll pozici do localStorage
-                localStorage.setItem('scrollPosition', window.scrollY);
-            });
+        slideshows.forEach(function(slideshow) {
+            let images = slideshow.querySelectorAll('.slideshow-image');
+            let index = 0;
+
+            // Funkce pro přepínání obrázků
+            function showNextImage() {
+                images.forEach(img => img.classList.remove('active')); // Skryjeme všechny obrázky
+                index = (index + 1) % images.length; // Přepneme na další obrázek
+                images[index].classList.add('active'); // Zobrazíme další obrázek
+            }
+
+            // Zobrazíme první obrázek na začátku
+            images[0].classList.add('active');
+
+            // Spustíme slideshow, změní obrázek každé 3 sekundy
+            setInterval(showNextImage, 3000);
         });
-
-        // Obnovit pozici při načtení stránky
-        const scrollPosition = localStorage.getItem('scrollPosition');
-        if (scrollPosition) {
-            window.scrollTo(0, scrollPosition);
-            // Odstranit uloženou pozici, aby se nepoužila při dalších změnách stránek
-            localStorage.removeItem('scrollPosition');
-        }
     });
 </script>
+
 {% endblock %}

@@ -1,5 +1,6 @@
 Auction gallery:
 
+[*] je potřeba fixnout zobrazení vícero obrázků u aukce, aby to jelo konzistentně
 [*] fix populační dat, aby správně ukazovaly příhozy
 [ ] někam se vytratila přeškrknutá cena z Place bid
 [*] aby nešlo vytvářet aukci nepřihlášeným uživatelem
