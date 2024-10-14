@@ -7,7 +7,7 @@
     <h3>Created Auctions:</h3>
     <ul>
         {% for auction in created_auctions %}
-            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</li>
+            <li><a href="{% url 'add_auction-detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</a></li>
         {% empty %}
             <li>No auctions created</li>
         {% endfor %}
@@ -16,7 +16,7 @@
     <h3>Bided Auctions:</h3>
     <ul>
         {% for auction in bided_auctions %}
-            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Current Bid: {{ auction.price }})</li>
+            <li><a href="{% url 'add_auction-detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Current Bid: {{ auction.price }})</a></li>
         {% empty %}
             <li>No auctions bided</li>
         {% endfor %}
@@ -25,7 +25,7 @@
     <h3>Bought Auctions:</h3>
     <ul>
         {% for auction in bought_auctions %}
-            <li>{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</li>
+            <li><a href="{% url 'add_auction-detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
         {% empty %}
             <li>No auctions bought</li>
         {% endfor %}
