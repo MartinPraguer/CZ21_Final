@@ -1,5 +1,6 @@
 Auction gallery:
 
+[] pri prihlaseni umoznit uzivateli, aby si upravil profil
 [ ] testovat, testovat, testovat
 [*] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
 [ ] zelené buy now rozbijí logiku nákupu u již skončených aukcí, jde je přidat do košíku
@@ -20,7 +21,7 @@ Auction gallery:
 [*] přejmenovat záložku Authors na Prodávající/kupující
 [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
 [*-] vyvořit 3-4 testy - ještě to zkorigovat
-[ ] vytvořit promotions účty a napárovat to s promotions kategoriemi
+[ ] vytvořit premium ucet a napárovat to s promotions kategoriemi
 [*] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 [*] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
 [*] nejde mi rozjet routa cart_view
@@ -74,4 +75,4 @@ Auction gallery:
 [*] vkládání nabídky
 [*] přehled aukcí např. 10
 [ ] návrh od konzultanta, pouze na zvážení - volba měny, lupička na přiblížení detailu malby, šperku, sochy; forma dodání, faktura, dodání kam - fakturační adresa stejná jako místo dodání, osobní odběr, jestli je to na firmu, takže IČO a DIČO, možnost platby - převodem, paypal, kartou, při doručení, připojištění zásilky, možnost osobní prohlídky po dobou aukce, možnost konzultace ohledně ceny díla, kontaktní adresy, děláme něco mezi aukrem a galerií umění, jak je ošetřené kurátory štengrování při falešné bidování, doklad o pravosti díla za příplatek
-
+[*] počet kliknutí nefunguje
