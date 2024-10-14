@@ -28,31 +28,50 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import AddAuction
 from .models import AddAuction, AuctionImage
+from django.db import transaction
+from viewer.models import Profile
+from django.http import HttpResponseForbidden
 
 
+
+
+from django.db import transaction  # Přidej tento import
 
 class SignUpView(View):
     def get(self, request):
         form = SignUpForm()
         return render(request, 'sign_up.html', {'form': form})
 
+    @transaction.atomic  # Přidej atomic blok, aby všechny operace byly buď úspěšné, nebo se vrátí zpět
     def post(self, request):
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 user = form.save(commit=False)
 
+                # Uložení uživatele před vytvořením dalších objektů
+                user.save()  # Uložíme uživatele do databáze, aby s ním šlo pracovat
+
                 # Vybraný typ účtu z formuláře
                 account_type = form.cleaned_data.get('account_type')
 
                 # Zkontroluj, zda již existuje záznam v UserAccounts
                 if not UserAccounts.objects.filter(user=user).exists():
-                    user.save()
+                    # Vytvoříme UserAccounts po uložení uživatele
                     user_account = UserAccounts.objects.create(user=user, account_type=account_type)
 
                     # Pokud uživatel vybere prémiový účet, nastav předplatné
                     if account_type.account_type == 'Premium':
                         user_account.set_premium_subscription()
+
+                    # Vytvoříme také profil uživatele
+                    Profile.objects.create(
+                        user=user,
+                        city=form.cleaned_data['city'],
+                        address=form.cleaned_data['address'],
+                        zip_code=form.cleaned_data['zip_code'],
+                        avatar=form.cleaned_data.get('avatar')  # Volitelné, pokud je avatar vyplněn
+                    )
 
                     login(request, user)  # Automatické přihlášení po registraci
                     return redirect('index')
@@ -793,16 +812,22 @@ def create_auction(request):
     if request.method == 'POST':
         form = AddAuctionForm(request.POST, request.FILES)
         if form.is_valid():
-            auction = form.save(commit=False)  # Vytvoří instanci, ale neuloží ji do databáze
-            auction.user = request.user  # Nastaví aktuálního přihlášeného uživatele
-            auction.save()  # Uloží aukci s připojeným uživatelem
-            return redirect('auction_success')  # Přesměrování po úspěšném vytvoření
+            auction = form.save(commit=False)
+            auction.user_creator = request.user  # Nastavení uživatele, který aukci vytvořil
+
+            # Kontrola, zda je uživatel Premium
+            user_account = UserAccounts.objects.get(user=request.user)
+            if user_account.account_type.account_type == 'Premium':
+                auction.promotion = True  # Automatická propagace pro Premium uživatele
+            else:
+                auction.promotion = False  # Běžní uživatelé nemají propagaci
+
+            auction.save()  # Uložení aukce
+            return redirect('auction_success')
     else:
         form = AddAuctionForm()
 
-    # Předání posledních aukcí do šablony
-    last_auctions = AddAuction.objects.order_by("-created")[:12]
-    return render(request, 'add_auction_form.html', {'form': form, 'last_auctions': last_auctions})
+    return render(request, 'add_auction_form.html', {'form': form})
 
 
 class AddAuctionCreateView(CreateView):
@@ -811,84 +836,78 @@ class AddAuctionCreateView(CreateView):
     template_name = 'add_auction_form.html'
 
     def get_context_data(self, **kwargs):
+        # Získání původního kontextu z nadřazené třídy
         context = super().get_context_data(**kwargs)
-
-        # Získání všech kategorií (případně můžeš změnit na konkrétní kategorii)
-        category = Category.objects.all()
 
         # Získání aktuálního času
         current_time = timezone.now()
 
-        # Filtrujte pouze aukce s kategorií a aukcemi typu "Buy Now", které ještě neskončily
+        # Filtr pro zobrazení různých typů aukcí (Buy Now, Promotion, No Promotion)
         buy_now_add_auction = AddAuction.objects.filter(
             auction_type='buy_now',
-            auction_end_date__gt=current_time
+            auction_end_date__gt=current_time  # Aukce, které neskončily
         ).order_by("-created")
 
-        # Aukce s propagací, které nejsou "Buy Now"
         promotion_add_auction = AddAuction.objects.filter(
             promotion=True,
             auction_type='place_bid',
             auction_end_date__gt=current_time
         ).order_by("-created")
 
-        # Aukce bez propagace, které nejsou "Buy Now"
         no_promotion_add_auction = AddAuction.objects.filter(
             promotion=False,
             auction_type='place_bid',
-            auction_end_date__gt=current_time  # Opraveno: odstraněn znak $
+            auction_end_date__gt=current_time
         ).order_by("-created")
 
-        # Vytvoření paginatoru pro jednotlivé aukce
+        # Paginator pro jednotlivé aukce
         paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
         paginator_promotion = Paginator(promotion_add_auction, 8)
         paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
 
-        # Získání čísla stránky z `self.request.GET`
+        # Získání čísla stránky z požadavku GET
         page_number = self.request.GET.get('page')
 
-        # Získání aukcí pro konkrétní stránku
+        # Aukce pro zobrazení na dané stránce
         buy_now_page_obj = paginator_buy_now.get_page(page_number)
         promotion_page_obj = paginator_promotion.get_page(page_number)
         no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
 
-        # Přepočítáme zbývající čas u každé aukce po stránkování
-        for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
-            for auction in auction_list:
-                if auction.auction_end_date and auction.auction_end_date > timezone.now():
-                    time_left = auction.auction_end_date - timezone.now()
-                    auction.days_left = time_left.days
-                    auction.hours_left, remainder = divmod(time_left.seconds, 3600)
-                    auction.minutes_left, _ = divmod(remainder, 60)
-                else:
-                    auction.days_left = auction.hours_left = auction.minutes_left = 0
-
-        # Přidání dat do kontextu
-        context['page_name'] = 'Last auction'
+        # Přidání informací o stránkování a aukcích do kontextu
         context['buy_now_page_obj'] = buy_now_page_obj
         context['promotion_page_obj'] = promotion_page_obj
         context['no_promotion_page_obj'] = no_promotion_page_obj
+        context['last_auctions'] = AddAuction.objects.order_by("-created")[:12]  # Poslední aukce
 
         # Informace o přihlášení uživatele
         context['user_authenticated'] = self.request.user.is_authenticated
+
         return context
 
     def form_valid(self, form):
-        # Pokud uživatel není přihlášen, přesměruje ho na login stránku
+        # Pokud není uživatel přihlášen, přesměrujeme ho na login stránku
         if not self.request.user.is_authenticated:
-            messages.error(self.request, "You must be logged in to create an auction.")
+            messages.error(self.request, "Musíte být přihlášeni, abyste mohli přidat aukci.")
             return redirect(reverse('login') + f"?next={self.request.path}")
 
-        # Pokud je uživatel přihlášen, nastavíme ho jako tvůrce aukce
+        # Nastavení tvůrce aukce na aktuálního přihlášeného uživatele
         form.instance.user_creator = self.request.user
-        auction = form.save()  # Uloží aukci a přiřadí ji k proměnné
+        auction = form.save(commit=False)  # Uložení aukce bez odeslání do databáze
 
-        # Zpracování více nahraných obrázků
+        # Nastavení promotion na základě typu účtu
+        if self.request.user.useraccounts.account_type.account_type == 'Premium':
+            auction.promotion = True  # Premium uživatelé mají promotion
+        else:
+            auction.promotion = False  # Obyčejní uživatelé nemají promotion
+
+        auction.save()  # Uložení aukce do databáze
+
+        # Zpracování nahraných obrázků
         images = form.cleaned_data['images']
         for image in images:
             AuctionImage.objects.create(auction=auction, image=image)
 
-        # Přesměrování na stránku úspěchu s předáním ID aukce
+        # Přesměrování na stránku úspěchu po vytvoření aukce
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
 
@@ -977,20 +996,34 @@ def auction_list3(request):
     })
 
 
+@login_required
 def list_users(request):
-    user_creator = User.objects.all()  # Získání všech uživatelů
-    return render(request, 'list_users.html', {'users': user_creator})
+    # Zjistíme, zda je uživatel Premium nebo Superuser
+    user_account = UserAccounts.objects.get(user=request.user)
+    if user_account.account_type.account_type == 'Premium' or request.user.is_superuser:
+        users = User.objects.all()  # Získání všech uživatelů
+        return render(request, 'list_users.html', {'users': users})
+    else:
+        return HttpResponseForbidden("Nemáte oprávnění pro zobrazení ostatních uživatelů.")
 
 
+
+@login_required
 def user_detail(request, user_id):
-    user = get_object_or_404(User, id=user_id)  # Získání uživatele na základě jeho ID
-    created_auctions = user.created_auctions.all()  # Aukce, které uživatel vytvořil
-    bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
-    bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
+    # Kontrola, zda je uživatel Premium nebo Superuser
+    user_account = UserAccounts.objects.get(user=request.user)
+    if user_account.account_type.account_type == 'Premium' or request.user.is_superuser:
+        user = get_object_or_404(User, id=user_id)  # Získání detailů uživatele
+        created_auctions = user.created_auctions.all()  # Aukce vytvořené uživatelem
+        bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
+        bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
 
-    return render(request, 'user_detail.html', {
-        'user': user,
-        'created_auctions': created_auctions,
-        'bided_auctions': bided_auctions,
-        'bought_auctions': bought_auctions,
-    })
+        return render(request, 'user_detail.html', {
+            'user': user,
+            'created_auctions': created_auctions,
+            'bided_auctions': bided_auctions,
+            'bought_auctions': bought_auctions,
+        })
+    else:
+        return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
+
