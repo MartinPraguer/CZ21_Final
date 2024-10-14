@@ -31,11 +31,6 @@ from .models import AddAuction, AuctionImage
 
 
 
-
-
-
-
-
 class SignUpView(View):
     def get(self, request):
         form = SignUpForm()
@@ -45,13 +40,14 @@ class SignUpView(View):
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                user = form.save()
+                user = form.save(commit=False)
 
                 # Vybraný typ účtu z formuláře
                 account_type = form.cleaned_data.get('account_type')
 
                 # Zkontroluj, zda již existuje záznam v UserAccounts
                 if not UserAccounts.objects.filter(user=user).exists():
+                    user.save()
                     user_account = UserAccounts.objects.create(user=user, account_type=account_type)
 
                     # Pokud uživatel vybere prémiový účet, nastav předplatné
@@ -59,7 +55,7 @@ class SignUpView(View):
                         user_account.set_premium_subscription()
 
                     login(request, user)  # Automatické přihlášení po registraci
-                    return redirect('login')
+                    return redirect('index')
                 else:
                     form.add_error(None, 'Uživatel již má účet.')
 

@@ -129,6 +129,7 @@
                     Contact
                 </a>
                 <a href="{% url 'cart_view' %}" class="">
+                    {{cart_count}}
                 <img alt="" src="{% static 'cart.png' %}" width="30" height="auto" class="u-image u-image-default u-image-3">
                 </a>
 
@@ -214,12 +215,9 @@
 
 
 
-
-
-
-
+<div class="container">
 {% block content %}{% endblock %}
-
+</div>
 
 {#    <section class="u-clearfix u-expanded-width-xl u-grey-10 u-section-5" id="carousel_a8f3">#}
 {#      <div class="u-clearfix u-sheet u-sheet-1">#}
