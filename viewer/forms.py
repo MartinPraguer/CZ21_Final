@@ -72,6 +72,7 @@ class AddAuctionForm(ModelForm):
             'previous_price': forms.HiddenInput(),
             'number_of_views': forms.HiddenInput(),
             'promotion': forms.HiddenInput(),
+            'auction_start_date': forms.HiddenInput(),
             'auction_end_date': forms.HiddenInput(),
         }
 
