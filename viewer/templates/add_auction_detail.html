@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-    
 <!-- Zobrazení obrázků pro danou aukci -->
 {% if auction.images.all %}
     <h3>Images:</h3>
@@ -16,7 +15,9 @@
 <h2>{{ auction.name_auction }}</h2>
 <p>Category: {{ auction.category }}</p>
 <p>Description: {{ auction.description }}</p>
-<p>Auction Creater: {{ auction.user_creator }}</p>
+
+<!-- Odkaz na detail uživatele, který vytvořil aukci -->
+<p>Auction Creater: <a href="{% url 'user_detail' auction.user_creator.id %}">{{ auction.user_creator }}</a></p>
 
 <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
 <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
@@ -33,7 +34,6 @@
     {% if auction_expired %}
         <p style="color: red;">This auction has already expired. It cannot be bought.</p>
     {% else %}
-
         <form method="post" action="{% url 'add_to_cart' auction.pk %}">
             {% csrf_token %}
             <button type="submit">Add to Cart</button>
@@ -76,7 +76,8 @@
                     <td>{{ bid.price }}</td>
                     <td>{{ bid.amount }} Kč</td>
                     <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
-                    <td>{{ bid.user }}</td>
+                    <!-- Odkaz na detail uživatele, který přihodil -->
+                    <td><a href="{% url 'user_detail' bid.user.id %}">{{ bid.user }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -88,6 +89,6 @@
 
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-    
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
 {% endblock %}
