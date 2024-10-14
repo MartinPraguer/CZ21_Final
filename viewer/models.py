@@ -88,43 +88,29 @@ class Category(models.Model):
 
 
 class AddAuction(models.Model):
-    name_auction = CharField(max_length=128)  # Zde se používá 'name_auction'
-    user_creator = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
-    name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
-    name_buyer = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True, blank=True)
-    category = ForeignKey(Category, on_delete=models.DO_NOTHING)
+    name_auction = models.CharField(max_length=128)
+    user_creator = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
+    name_bider = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True,
+                                   blank=True)
+    name_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True,
+                                   blank=True)
+    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
+    description = models.TextField(default="No description provided")
+    promotion = models.BooleanField(default=False)
 
-    # Přidání výchozí hodnoty pro popis
-    description = TextField(default="No description provided")
-    promotion = BooleanField(default=False)  # Toto pole zůstává jako nullable
-    auction_start_date = DateTimeField(auto_now_add=True)
+    # Odstranění auto_now_add a přidání logiky v save() metodě
+    auction_start_date = models.DateTimeField(null=True, blank=True)
     auction_end_date = models.DateTimeField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        # Ověření, zda je auction_start_date None, a nastavení na aktuální čas, pokud je None
-        if not self.auction_start_date:
-            self.auction_start_date = timezone.now()
-
-        # Pokud auction_end_date není nastaveno, přidáme týden k auction_start_date
-        if not self.auction_end_date:
-            self.auction_end_date = self.auction_start_date + timedelta(weeks=1)
-
-        super().save(*args, **kwargs)
-
-
-    number_of_views = IntegerField(default=0)
-    created = DateTimeField(auto_now_add=True)
+    number_of_views = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
 
     # Typ aukce
     AUCTION_TYPE_CHOICES = [
         ('buy_now', 'Buy Now'),
         ('place_bid', 'Place Bid'),
     ]
-    auction_type = models.CharField(
-        max_length=10,
-        choices=AUCTION_TYPE_CHOICES,
-        default='place_bid'
-    )
+    auction_type = models.CharField(max_length=10, choices=AUCTION_TYPE_CHOICES, default='place_bid')
 
     # "Buy Now" políčka
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -134,6 +120,17 @@ class AddAuction(models.Model):
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Pokud není zadaný čas začátku aukce, nastavíme aktuální čas
+        if not self.auction_start_date:
+            self.auction_start_date = timezone.now()
+
+        # Pokud není nastaven konec aukce, přičteme 7 dní k začátku aukce
+        if not self.auction_end_date:
+            self.auction_end_date = self.auction_start_date + timedelta(days=7)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"

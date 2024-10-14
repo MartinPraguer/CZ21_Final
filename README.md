@@ -1,5 +1,7 @@
 Auction gallery:
 
+[ ] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
+[ ] zelené buy now rozbijí logiku nákupu u již skončených aukcí, jde je přidat do košíku
 [*] je potřeba fixnout zobrazení vícero obrázků u aukce, aby to jelo konzistentně
 [*] fix populační dat, aby správně ukazovaly příhozy
 [ ] někam se vytratila přeškrknutá cena z Place bid

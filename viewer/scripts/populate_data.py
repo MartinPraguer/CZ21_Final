@@ -1,5 +1,6 @@
 # python manage.py runscript populate_data -v3
 
+import time
 import random
 import os
 from datetime import timedelta
@@ -14,14 +15,7 @@ SAVE_DIR = 'photos_add_auction/'  # Složka, kam se budou ukládat nové obrázk
 # Seznam souborů fotografií z adresáře
 photos = [f for f in os.listdir(PHOTO_DIR) if f.endswith(('.jpg', '.gif', '.png'))]
 
-# Funkce pro generování náhodného data začátku a konce aukce
-def random_auction_dates():
-    auction_start_date = timezone.now()
-    random_days = random.randint(0, 20)  # Rozmezí 0-20 dní pro aukce
-    auction_end_date = auction_start_date + timedelta(days=random_days)
-    return auction_start_date, auction_end_date
 
-# Funkce pro vytvoření náhodných příhozů (5-10) a nákupy pomocí Buy Now
 def create_random_bids_and_buy_now(auction, users):
     if auction.auction_type == 'place_bid':
         num_bids = random.randint(5, 10)  # 5 až 10 náhodných příhozů
@@ -37,9 +31,40 @@ def create_random_bids_and_buy_now(auction, users):
             auction.name_bider = user  # Nastavení posledního přihazujícího
             auction.price = current_price  # Aktualizace ceny
             auction.save()
+
+
+
+
+# Funkce pro vytvoření náhodných příhozů (5-10) a nastavení přeškrtnuté ceny
+def create_random_bids_and_buy_now(auction, users):
+    if auction.auction_type == 'place_bid':
+        num_bids = random.randint(5, 10)  # 5 až 10 náhodných příhozů
+        current_price = auction.start_price  # Začínáme od startovací ceny
+        previous_price = None  # Proměnná pro uložení předchozí ceny
+
+        for _ in range(num_bids):
+            user = random.choice(users)
+
+            # Přidáme minimální příhoz (minimum_bid) k aktuální ceně a k tomu náhodné zvýšení
+            bid_increment = random.randint(auction.minimum_bid, auction.minimum_bid + 1000)
+            current_price += bid_increment  # Nová celková cena po příhozu
+
+            # Pokud už existuje cena, uložíme ji jako předchozí
+            if auction.price:
+                previous_price = auction.price
+
+            # Uložíme aktuální cenu jako nový příhoz
+            Bid.objects.create(auction=auction, user=user, amount=bid_increment)
+
+            # Aktualizujeme aukci: nastavíme novou cenu a posledního přihazujícího
+            auction.name_bider = user
+            auction.price = current_price  # Nastavení nové aktuální ceny
+            auction.previous_price = previous_price  # Nastavení přeškrtnuté ceny (předchozí cena)
+            auction.save()
+
     elif auction.auction_type == 'buy_now':
         user = random.choice(users)
-        auction.name_buyer = user  # Uživatelem zakoupeno
+        auction.name_buyer = user  # Kupující je nastaven pouze pro aukce typu buy_now
         auction.save()
 
 # Funkce pro přidání více obrázků k aukci
@@ -108,7 +133,7 @@ def run():
     all_users = [User.objects.get_or_create(username=nick)[0] for nick in user_nicks]
     all_categories = {cat: Category.objects.get_or_create(name=cat)[0] for cat in categories}
 
-    for _ in range(100):
+    for i in range(100):
         user = random.choice(all_users)
         category = random.choice(categories)
         name_auction = random.choice(sample_names[category])
@@ -126,11 +151,18 @@ def run():
             buy_now_price = None
             start_price = random.randint(1000, 100000)
             price = start_price
-            previous_price = None
             minimum_bid = random.randint(500, 1000)
 
         promotion = random.choice([True, False])
-        auction_start_date, auction_end_date = random_auction_dates()
+
+        # Nastavení začátku aukce mezi -30 a +7 dny od teď
+        auction_start_date = timezone.now() + timedelta(days=random.randint(-7, 7))
+
+        # Trvání aukce bude 7 dnů
+        auction_end_date = auction_start_date + timedelta(days=7)
+
+        name_buyer = None  # Kupující je nastaven pouze pro aukce typu buy_now
+
         number_of_views = random.randint(0, 1000)
 
         add_auction = AddAuction(
@@ -143,11 +175,12 @@ def run():
             buy_now_price=buy_now_price,
             price=price,
             start_price=start_price,
-            previous_price=previous_price,
+            previous_price=None,
             minimum_bid=minimum_bid,
             auction_start_date=auction_start_date,
             auction_end_date=auction_end_date,
             number_of_views=number_of_views,
+            name_buyer=name_buyer
         )
 
         add_auction.save()
@@ -155,7 +188,15 @@ def run():
         # Přidání obrázků k aukci
         add_auction_images(add_auction, categorized_photos[category])
 
-        # Vytvoření náhodných příhozů a nákupu "Buy Now"
-        create_random_bids_and_buy_now(add_auction, all_users)
+        # Pokud je aukce typu 'place_bid', přidáme příhozy a nastavíme přeškrtnutou cenu
+        if auction_type == 'place_bid':
+            create_random_bids_and_buy_now(add_auction, all_users)
+
+        # Pokud je aukce typu 'buy_now', simulujeme nákup
+        if auction_type == 'buy_now':
+            create_random_bids_and_buy_now(add_auction, all_users)
+
+        # Přidání krátkého zpoždění mezi generováním aukcí (např. 0,5 až 2 sekundy)
+        time.sleep(random.uniform(0.1, 0.3))
 
     print("Data populated successfully!")
