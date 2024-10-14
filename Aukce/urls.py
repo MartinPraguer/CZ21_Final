@@ -15,8 +15,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
 from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3
@@ -62,7 +60,7 @@ urlpatterns = [
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
-    path('test/', views.my_view),
+    # path('test/', views.my_view),
     # path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),

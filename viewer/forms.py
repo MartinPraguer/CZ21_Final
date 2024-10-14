@@ -1,18 +1,16 @@
-from django import forms
-from viewer.models import Bid
-
-from viewer.models import AddAuction
-from viewer.models import AddAuction, UserAccounts, AccountType
+from viewer.models import UserAccounts
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
-from django.forms import (
-  CharField, DateField, Form, IntegerField, ModelChoiceField, Textarea, SelectDateWidget
-)
-import re
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
-from django.db.transaction import atomic
-from django.forms import CharField, Form, Textarea, EmailField, ModelForm
-from viewer.models import Profile, AccountStatus, AccountType
+from viewer.models import Profile, AccountType
 from django.contrib.auth.models import User
+from django import forms
+from .models import AddAuction, Category
+from .models import Bid
+
+
+
+
+
 
 
 class SignUpForm(UserCreationForm):
@@ -82,10 +80,6 @@ class AddAuctionForm(ModelForm):
         self.fields.pop('name_buyer')
 
 
-
-from django import forms
-from .models import Bid
-
 class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
@@ -100,8 +94,6 @@ class BidForm(forms.ModelForm):
             raise forms.ValidationError("Bid amount must be greater than 0.")
         return amount
 
-from django import forms
-from .models import AddAuction, Category
 
 class AuctionSearchForm(forms.Form):
     name_auction = forms.CharField(required=False, label='Název aukce', max_length=128)
@@ -115,35 +107,3 @@ class AuctionSearchForm(forms.Form):
     price_to = forms.DecimalField(required=False, label='Cena do', max_digits=10, decimal_places=2)
     auction_start_date_from = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku od')
     auction_start_date_to = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku do')
-
-
-
-
-
-
-
-
-# PŘETÁHNUTO Z HOLLYMOVIES
-# class MovieForm(ModelForm):
-#
-#   class Meta:
-#     model = Movie
-#     fields = '__all__'
-#
-#   #title = CharField(validators=[capitalized_validator])
-#   #rating = IntegerField(min_value=1, max_value=10)
-#   #released = PastMonthField()
-#
-#   def clean_description(self):
-#     # Každá věta bude začínat velkým písmenem
-#     initial = self.cleaned_data['description']
-#     sentences = re.sub(r'\s*\.\s*', '.', initial).split('.')
-#     return '. '.join(sentence.capitalize() for sentence in sentences)
-#
-#   def clean(self):
-#     result = super().clean()
-#     if result['genre'].name == 'commedy' and result['rating'] > 5:
-#       raise ValidationError(
-#         "Commedies aren't so good to be rated over 5."
-#       )
-#     return result

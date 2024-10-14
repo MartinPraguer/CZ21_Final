@@ -1,30 +1,37 @@
-from django.contrib.sessions.backends.base import SessionBase
-from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from Aukce.settings import USE_TZ
-from viewer.models import AddAuction, Category, Profile
-from viewer.forms import AddAuctionForm, SignUpForm, BidForm
-from viewer.models import AddAuction, Category, Bid, Cart
-from viewer.forms import AddAuctionForm, SignUpForm
-from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
+from viewer.forms import SignUpForm
+from django.views.generic import UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from django.db.models import Q
 import logging
-from django.views import View
-from django.utils import timezone
-from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, UserCreationForm)
 from django.contrib.auth import login
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from viewer.models import Profile, UserAccounts, AccountType, Cart, AddAuction
-
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError, models
-from django.contrib.auth.models import User
-import stripe
-from django.conf import settings
+from viewer.models import UserAccounts
+from django.db import IntegrityError
+from django.views import View
 from django.http import JsonResponse
+from django.conf import settings
+import stripe
+from .models import Category
+from .forms import AuctionSearchForm
+from django.db.models import Q
+from django.views.generic.detail import DetailView
+from .models import Cart
+from django.utils import timezone
+from .models import Bid
+from django.contrib.auth.decorators import login_required
+from .forms import AddAuctionForm
+from django.views.generic.edit import CreateView
+from django.urls import reverse
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from .models import AddAuction
+
+
+
+
+
 
 
 
@@ -64,11 +71,6 @@ class SignUpView(View):
 # platebni brana a odkazy na vyzkouseni Pro předplatné: http://localhost:8000/payment/subscription/
 # Pro košík: http://localhost:8000/payment/cart/
 
-from django.views import View
-from django.http import JsonResponse
-from django.conf import settings
-import stripe
-from .models import Cart
 
 class PaymentView(View):
     def get(self, request, payment_type):
@@ -152,22 +154,8 @@ def add_auction(request):
         "last_auctions": last_auctions,})
 
 
-        # 'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
-        # 'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
-        # 'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
-
-
-
 def index(request):
-    return render(request, template_name='base_4_obrazky.html', context={
-    # return render(request, template_name='add_auction.html', context={
-    #     "last_auctions": AddAuction.objects.order_by("-created")[:16],
-        # 'buy_now_add_auction': AddAuction.objects.order_by("-created").filter(buy_now=True)[:4],
-        # 'promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=True).filter(buy_now=False)[:4],
-        # 'no_promotion_add_auction': AddAuction.objects.order_by("-created").filter(promotion=False).filter(buy_now=False)[:4],
-    })
-
-
+    return render(request, template_name='base_4_obrazky.html', context={})
 
 
 def paintings(request):
@@ -177,7 +165,7 @@ def paintings(request):
     # Získání aktuálního času
     current_time = timezone.now()
 
-    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    # Filtrujte pouze inzeráty s kategorií "Paintings" a aukcemi typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         category=paintings_category,
         auction_type='buy_now',
@@ -225,15 +213,12 @@ def paintings(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     return render(request, template_name='paintings.html', context={
-        'page_name': 'Jewelry',
+        'page_name': 'Paintings',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
 
-from django.core.paginator import Paginator
-from django.utils import timezone
-from django.shortcuts import render
 
 def statues(request):
     # Získání kategorie "statues"
@@ -242,7 +227,7 @@ def statues(request):
     # Získání aktuálního času
     current_time = timezone.now()
 
-    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    # Filtrujte pouze inzeráty s kategorií "Statues" a aukcemi typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         category=statues_category,
         auction_type='buy_now',
@@ -290,17 +275,11 @@ def statues(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     return render(request, template_name='statues.html', context={
-        'page_name': 'Jewelry',
+        'page_name': 'Statues',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
-
-
-from django.core.paginator import Paginator
-from django.shortcuts import render
-from django.utils import timezone
-from .models import AddAuction, Category
 
 def jewelry(request):
     # Získání kategorie "Jewelry"
@@ -364,10 +343,6 @@ def jewelry(request):
     })
 
 
-from django.utils import timezone
-from django.shortcuts import render
-from .models import AddAuction, Category
-
 def numismatics(request):
     # Získání kategorie "Numismatics"
     numismatics_category = Category.objects.get(name="Numismatics")
@@ -375,7 +350,7 @@ def numismatics(request):
     # Získání aktuálního času
     current_time = timezone.now()
 
-    # Filtrujte pouze inzeráty s kategorií "Jewelry" a aukcemi typu "Buy Now", které ještě neskončily
+    # Filtrujte pouze inzeráty s kategorií "Numismatics" a aukcemi typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         category=numismatics_category,
         auction_type='buy_now',
@@ -423,7 +398,7 @@ def numismatics(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     return render(request, template_name='numismatics.html', context={
-        'page_name': 'Jewelry',
+        'page_name': 'Numismatics',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
@@ -444,31 +419,6 @@ def contact(request):
         "contact.html",
         context={}
     )
-
-from django.db.models import Q
-
-# def search(request):
-#     hledany_vyraz = request.GET.get('Search', '').strip()
-#     hledany_vyraz_capitalized = hledany_vyraz.capitalize()
-#
-#     return render(request, template_name='detailed_search.html', context={
-#         "searchs": AddAuction.objects.filter(
-#             Q(name_auction__icontains=hledany_vyraz) |
-#             Q(name_auction__icontains=hledany_vyraz_capitalized) |
-#             Q(description__icontains=hledany_vyraz) |
-#             Q(description__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creator__username__icontains=hledany_vyraz) |  # Filtr na username
-#             Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creator__first_name__icontains=hledany_vyraz) |  # Filtr na jméno
-#             Q(user_creator__first_name__icontains=hledany_vyraz_capitalized) |
-#             Q(user_creator__last_name__icontains=hledany_vyraz) |  # Filtr na příjmení
-#             Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
-#         )
-#     })
-from django.shortcuts import render
-from .forms import AuctionSearchForm
-from .models import AddAuction
-from django.db.models import Q
 
 
 def detailed_search(request):
@@ -544,8 +494,6 @@ def detailed_search(request):
     return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
 
 
-
-
     template_name = 'form.html'
 class Add_auctionView(TemplateView):
     template_name = 'add_auction.html'
@@ -576,19 +524,8 @@ class Add_auctionDeleteView(DeleteView):
     model = AddAuction
     success_url = reverse_lazy('add_auction')
 
-
-
 logger = logging.getLogger(__name__)
 
-def my_view(request):
-    # Zalogujte HTTP_HOST
-    logger.info(f"Received HTTP_HOST: {request.META.get('HTTP_HOST')}")
-    return HttpResponse("Hello, World!")
-
-
-from django.views.generic.detail import DetailView
-
-# zobrazení detailu konkretniho inzeratu
 
 class Add_auctionDetailView(DetailView):
     model = AddAuction
@@ -607,24 +544,6 @@ class Add_auctionDetailView(DetailView):
         add_auction.save()
         return add_auction
 
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import AddAuction, Bid
-from .forms import BidForm
-
-
-from django.utils import timezone
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404, redirect
-from .models import AddAuction, Cart
-
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import AddAuction
-
-# Funkce pro přidání do košíku
-from django.shortcuts import get_object_or_404, redirect
-from .models import AddAuction, Cart
 
 def add_to_cart(request, auction_id):
     # Kontrola, zda je uživatel přihlášen
@@ -651,38 +570,6 @@ def add_to_cart(request, auction_id):
     # Přesměrujeme uživatele na stránku košíku
     return redirect('cart_view')
 
-
-from .models import Bid
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model košíku
-
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import AddAuction, Bid, Cart  # Nezapomeňte importovat model košíku
-
-from django.utils import timezone
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib import messages
-from .models import AddAuction, Bid, Cart
-
-from django.utils import timezone
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib import messages
-from .models import AddAuction, Bid, Cart
-
-from django.utils import timezone
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib import messages
-from .models import AddAuction, Bid, Cart
-
-
-from django.utils import timezone
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib import messages
-from .models import AddAuction, Bid, Cart
-
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
-from .models import AddAuction, Bid
 
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
@@ -770,6 +657,7 @@ def auction_detail(request, pk):
         'minutes': minutes if not auction_expired else 0
     })
 
+
 # Funkce pro zobrazení a správu košíku
 def cart_view(request):
     if not request.user.is_authenticated:
@@ -802,11 +690,6 @@ def cart_view(request):
 def checkout_view(request):
     return render(request, 'checkout.html')
 
-
-
-from django.core.paginator import Paginator
-from django.utils import timezone
-from django.shortcuts import render
 
 def auction_archives(request):
     # Získání aktuálního času
@@ -916,10 +799,6 @@ def authors(request):
 def shopping_cart(request):
     return HttpResponse(f'AHOJ')
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import AddAuctionForm
-
 
 @login_required
 def create_auction(request):
@@ -936,20 +815,6 @@ def create_auction(request):
     # Předání posledních aukcí do šablony
     last_auctions = AddAuction.objects.order_by("-created")[:12]
     return render(request, 'add_auction_form.html', {'form': form, 'last_auctions': last_auctions})
-
-
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from .models import AddAuction
-from .forms import AddAuctionForm
-from django.views.generic.edit import CreateView
-from django.contrib import messages
-
-
-from django.urls import reverse
-from django.shortcuts import redirect
-from django.contrib import messages
 
 
 class AddAuctionCreateView(CreateView):
@@ -1034,12 +899,6 @@ class AddAuctionCreateView(CreateView):
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
 
-
-from django.shortcuts import render
-
-from django.shortcuts import render, get_object_or_404
-from .models import AddAuction
-
 def auction_success_view(request, pk):
     # Získej aukci na základě primárního klíče (pk)
     auction = get_object_or_404(AddAuction, pk=pk)
@@ -1047,10 +906,6 @@ def auction_success_view(request, pk):
     # Předání aukce do kontextu
     return render(request, 'auction_success.html', {'auction': auction})
 
-
-from django.core.paginator import Paginator
-from django.shortcuts import render
-from .models import AddAuction
 
 def auction_list1(request):
     # Získání všech aukcí pro kategorii numismatika
@@ -1079,7 +934,6 @@ def auction_list1(request):
         'no_promotion_page_obj': no_promotion_page_obj,
     }
     return render(request, 'auction_list1.html', context)
-
 
 
 def auction_list2(request):
@@ -1111,9 +965,6 @@ def auction_list2(request):
     return render(request, 'auction_list2.html', context)
 
 
-from django.core.paginator import Paginator
-
-
 def auction_list3(request):
     # Předpokládám, že máš aukce uložené ve 'buy_now_add_auctions', 'promotion_add_auctions' a 'no_promotion_add_auctions'
 
@@ -1132,17 +983,10 @@ def auction_list3(request):
         'page_obj': page_obj,  # Pošli objekt s paginací do šablony
     })
 
-from django.contrib.auth.models import User
-from django.shortcuts import render
 
 def list_users(request):
     user_creator = User.objects.all()  # Získání všech uživatelů
     return render(request, 'list_users.html', {'users': user_creator})
-
-
-from django.contrib.auth.models import User
-from .models import AddAuction
-from django.shortcuts import render, get_object_or_404
 
 
 def user_detail(request, user_id):
@@ -1157,42 +1001,3 @@ def user_detail(request, user_id):
         'bided_auctions': bided_auctions,
         'bought_auctions': bought_auctions,
     })
-
-
-
-# STÁHNUTO OD MARTINA Z SDACIA
-# def pridat_inzerat(request):
-#     # Pokud je požadavek typu POST, zpracujeme data z formuláře
-#     if request.method == 'POST':
-#         popis = request.POST.get('popis')
-#         znacka_id = request.POST.get('znacka')
-#         karoserie_id = request.POST.get('karoserie')
-#         vykon = request.POST.get('vykon')
-#         rok_vyroby = request.POST.get('rok_vyroby')
-#         cena = request.POST.get('cena')
-#
-#         # Vytvoření nového inzerátu a uložení do databáze
-#         inzerat = Inzeraty(
-#             popis=popis,
-#             znacka_id=znacka_id,
-#             karoserie_id=karoserie_id,
-#             vykon=vykon,
-#             rok_vyroby=rok_vyroby,
-#             cena=cena,
-#             datum_pridani=datetime.now()
-#         )
-#         inzerat.save()
-#
-#         # Přesměrování zpět na hlavní stránku nebo kdekoliv je to potřeba
-#         return redirect('index')
-#
-#     # Pokud je požadavek typu GET, zobrazíme formulář
-#     znacky = ZnackyAut.objects.all()
-#     karoserie = TypKaroserie.objects.all()
-#
-#     return render(request, template_name='pridat_inzerat.html', context={
-#         'znacky': znacky,
-#         'karoserie': karoserie
-#     })
-
-
