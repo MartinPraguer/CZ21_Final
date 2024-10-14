@@ -30,7 +30,7 @@
         margin-top: 20px;
     }
 
-    .buy-now-auction:hover, .promotion-auction:hover {
+    .buy-now-auction:hover, .promotion-auction:hover, .without-promotion-auction:hover{
         transform: scale(1.02);
         transition: transform 0.2s ease-in-out;
     }
@@ -195,7 +195,7 @@
     <h3>Without promotion:</h3>
     <div class="add_auction-container">
         {% for add_auction in no_promotion_page_obj %}
-            <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white">
+            <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white without-promotion-auction">
                 <div class="u-container-layout u-similar-container u-container-layout-2">
 
                     <!-- Zobrazení obrázků pro aukci (slideshow) -->
