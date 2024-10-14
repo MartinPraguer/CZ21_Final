@@ -39,7 +39,7 @@ def create_random_bids_and_buy_now(auction, users):
 def create_random_bids_and_buy_now(auction, users):
     if auction.auction_type == 'place_bid':
         num_bids = random.randint(5, 10)  # 5 až 10 náhodných příhozů
-        current_price = auction.start_price  # Začínáme od startovací ceny
+        current_price = auction.start_price  # Začínáme od počáteční ceny
         previous_price = None  # Proměnná pro uložení předchozí ceny
 
         for _ in range(num_bids):
@@ -49,18 +49,23 @@ def create_random_bids_and_buy_now(auction, users):
             bid_increment = random.randint(auction.minimum_bid, auction.minimum_bid + 1000)
             current_price += bid_increment  # Nová celková cena po příhozu
 
-            # Pokud už existuje cena, uložíme ji jako předchozí
-            if auction.price:
-                previous_price = auction.price
-
             # Uložíme aktuální cenu jako nový příhoz
-            Bid.objects.create(auction=auction, user=user, amount=bid_increment)
+            Bid.objects.create(
+                auction=auction,
+                user=user,
+                amount=bid_increment,
+                price=current_price,  # Nastavení ceny po příhozu
+                timestamp=timezone.now()  # Přidání času příhozu
+            )
 
             # Aktualizujeme aukci: nastavíme novou cenu a posledního přihazujícího
             auction.name_bider = user
             auction.price = current_price  # Nastavení nové aktuální ceny
             auction.previous_price = previous_price  # Nastavení přeškrtnuté ceny (předchozí cena)
             auction.save()
+
+            # Uložíme aktuální cenu jako předchozí pro další příhoz
+            previous_price = auction.price
 
     elif auction.auction_type == 'buy_now':
         user = random.choice(users)
