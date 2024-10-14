@@ -51,6 +51,9 @@
     {% if auction_expired %}
         <p style="color: red;">The auction has already ended. It is not possible to add more bids.</p>
     {% else %}
+        {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
             <label for="new_bid">Your Bid:</label>
@@ -89,6 +92,28 @@
 
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
+        <script>
+    // Uložit pozici při kliknutí na stránkovací odkazy
+    document.addEventListener('DOMContentLoaded', function() {
+        const paginationLinks = document.querySelectorAll('.pagination a');
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Uložit aktuální scroll pozici do localStorage
+                localStorage.setItem('scrollPosition', window.scrollY);
+            });
+        });
+
+        // Obnovit pozici při načtení stránky
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            // Odstranit uloženou pozici, aby se nepoužila při dalších změnách stránek
+            localStorage.removeItem('scrollPosition');
+        }
+    });
+</script>    
+    
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
 {% endblock %}
