@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import AddAuction, Category
 from .models import Bid
-
+from multiupload.fields import MultiFileField
 
 
 
@@ -61,9 +61,12 @@ class UserAccountForm(forms.ModelForm):
     account_type = forms.ModelChoiceField(queryset=AccountType.objects.all(), empty_label="Vyberte typ účtu")
 
 class AddAuctionForm(ModelForm):
+    # Použití MultiFileField pro nahrávání více obrázků
+    images = MultiFileField(min_num=1, max_num=10, max_file_size=1024*1024*5)  # Limity souborů
+
     class Meta:
         model = AddAuction
-        fields = '__all__'  # Zahrnuje všechna pole
+        fields = '__all__'  # Zahrnuje všechna pole z modelu AddAuction
         widgets = {
             'price': forms.HiddenInput(),
             'previous_price': forms.HiddenInput(),
@@ -77,7 +80,7 @@ class AddAuctionForm(ModelForm):
         # Zajištění, že pole 'user_creator', 'name_bider', a 'name_buyer' nejsou zahrnuta ve formuláři
         self.fields.pop('user_creator')  # Odebere pole 'user_creator' z formuláře
         self.fields.pop('name_bider')  # Odebere pole 'name_bider' z formuláře
-        self.fields.pop('name_buyer')
+        self.fields.pop('name_buyer')  # Odebere pole 'name_buyer' z formuláře
 
 
 class BidForm(forms.ModelForm):

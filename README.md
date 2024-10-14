@@ -34,7 +34,7 @@ Auction gallery:
 [*] ukázat kolik zbývá času do konce aukce
 [*] na stránce probíhající akce udělat forcyklus přidaných příhozů
 [ ] pořešit hlavy soch
-[ ] přidat, aby šlo přidávat vícero obrázku k jedné aukci
+[*] přidat, aby šlo přidávat vícero obrázku k jedné aukci
 [*] pokazily se obrázky velkých kategorií, tak to opravit
 [-] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie - už nevím jak jsem to myslel
 [-] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce

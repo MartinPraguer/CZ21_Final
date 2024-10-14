@@ -88,7 +88,6 @@ class Category(models.Model):
 
 
 class AddAuction(models.Model):
-    photo = ImageField(upload_to='photos/')
     name_auction = CharField(max_length=128)  # Zde se používá 'name_auction'
     user_creator = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
     name_bider = ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
@@ -172,3 +171,10 @@ class Cart(models.Model):
     def get_cart_total(cls, user):
         total = cls.objects.filter(user=user).aggregate(Sum('price'))['price__sum']
         return total or 0
+
+class AuctionImage(models.Model):
+    auction = models.ForeignKey(AddAuction, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='auction_images/')
+
+    def __str__(self):
+        return f"Image for {self.auction.name_auction}"

@@ -16,9 +16,9 @@
 <!-- Formulář pro přihlášené uživatele -->
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- Vykreslení všech polí formuláře -->
-    
-    <button type="submit" {% if not user_authenticated %}disabled{% endif %}>Create Auction</button>
+    {{ form.as_p }}
+    <input type="file" name="images" multiple>
+    <button type="submit">Create Auction</button>
 </form>
 
 <!-- Zpráva pro nepřihlášené uživatele -->
@@ -49,7 +49,7 @@
     toggleFields();  // Spustí se při načtení stránky a nastaví pole podle výběru
   });
 </script>
-    
+
 
 <style>
     /* Wrapper for centering all content */

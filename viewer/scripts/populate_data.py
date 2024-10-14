@@ -4,7 +4,7 @@ import random
 import os
 from datetime import timedelta
 from django.utils import timezone
-from viewer.models import AddAuction, User, Category, Bid
+from viewer.models import AddAuction, User, Category, Bid, AuctionImage
 from django.core.files import File
 
 # Nastavení cesty k adresáři s fotografiemi
@@ -41,6 +41,18 @@ def create_random_bids_and_buy_now(auction, users):
         user = random.choice(users)
         auction.name_buyer = user  # Uživatelem zakoupeno
         auction.save()
+
+# Funkce pro přidání více obrázků k aukci
+def add_auction_images(auction, category_photos):
+    num_images = random.randint(1, 1)  # Přidáme 1 až 3 obrázky pro každou aukci
+    selected_photos = random.sample(category_photos, num_images)  # Náhodný výběr obrázků z kategorie
+
+    for photo in selected_photos:
+        photo_path = os.path.join(PHOTO_DIR, photo)
+        if os.path.exists(photo_path):
+            with open(photo_path, 'rb') as photo_file:
+                auction_image = AuctionImage(auction=auction)
+                auction_image.image.save(os.path.join(SAVE_DIR, photo), File(photo_file), save=True)
 
 # Funkce `run()` jako vstupní bod skriptu
 def run():
@@ -121,34 +133,29 @@ def run():
         auction_start_date, auction_end_date = random_auction_dates()
         number_of_views = random.randint(0, 1000)
 
-        if categorized_photos[category]:
-            random_photo = random.choice(categorized_photos[category])
-            photo_path = os.path.join(PHOTO_DIR, random_photo)
+        add_auction = AddAuction(
+            user_creator=user,
+            category=all_categories[category],
+            name_auction=name_auction,
+            description=description,
+            promotion=promotion,
+            auction_type=auction_type,
+            buy_now_price=buy_now_price,
+            price=price,
+            start_price=start_price,
+            previous_price=previous_price,
+            minimum_bid=minimum_bid,
+            auction_start_date=auction_start_date,
+            auction_end_date=auction_end_date,
+            number_of_views=number_of_views,
+        )
 
-            add_auction = AddAuction(
-                user_creator=user,
-                category=all_categories[category],
-                name_auction=name_auction,
-                description=description,
-                promotion=promotion,
-                auction_type=auction_type,
-                buy_now_price=buy_now_price,
-                price=price,
-                start_price=start_price,
-                previous_price=previous_price,
-                minimum_bid=minimum_bid,
-                auction_start_date=auction_start_date,
-                auction_end_date=auction_end_date,
-                number_of_views=number_of_views,
-            )
+        add_auction.save()
 
-            if os.path.exists(photo_path):
-                with open(photo_path, 'rb') as photo_file:
-                    add_auction.photo.save(os.path.join(SAVE_DIR, random_photo), File(photo_file), save=True)
+        # Přidání obrázků k aukci
+        add_auction_images(add_auction, categorized_photos[category])
 
-            add_auction.save()
-
-            # Vytvoření náhodných příhozů a nákupu "Buy Now"
-            create_random_bids_and_buy_now(add_auction, all_users)
+        # Vytvoření náhodných příhozů a nákupu "Buy Now"
+        create_random_bids_and_buy_now(add_auction, all_users)
 
     print("Data populated successfully!")

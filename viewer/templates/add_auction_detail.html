@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<img src="{{ auction.photo.url }}" alt="Image for {{ auction.name }}">
+<!-- Zobrazení obrázků pro danou aukci -->
+{% if auction.images.all %}
+    <h3>Images:</h3>
+    <div>
+        {% for image in auction.images.all %}
+            <img src="{{ image.image.url }}" alt="Image for {{ auction.name_auction }}" style="width: 300px; height: auto;">
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No images for this auction.</p>
+{% endif %}
 <h2>{{ auction.name_auction }}</h2>
 <p>Category: {{ auction.category }}</p>
 <p>Description: {{ auction.description }}</p>

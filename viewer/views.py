@@ -27,7 +27,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import AddAuction
-
+from .models import AddAuction, AuctionImage
 
 
 
@@ -848,7 +848,7 @@ class AddAuctionCreateView(CreateView):
         no_promotion_add_auction = AddAuction.objects.filter(
             promotion=False,
             auction_type='place_bid',
-            auction_end_date__gt=current_time
+            auction_end_date__gt=current_time  # Opraveno: odstraněn znak $
         ).order_by("-created")
 
         # Vytvoření paginatoru pro jednotlivé aukce
@@ -894,6 +894,11 @@ class AddAuctionCreateView(CreateView):
         # Pokud je uživatel přihlášen, nastavíme ho jako tvůrce aukce
         form.instance.user_creator = self.request.user
         auction = form.save()  # Uloží aukci a přiřadí ji k proměnné
+
+        # Zpracování více nahraných obrázků
+        images = form.cleaned_data['images']
+        for image in images:
+            AuctionImage.objects.create(auction=auction, image=image)
 
         # Přesměrování na stránku úspěchu s předáním ID aukce
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
