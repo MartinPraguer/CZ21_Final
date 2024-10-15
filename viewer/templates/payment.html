@@ -31,6 +31,16 @@
 
 </form>
     <button type="submit" id="checkout-button">
-        Test pay button
+        Payment
     </button>
+    <br>
+    <br>
+    <br>
+    <form method="POST" action="{% url 'pay_button' %}">
+    {% csrf_token %}
+    <button type="submit">Test pay button</button>
+</form>
+    
+    
+    
 {% endblock %}

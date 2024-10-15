@@ -24,6 +24,7 @@ class UserAccounts(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_premium = models.BooleanField(default=False)
     premium_expiry_date = models.DateField(null=True, blank=True)
+    purchase_count = models.PositiveIntegerField(default=0)  # Nové pole pro počet nákupů
 
     def __str__(self):
         return f"{self.user.username} - {self.account_type}"
@@ -135,6 +136,16 @@ class AddAuction(models.Model):
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
+    def is_sold(self):
+        """Metoda, která vrací True, pokud aukce má přiřazeného kupujícího."""
+        return self.name_buyer is not None
+
+    def is_active(self):
+        """Metoda vrací True, pokud aukce ještě neskončila."""
+        return self.auction_end_date is None or self.auction_end_date > timezone.now()
+
+
+
 class Bid(models.Model):
     auction = models.ForeignKey('AddAuction', related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -176,3 +187,12 @@ class AuctionImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.auction.name_auction}"
+
+class ArchivedPurchase(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    purchased_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Archived purchase: {self.auction.name_auction} by {self.user.username}"

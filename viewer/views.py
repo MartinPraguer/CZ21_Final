@@ -47,7 +47,52 @@ from django.db import transaction  # Přidej tento import
 
 
 
+from django.shortcuts import redirect
+from .models import Cart, ArchivedPurchase, UserAccounts
+from django.contrib.auth.decorators import login_required
 
+
+
+def success_page(request):
+    return render(request, 'success.html')
+
+
+@login_required
+def pay_button(request):
+    if request.method == 'POST':
+        user = request.user
+        cart_items = Cart.objects.filter(user=user)
+
+        if not cart_items.exists():
+            # Pokud je košík prázdný, přesměruj uživatele zpět
+            return redirect('cart_page')
+
+        # Přesuneme položky z košíku do archivovaných nákupů
+        for item in cart_items:
+            # Vytvoříme záznam v Archivovaných položkách
+            ArchivedPurchase.objects.create(
+                user=user,
+                auction=item.auction,
+                price=item.price
+            )
+
+            # Označíme aukci jako zakoupenou (pokud máš nějaký takový příznak)
+            auction = item.auction
+            auction.name_buyer = user  # Uložíme uživatele jako kupujícího
+            auction.auction_end_date = timezone.now()  # Ukončíme aukci
+            auction.save()
+
+        # Vymažeme položky z košíku
+        cart_items.delete()
+
+        # Zvýšíme počet nákupů uživatele
+        user_account = UserAccounts.objects.get(user=user)
+        user_account.purchase_count += 1
+        user_account.save()
+
+        return redirect('success')  # Přesměruj na stránku potvrzení
+
+    return redirect('cart')
 
 
 class SignUpView(View):
@@ -594,25 +639,38 @@ def current_auctions(request):
     # Získání aktuálního času
     current_time = timezone.now()
 
+    # Přesun aukcí, kterým vypršel čas, do archivovaných, pokud nejsou prodané
+    expired_auctions = AddAuction.objects.filter(auction_end_date__lte=current_time, is_sold=False)
+    for auction in expired_auctions:
+        # Pokud aukce není v archivu, přesuneme ji
+        if not ArchivedPurchase.objects.filter(auction=auction).exists():
+            ArchivedPurchase.objects.create(
+                user=auction.name_buyer,  # Nebo ponechej prázdné, pokud není kupující
+                auction=auction,
+                price=auction.price
+            )
+        auction.is_sold = True
+        auction.save()
+
     # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         auction_type='buy_now',
         auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+    ).order_by("auction_end_date")
 
     # Aukce s propagací, které nejsou "Buy Now", a ještě neskončily
     promotion_add_auction = AddAuction.objects.filter(
         promotion=True,
         auction_type='place_bid',
         auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+    ).order_by("auction_end_date")
 
     # Aukce bez propagace, které nejsou "Buy Now", a ještě neskončily
     no_promotion_add_auction = AddAuction.objects.filter(
         promotion=False,
         auction_type='place_bid',
         auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+    ).order_by("auction_end_date")
 
     # Vytvoření paginatoru pro jednotlivé aukce
     paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
@@ -630,8 +688,8 @@ def current_auctions(request):
     # Přepočítáme zbývající čas u každé aukce po stránkování
     for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
         for auction in auction_list:
-            if auction.auction_end_date and auction.auction_end_date > timezone.now():
-                time_left = auction.auction_end_date - timezone.now()
+            if auction.auction_end_date and auction.auction_end_date > current_time:
+                time_left = auction.auction_end_date - current_time
                 auction.days_left = time_left.days
                 auction.hours_left, remainder = divmod(time_left.seconds, 3600)
                 auction.minutes_left, _ = divmod(remainder, 60)

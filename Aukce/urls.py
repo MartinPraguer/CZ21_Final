@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AddauctionUpdateView, AddauctionDeleteView, AddauctionView, current_auctions, auction_archives, authors
-from viewer.views import index, about, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, last_auction
+from viewer.views import index, about, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page, last_auction
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
@@ -79,7 +79,8 @@ urlpatterns = [
     path('users/<int:user_id>/', user_detail, name='user_detail'),
     path('cart/', views.cart_view, name='cart_view'),  # URL pro zobrazení košíku
     path('checkout/', views.PaymentView.as_view(), name='checkout'),  # URL pro platbu
-
+    path('pay/', views.pay_button, name='pay_button'),
+    path('success/', views.success_page, name='success_page'),
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
