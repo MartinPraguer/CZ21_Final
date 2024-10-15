@@ -1,3 +1,5 @@
+# ŘAZENÍ OD ZADU (zhruba): index, about, 4 kategorie, current_auction, auction_archives, last_auction, auction_form, auction_detail, detail_search....
+
 from django.http import HttpResponse
 from viewer.forms import SignUpForm
 from django.views.generic import UpdateView, DeleteView, TemplateView
@@ -34,7 +36,7 @@ from django.http import HttpResponseForbidden
 from django.db import transaction  # Přidej tento import
 
 
-# ŘAZENÍ OD ZADU (zhruba): index, 4 kategorie, current_auction, auction_archives, actuel_auction, auction_form,
+
 
 
 
@@ -173,134 +175,62 @@ class PaymentView(View):
         return JsonResponse({'id': session.id})
 
 
-def add_auction(request):
-    last_auctions = AddAuction.objects.all() #.order_by("-created")[:16]
-    print(last_auctions)  # Debug: zjistit, jestli jsou nějaké aukce
-    return render(request, template_name='base_4_obrazky.html', context={
-        "last_auctions": last_auctions,})
-
-
-
-
-
-
-
-
-
-def about(request):
-    return render(
-        request,
-        "about.html",
-        context={}
-    )
-
-def contact(request):
-    return render(
-        request,
-        "contact.html",
-        context={}
-    )
-
-
-def detailed_search(request):
-    hledany_vyraz = request.GET.get('Search', '').strip()
-    hledany_vyraz_capitalized = hledany_vyraz.capitalize()
-
-    form = AuctionSearchForm(request.GET or None)
-    auctions = AddAuction.objects.all()
-
-    if form.is_valid():
-        # Filtrace podle názvu aukce (pomocí formuláře)
-        name_auction = form.cleaned_data.get('name_auction')
-        if name_auction:
-            auctions = auctions.filter(Q(name_auction__icontains=name_auction))
-
-        # Filtrace podle kategorie
-        category = form.cleaned_data.get('category')
-        if category:
-            auctions = auctions.filter(category=category)
-
-        # Filtrace podle typu aukce
-        auction_type = form.cleaned_data.get('auction_type')
-        if auction_type:
-            auctions = auctions.filter(auction_type=auction_type)
-
-        # Filtrace podle ceny
-        price_from = form.cleaned_data.get('price_from')
-        price_to = form.cleaned_data.get('price_to')
-        if price_from:
-            auctions = auctions.filter(price__gte=price_from)
-        if price_to:
-            auctions = auctions.filter(price__lte=price_to)
-
-        # Filtrace podle ceny Buy Now
-        buy_now_price_from = form.cleaned_data.get('buy_now_price_from')
-        buy_now_price_to = form.cleaned_data.get('buy_now_price_to')
-        if buy_now_price_from:
-            auctions = auctions.filter(buy_now_price__gte=buy_now_price_from)
-        if buy_now_price_to:
-            auctions = auctions.filter(buy_now_price__lte=buy_now_price_to)
-
-        # Filtrace podle data začátku aukce
-        auction_start_date_from = form.cleaned_data.get('auction_start_date_from')
-        auction_start_date_to = form.cleaned_data.get('auction_start_date_to')
-        if auction_start_date_from:
-            auctions = auctions.filter(auction_start_date__gte=auction_start_date_from)
-        if auction_start_date_to:
-            auctions = auctions.filter(auction_start_date__lte=auction_start_date_to)
-
-        # Filtrace podle data konce aukce
-        auction_end_date_from = form.cleaned_data.get('auction_end_date_from')
-        auction_end_date_to = form.cleaned_data.get('auction_end_date_to')
-        if auction_end_date_from:
-            auctions = auctions.filter(auction_end_date__gte=auction_end_date_from)
-        if auction_end_date_to:
-            auctions = auctions.filter(auction_end_date__lte=auction_end_date_to)
-
-    # Filtrace podle hledaného výrazu (search)
-    if hledany_vyraz:
-        auctions = auctions.filter(
-            Q(name_auction__icontains=hledany_vyraz) |
-            Q(name_auction__icontains=hledany_vyraz_capitalized) |
-            Q(description__icontains=hledany_vyraz) |
-            Q(description__icontains=hledany_vyraz_capitalized) |
-            Q(user_creator__username__icontains=hledany_vyraz) |
-            Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
-            Q(user_creator__first_name__icontains=hledany_vyraz) |  # Opravený zápis
-            Q(user_creator__first_name__icontains=hledany_vyraz_capitalized) |  # Opravený zápis
-            Q(user_creator__last_name__icontains=hledany_vyraz) |
-            Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
-        )
-
-    return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
-
-
     template_name = 'form.html'
-class Add_auctionView(TemplateView):
+class AddauctionView(TemplateView):
     template_name = 'add_auction.html'
     extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
-class Add_auctionCreateView(CreateView):
+
+class AddAuctionCreateView(CreateView):
     model = AddAuction
     form_class = AddAuctionForm
-    template_name = 'add_auction_add.html'  # Název vaší šablony
-    success_url = reverse_lazy('add_auction_create')  # Přesměrování po úspěšném vytvoření záznamu
+    template_name = 'add_auction_form.html'
 
     def get_context_data(self, **kwargs):
-        # Přidání dalších dat do kontextu
+        # Získání původního kontextu z nadřazené třídy
         context = super().get_context_data(**kwargs)
-        context['last_auctions'] = AddAuction.objects.order_by("-created")[:12]
+
+                # Informace o přihlášení uživatele
+        context['user_authenticated'] = self.request.user.is_authenticated
+
         return context
-    template_name = 'add_auction_form.html'
-    form_class = AddAuctionForm
-    success_url = reverse_lazy('add_auction')
-class Add_auctionUpdateView(UpdateView):
+
+    def form_valid(self, form):
+        # Pokud není uživatel přihlášen, přesměrujeme ho na login stránku
+        if not self.request.user.is_authenticated:
+            messages.error(self.request, "Musíte být přihlášeni, abyste mohli přidat aukci.")
+            return redirect(reverse('login') + f"?next={self.request.path}")
+
+        # Nastavení tvůrce aukce na aktuálního přihlášeného uživatele
+        form.instance.user_creator = self.request.user
+        auction = form.save(commit=False)  # Uložení aukce bez odeslání do databáze
+
+        # Nastavení promotion na základě typu účtu
+        if self.request.user.useraccounts.account_type.account_type == 'Premium':
+            auction.promotion = True  # Premium uživatelé mají promotion
+        else:
+            auction.promotion = False  # Obyčejní uživatelé nemají promotion
+
+        auction.save()  # Uložení aukce do databáze
+
+        # Zpracování nahraných obrázků
+        images = form.cleaned_data['images']
+        for image in images:
+            AuctionImage.objects.create(auction=auction, image=image)
+
+        # Přesměrování na stránku úspěchu po vytvoření aukce
+        return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
+
+
+class AddauctionUpdateView(UpdateView):
     template_name = 'add_auction_form.html'
     model = AddAuction
     form_class = AddAuctionForm
     model = AddAuction
     form_class = AddAuctionForm
     success_url = reverse_lazy('add_auction')
-class Add_auctionDeleteView(DeleteView):
+
+
+class AddauctionDeleteView(DeleteView):
     template_name = 'add_auction_form.html'
     model = AddAuction
     success_url = reverse_lazy('add_auction')
@@ -308,11 +238,7 @@ class Add_auctionDeleteView(DeleteView):
 logger = logging.getLogger(__name__)
 
 
-class Add_auctionDetailView(DetailView):
-    model = AddAuction
-    template_name = 'add_auction_detail.html'
-    context_object_name = 'add_auction'
-class Add_auctionDetailView(DetailView):
+class AddauctionDetailView(DetailView):
     model = AddAuction
     template_name = 'add_auction_detail.html'
     context_object_name = 'add_auction'
@@ -388,112 +314,8 @@ def checkout_view(request):
     return render(request, 'checkout.html')
 
 
-def auction_archives(request):
-    # Získání aktuálního času
-    current_time = timezone.now()
-
-    # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které již skončily
-    buy_now_add_auction = AddAuction.objects.filter(auction_type='buy_now', auction_end_date__lt=current_time).order_by("-created")
-
-    # Aukce s propagací, které nejsou "Buy Now", které již skončily
-    promotion_add_auction = AddAuction.objects.filter(promotion=True, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
-
-    # Aukce bez propagace, které nejsou "Buy Now", které již skončily
-    no_promotion_add_auction = AddAuction.objects.filter(promotion=False, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
-
-    # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
-    paginator_promotion = Paginator(promotion_add_auction, 8)
-    paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
-
-    # Získání čísla stránky
-    page_number = request.GET.get('page')
-
-    # Získání aukcí pro konkrétní stránku
-    buy_now_page_obj = paginator_buy_now.get_page(page_number)
-    promotion_page_obj = paginator_promotion.get_page(page_number)
-    no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
-
-    # Přepočítáme zbývající čas u každé aukce po stránkování
-    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
-        for auction in auction_list:
-            if auction.auction_end_date and auction.auction_end_date > timezone.now():
-                time_left = auction.auction_end_date - timezone.now()
-                auction.days_left = time_left.days
-                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
-                auction.minutes_left, _ = divmod(remainder, 60)
-            else:
-                auction.days_left = auction.hours_left = auction.minutes_left = 0
-
-    # Předejte název stránky
-    return render(request, template_name='auction_archives.html', context={
-        'page_name': 'Auction Archives',  # Předání názvu stránky
-        'buy_now_page_obj': buy_now_page_obj,
-        'promotion_page_obj': promotion_page_obj,
-        'no_promotion_page_obj': no_promotion_page_obj
-    })
-
-def current_auctions(request):
-    # Získání aktuálního času
-    current_time = timezone.now()
-
-    # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které ještě neskončily
-    buy_now_add_auction = AddAuction.objects.filter(
-        auction_type='buy_now',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
-
-    # Aukce s propagací, které nejsou "Buy Now", a ještě neskončily
-    promotion_add_auction = AddAuction.objects.filter(
-        promotion=True,
-        auction_type='place_bid',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
-
-    # Aukce bez propagace, které nejsou "Buy Now", a ještě neskončily
-    no_promotion_add_auction = AddAuction.objects.filter(
-        promotion=False,
-        auction_type='place_bid',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
-    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
-
-    # Vytvoření paginatoru pro jednotlivé aukce
-    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
-    paginator_promotion = Paginator(promotion_add_auction, 8)
-    paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
-
-    # Získání čísla stránky
-    page_number = request.GET.get('page')
-
-    # Získání aukcí pro konkrétní stránku
-    buy_now_page_obj = paginator_buy_now.get_page(page_number)
-    promotion_page_obj = paginator_promotion.get_page(page_number)
-    no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
-
-    # Přepočítáme zbývající čas u každé aukce po stránkování
-    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
-        for auction in auction_list:
-            if auction.auction_end_date and auction.auction_end_date > timezone.now():
-                time_left = auction.auction_end_date - timezone.now()
-                auction.days_left = time_left.days
-                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
-                auction.minutes_left, _ = divmod(remainder, 60)
-            else:
-                auction.days_left = auction.hours_left = auction.minutes_left = 0
-
-    # Předejte název stránky
-    return render(request, template_name='current_auctions.html', context={
-        'page_name': 'Current Auctions',  # Předání názvu stránky
-        'buy_now_page_obj': buy_now_page_obj,
-        'promotion_page_obj': promotion_page_obj,
-        'no_promotion_page_obj': no_promotion_page_obj
-    })
-
 
 def authors(request):
-    return HttpResponse(f'AHOJ')
-
-def shopping_cart(request):
     return HttpResponse(f'AHOJ')
 
 
@@ -520,45 +342,6 @@ def create_auction(request):
     return render(request, 'add_auction_form.html', {'form': form})
 
 
-class AddAuctionCreateView(CreateView):
-    model = AddAuction
-    form_class = AddAuctionForm
-    template_name = 'add_auction_form.html'
-
-    def get_context_data(self, **kwargs):
-        # Získání původního kontextu z nadřazené třídy
-        context = super().get_context_data(**kwargs)
-
-                # Informace o přihlášení uživatele
-        context['user_authenticated'] = self.request.user.is_authenticated
-
-        return context
-
-    def form_valid(self, form):
-        # Pokud není uživatel přihlášen, přesměrujeme ho na login stránku
-        if not self.request.user.is_authenticated:
-            messages.error(self.request, "Musíte být přihlášeni, abyste mohli přidat aukci.")
-            return redirect(reverse('login') + f"?next={self.request.path}")
-
-        # Nastavení tvůrce aukce na aktuálního přihlášeného uživatele
-        form.instance.user_creator = self.request.user
-        auction = form.save(commit=False)  # Uložení aukce bez odeslání do databáze
-
-        # Nastavení promotion na základě typu účtu
-        if self.request.user.useraccounts.account_type.account_type == 'Premium':
-            auction.promotion = True  # Premium uživatelé mají promotion
-        else:
-            auction.promotion = False  # Obyčejní uživatelé nemají promotion
-
-        auction.save()  # Uložení aukce do databáze
-
-        # Zpracování nahraných obrázků
-        images = form.cleaned_data['images']
-        for image in images:
-            AuctionImage.objects.create(auction=auction, image=image)
-
-        # Přesměrování na stránku úspěchu po vytvoření aukce
-        return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
 
 def auction_success_view(request, pk):
@@ -569,81 +352,7 @@ def auction_success_view(request, pk):
     return render(request, 'auction_success.html', {'auction': auction})
 
 
-def auction_list1(request):
-    # Získání všech aukcí pro kategorii numismatika
-    buy_now_auctions = AddAuction.objects.filter(auction_type='buy_now')
-    promotion_auctions = AddAuction.objects.filter(promotion=True)
-    no_promotion_auctions = AddAuction.objects.filter(promotion=False)
 
-    # Stránkování pro každou sadu aukcí
-    paginator_buy_now = Paginator(buy_now_auctions, 8)  # 5 aukcí na stránku
-    paginator_promotion = Paginator(promotion_auctions, 8)
-    paginator_no_promotion = Paginator(no_promotion_auctions, 8)
-
-    # Získáme číslo aktuální stránky
-    page_number_buy_now = request.GET.get('buy_now_page', 1)
-    page_number_promotion = request.GET.get('promotion_page', 1)
-    page_number_no_promotion = request.GET.get('no_promotion_page', 1)
-
-    # Získáme aukce pro aktuální stránku
-    buy_now_page_obj = paginator_buy_now.get_page(page_number_buy_now)
-    promotion_page_obj = paginator_promotion.get_page(page_number_promotion)
-    no_promotion_page_obj = paginator_no_promotion.get_page(page_number_no_promotion)
-
-    context = {
-        'buy_now_page_obj': buy_now_page_obj,
-        'promotion_page_obj': promotion_page_obj,
-        'no_promotion_page_obj': no_promotion_page_obj,
-    }
-    return render(request, 'auction_list1.html', context)
-
-
-def auction_list2(request):
-    # Získání všech aukcí pro kategorii numismatika
-    buy_now_auctions = AddAuction.objects.filter(auction_type='buy_now')
-    promotion_auctions = AddAuction.objects.filter(promotion=True)
-    no_promotion_auctions = AddAuction.objects.filter(promotion=False)
-
-    # Stránkování pro každou sadu aukcí
-    paginator_buy_now = Paginator(buy_now_auctions, 8)  # 5 aukcí na stránku
-    paginator_promotion = Paginator(promotion_auctions, 8)
-    paginator_no_promotion = Paginator(no_promotion_auctions, 8)
-
-    # Získáme číslo aktuální stránky
-    page_number_buy_now = request.GET.get('buy_now_page', 1)
-    page_number_promotion = request.GET.get('promotion_page', 1)
-    page_number_no_promotion = request.GET.get('no_promotion_page', 1)
-
-    # Získáme aukce pro aktuální stránku
-    buy_now_page_obj = paginator_buy_now.get_page(page_number_buy_now)
-    promotion_page_obj = paginator_promotion.get_page(page_number_promotion)
-    no_promotion_page_obj = paginator_no_promotion.get_page(page_number_no_promotion)
-
-    context = {
-        'buy_now_page_obj': buy_now_page_obj,
-        'promotion_page_obj': promotion_page_obj,
-        'no_promotion_page_obj': no_promotion_page_obj,
-    }
-    return render(request, 'auction_list2.html', context)
-
-
-def auction_list3(request):
-    # Předpokládám, že máš aukce uložené ve 'buy_now_add_auctions', 'promotion_add_auctions' a 'no_promotion_add_auctions'
-
-    auctions = AddAuction.objects.all()  # Tvůj dotaz pro získání všech aukcí
-
-    # Získáme číslo stránky z parametru GET
-    page_number = request.GET.get('page', 1)  # Default na první stránku
-
-    # Nastav paginátor (např. 10 aukcí na stránku)
-    paginator = Paginator(auctions, 10)
-
-    # Získáme aukce pro aktuální stránku
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'auction_list3.html', {
-        'page_obj': page_obj,  # Pošli objekt s paginací do šablony
-    })
 
 
 @login_required
@@ -677,6 +386,78 @@ def user_detail(request, user_id):
     else:
         return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
 
+
+def detailed_search(request):
+    hledany_vyraz = request.GET.get('Search', '').strip()
+    hledany_vyraz_capitalized = hledany_vyraz.capitalize()
+
+    form = AuctionSearchForm(request.GET or None)
+    auctions = AddAuction.objects.all()
+
+    if form.is_valid():
+        # Filtrace podle názvu aukce (pomocí formuláře)
+        name_auction = form.cleaned_data.get('name_auction')
+        if name_auction:
+            auctions = auctions.filter(Q(name_auction__icontains=name_auction))
+
+        # Filtrace podle kategorie
+        category = form.cleaned_data.get('category')
+        if category:
+            auctions = auctions.filter(category=category)
+
+        # Filtrace podle typu aukce
+        auction_type = form.cleaned_data.get('auction_type')
+        if auction_type:
+            auctions = auctions.filter(auction_type=auction_type)
+
+        # Filtrace podle ceny
+        price_from = form.cleaned_data.get('price_from')
+        price_to = form.cleaned_data.get('price_to')
+        if price_from:
+            auctions = auctions.filter(price__gte=price_from)
+        if price_to:
+            auctions = auctions.filter(price__lte=price_to)
+
+        # Filtrace podle ceny Buy Now
+        buy_now_price_from = form.cleaned_data.get('buy_now_price_from')
+        buy_now_price_to = form.cleaned_data.get('buy_now_price_to')
+        if buy_now_price_from:
+            auctions = auctions.filter(buy_now_price__gte=buy_now_price_from)
+        if buy_now_price_to:
+            auctions = auctions.filter(buy_now_price__lte=buy_now_price_to)
+
+        # Filtrace podle data začátku aukce
+        auction_start_date_from = form.cleaned_data.get('auction_start_date_from')
+        auction_start_date_to = form.cleaned_data.get('auction_start_date_to')
+        if auction_start_date_from:
+            auctions = auctions.filter(auction_start_date__gte=auction_start_date_from)
+        if auction_start_date_to:
+            auctions = auctions.filter(auction_start_date__lte=auction_start_date_to)
+
+        # Filtrace podle data konce aukce
+        auction_end_date_from = form.cleaned_data.get('auction_end_date_from')
+        auction_end_date_to = form.cleaned_data.get('auction_end_date_to')
+        if auction_end_date_from:
+            auctions = auctions.filter(auction_end_date__gte=auction_end_date_from)
+        if auction_end_date_to:
+            auctions = auctions.filter(auction_end_date__lte=auction_end_date_to)
+
+    # Filtrace podle hledaného výrazu (search)
+    if hledany_vyraz:
+        auctions = auctions.filter(
+            Q(name_auction__icontains=hledany_vyraz) |
+            Q(name_auction__icontains=hledany_vyraz_capitalized) |
+            Q(description__icontains=hledany_vyraz) |
+            Q(description__icontains=hledany_vyraz_capitalized) |
+            Q(user_creator__username__icontains=hledany_vyraz) |
+            Q(user_creator__username__icontains=hledany_vyraz_capitalized) |
+            Q(user_creator__first_name__icontains=hledany_vyraz) |  # Opravený zápis
+            Q(user_creator__first_name__icontains=hledany_vyraz_capitalized) |  # Opravený zápis
+            Q(user_creator__last_name__icontains=hledany_vyraz) |
+            Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
+        )
+
+    return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
 
 
 
@@ -760,6 +541,109 @@ def auction_detail(request, pk):
         'days': days if not auction_expired else 0,
         'hours': hours if not auction_expired else 0,
         'minutes': minutes if not auction_expired else 0
+    })
+
+
+def auction_archives(request):
+    # Získání aktuálního času
+    current_time = timezone.now()
+
+    # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které již skončily
+    buy_now_add_auction = AddAuction.objects.filter(auction_type='buy_now', auction_end_date__lt=current_time).order_by("-created")
+
+    # Aukce s propagací, které nejsou "Buy Now", které již skončily
+    promotion_add_auction = AddAuction.objects.filter(promotion=True, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
+
+    # Aukce bez propagace, které nejsou "Buy Now", které již skončily
+    no_promotion_add_auction = AddAuction.objects.filter(promotion=False, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
+
+    # Vytvoření paginatoru pro jednotlivé aukce
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
+    paginator_promotion = Paginator(promotion_add_auction, 8)
+    paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
+
+    # Získání čísla stránky
+    page_number = request.GET.get('page')
+
+    # Získání aukcí pro konkrétní stránku
+    buy_now_page_obj = paginator_buy_now.get_page(page_number)
+    promotion_page_obj = paginator_promotion.get_page(page_number)
+    no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
+    # Předejte název stránky
+    return render(request, template_name='auction_archives.html', context={
+        'page_name': 'Auction Archives',  # Předání názvu stránky
+        'buy_now_page_obj': buy_now_page_obj,
+        'promotion_page_obj': promotion_page_obj,
+        'no_promotion_page_obj': no_promotion_page_obj
+    })
+
+
+def current_auctions(request):
+    # Získání aktuálního času
+    current_time = timezone.now()
+
+    # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které ještě neskončily
+    buy_now_add_auction = AddAuction.objects.filter(
+        auction_type='buy_now',
+        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+
+    # Aukce s propagací, které nejsou "Buy Now", a ještě neskončily
+    promotion_add_auction = AddAuction.objects.filter(
+        promotion=True,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+
+    # Aukce bez propagace, které nejsou "Buy Now", a ještě neskončily
+    no_promotion_add_auction = AddAuction.objects.filter(
+        promotion=False,
+        auction_type='place_bid',
+        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+    ).order_by("auction_end_date")  # Seřadit podle nejbližšího konce
+
+    # Vytvoření paginatoru pro jednotlivé aukce
+    paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
+    paginator_promotion = Paginator(promotion_add_auction, 8)
+    paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
+
+    # Získání čísla stránky
+    page_number = request.GET.get('page')
+
+    # Získání aukcí pro konkrétní stránku
+    buy_now_page_obj = paginator_buy_now.get_page(page_number)
+    promotion_page_obj = paginator_promotion.get_page(page_number)
+    no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
+
+    # Přepočítáme zbývající čas u každé aukce po stránkování
+    for auction_list in [buy_now_page_obj, promotion_page_obj, no_promotion_page_obj]:
+        for auction in auction_list:
+            if auction.auction_end_date and auction.auction_end_date > timezone.now():
+                time_left = auction.auction_end_date - timezone.now()
+                auction.days_left = time_left.days
+                auction.hours_left, remainder = divmod(time_left.seconds, 3600)
+                auction.minutes_left, _ = divmod(remainder, 60)
+            else:
+                auction.days_left = auction.hours_left = auction.minutes_left = 0
+
+    # Předejte název stránky
+    return render(request, template_name='current_auctions.html', context={
+        'page_name': 'Current Auctions',  # Předání názvu stránky
+        'buy_now_page_obj': buy_now_page_obj,
+        'promotion_page_obj': promotion_page_obj,
+        'no_promotion_page_obj': no_promotion_page_obj
     })
 
 
@@ -1067,6 +951,15 @@ def numismatics(request):
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
+
+
+def about(request):
+    return render(
+        request,
+        "about.html",
+        context={}
+    )
+
 
 def index(request):
     return render(request, template_name='base_4_obrazky.html', context={})

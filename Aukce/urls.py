@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
-from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3, last_auction
+from viewer.views import AddauctionUpdateView, AddauctionDeleteView, AddauctionView, current_auctions, auction_archives, authors
+from viewer.views import index, about, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, last_auction
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
-from viewer.views import index, about, contact, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
+from viewer.views import index, about, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
 from viewer import views
 from viewer.views import PaymentView
-from viewer.views import Add_auctionDetailView
+from viewer.views import AddauctionDetailView
 from django.contrib.auth.views import LogoutView
 from viewer.views import SignUpView
 from django.contrib.auth import views as auth_views
@@ -47,22 +47,21 @@ urlpatterns = [
     # path("pridat_inzerat", pridat_inzerat)
     path("about/", about, name='about'),
     # path("search/", search, name='search'),
-    path("contact/", contact, name='contact'),
     path("detailed_search/", detailed_search, name="detailed_search"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
     # path('add_auction/create', add_auction, name='add_auction'),
-    path('add_auction/', Add_auctionView.as_view(), name='add_auction'),
+    path('add_auction/', AddauctionView.as_view(), name='add_auction'),
     path('add_auction/create/', AddAuctionCreateView.as_view(), name='add_auction_create'),
     path('auction_success/<int:pk>/', views.auction_success_view, name='auction_success_view'),  # Přidána URL pro úspěšné vytvoření aukce
-    path('add_auction/update/<pk>', Add_auctionUpdateView.as_view(), name='add_auction_update'),
-    path('add_auction/delete/<pk>', Add_auctionDeleteView.as_view(), name='add_auction_delete'),
+    path('add_auction/update/<pk>', AddauctionUpdateView.as_view(), name='add_auction_update'),
+    path('add_auction/delete/<pk>', AddauctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
     path('last_auction/', last_auction, name='last_auction'),
     # path('test/', views.my_view),
-    # path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
+    # path('add_auction/<int:pk>/', AddauctionDetailView.as_view(), name='add_auction-detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -73,9 +72,6 @@ urlpatterns = [
     path('add_to_cart/<int:auction_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),
     path('checkout/', checkout_view, name='checkout'),
-    path('auction_list1/', auction_list1, name='auction_list1'),
-    path('auction_list2/', auction_list2, name='auction_list2'),
-    path('auction_list3/', auction_list3, name='auction_list3'),
     path('payment/<str:payment_type>/', PaymentView.as_view(), name='payment'),
     path('success/', TemplateView.as_view(template_name="success.html"), name='success'),
     path('error/', TemplateView.as_view(template_name="error.html"), name='error'),
