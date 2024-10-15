@@ -529,47 +529,7 @@ class AddAuctionCreateView(CreateView):
         # Získání původního kontextu z nadřazené třídy
         context = super().get_context_data(**kwargs)
 
-        # Získání aktuálního času
-        current_time = timezone.now()
-
-        # Filtr pro zobrazení různých typů aukcí (Buy Now, Promotion, No Promotion)
-        buy_now_add_auction = AddAuction.objects.filter(
-            auction_type='buy_now',
-            auction_end_date__gt=current_time  # Aukce, které neskončily
-        ).order_by("-created")
-
-        promotion_add_auction = AddAuction.objects.filter(
-            promotion=True,
-            auction_type='place_bid',
-            auction_end_date__gt=current_time
-        ).order_by("-created")
-
-        no_promotion_add_auction = AddAuction.objects.filter(
-            promotion=False,
-            auction_type='place_bid',
-            auction_end_date__gt=current_time
-        ).order_by("-created")
-
-        # Paginator pro jednotlivé aukce
-        paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
-        paginator_promotion = Paginator(promotion_add_auction, 8)
-        paginator_no_promotion = Paginator(no_promotion_add_auction, 8)
-
-        # Získání čísla stránky z požadavku GET
-        page_number = self.request.GET.get('page')
-
-        # Aukce pro zobrazení na dané stránce
-        buy_now_page_obj = paginator_buy_now.get_page(page_number)
-        promotion_page_obj = paginator_promotion.get_page(page_number)
-        no_promotion_page_obj = paginator_no_promotion.get_page(page_number)
-
-        # Přidání informací o stránkování a aukcích do kontextu
-        context['buy_now_page_obj'] = buy_now_page_obj
-        context['promotion_page_obj'] = promotion_page_obj
-        context['no_promotion_page_obj'] = no_promotion_page_obj
-
-
-        # Informace o přihlášení uživatele
+                # Informace o přihlášení uživatele
         context['user_authenticated'] = self.request.user.is_authenticated
 
         return context
