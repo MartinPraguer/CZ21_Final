@@ -22,7 +22,7 @@
 <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
 <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
 <p>Numbers of Views: {{ auction.number_of_views }}</p>
-    {% if auction_expired %}
+{% if auction_expired %}
     <p>Auction has expired</p>
 {% else %}
     <p>Time Left: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes</p>
@@ -45,7 +45,7 @@
 {% if auction.auction_type == 'place_bid' %}
     <p>Starting Price: {{ auction.start_price }} Kč</p>
     {% if auction.price %}
-        <p>Price: {{ auction.price }} Kč</p>
+        <p>Price: <span id="current_price">{{ auction.price }}</span> Kč</p>
     {% endif %}
     <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
 
@@ -58,9 +58,12 @@
         <form method="post">
             {% csrf_token %}
             <label for="new_bid">Your Bid:</label>
-            <input type="number" name="new_bid" min="1" required>
+            <input type="number" id="new_bid" name="new_bid" min="1" required>
             <button type="submit">Place Bid</button>
         </form>
+
+        <!-- Dynamické zobrazení nové celkové ceny -->
+        <p>New Final Price: <span id="final_price">{{ auction.price }}</span> Kč</p>
     {% endif %}
     
     <h2>Bids</h2>
@@ -93,28 +96,53 @@
 
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
-        <script>
-    // Uložit pozici při kliknutí na stránkovací odkazy
+<script>
+    // Dynamicky aktualizovat cenu podle zadané nabídky
     document.addEventListener('DOMContentLoaded', function() {
-        const paginationLinks = document.querySelectorAll('.pagination a');
+        const bidInput = document.getElementById('new_bid');
+        const currentPrice = parseFloat(document.getElementById('current_price').textContent);
+        const finalPriceDisplay = document.getElementById('final_price');
 
-        paginationLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // Uložit aktuální scroll pozici do localStorage
-                localStorage.setItem('scrollPosition', window.scrollY);
-            });
+        bidInput.addEventListener('input', function() {
+            const bidValue = parseFloat(bidInput.value);
+            if (!isNaN(bidValue) && bidValue >= 0) {
+                const newPrice = currentPrice + bidValue;
+                finalPriceDisplay.textContent = newPrice.toFixed(2);
+            }
         });
-
-        // Obnovit pozici při načtení stránky
-        const scrollPosition = localStorage.getItem('scrollPosition');
-        if (scrollPosition) {
-            window.scrollTo(0, scrollPosition);
-            // Odstranit uloženou pozici, aby se nepoužila při dalších změnách stránek
-            localStorage.removeItem('scrollPosition');
-        }
     });
-</script>    
-    
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const bidForm = document.querySelector('form');
+
+    // Uložení přesné pozice scrollu před odesláním formuláře
+    if (bidForm) {
+        bidForm.addEventListener('submit', function(event) {
+            // Uložit aktuální scroll pozici do localStorage
+            localStorage.setItem('scrollPosition', window.scrollY);
+        });
+    }
+
+    // Obnovení pozice po načtení stránky
+    const scrollPosition = localStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+        setTimeout(() => {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+            localStorage.removeItem('scrollPosition');  // Odstranit, aby se nepoužívala znovu
+        }, 100);  // Zpoždění, aby se stránka načetla
+    }
+
+    // Pokud chcete stále sjíždět na konec po každém načtení, můžete zachovat tento kód
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 100);  // Po načtení stránky sjede dolů
+    });
+});
+</script>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
 {% endblock %}
