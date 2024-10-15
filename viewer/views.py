@@ -589,6 +589,10 @@ def add_to_cart(request, auction_id):
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
 
+    auction_views = AddAuction.objects.get(pk=pk)
+    auction_views.number_of_views += 1
+    auction_views.save()
+
     # Seřazení příhozů podle času, abychom je zobrazili chronologicky
     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
 
