@@ -63,7 +63,7 @@
         </form>
 
         <!-- Dynamické zobrazení nové celkové ceny -->
-        <p>New Final Price: <span id="final_price">{{ auction.price }}</span> Kč</p>
+        <p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
     {% endif %}
     
     <h2>Bids</h2>
@@ -97,20 +97,31 @@
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
 <script>
-    // Dynamicky aktualizovat cenu podle zadané nabídky
     document.addEventListener('DOMContentLoaded', function() {
-        const bidInput = document.getElementById('new_bid');
-        const currentPrice = parseFloat(document.getElementById('current_price').textContent);
-        const finalPriceDisplay = document.getElementById('final_price');
+    const bidInput = document.getElementById('new_bid');
+    const finalPriceDisplay = document.getElementById('final_price');
 
-        bidInput.addEventListener('input', function() {
-            const bidValue = parseFloat(bidInput.value);
-            if (!isNaN(bidValue) && bidValue >= 0) {
-                const newPrice = currentPrice + bidValue;
-                finalPriceDisplay.textContent = newPrice.toFixed(2);
-            }
-        });
+    // Získání aktuální ceny (buď auction.price, nebo auction.start_price)
+    let currentPrice = parseFloat(finalPriceDisplay.textContent);
+
+    // Pokud je currentPrice NaN, nastav currentPrice na nulu
+    if (isNaN(currentPrice)) {
+        currentPrice = 0;
+    }
+
+    // Aktualizace ceny při změně vstupu
+    bidInput.addEventListener('input', function() {
+        const bidValue = parseFloat(bidInput.value);
+
+        // Pokud je vstup prázdný, zobrazí se původní cena (currentPrice)
+        if (bidInput.value === '') {
+            finalPriceDisplay.textContent = currentPrice.toFixed(2);
+        } else if (!isNaN(bidValue) && bidValue >= 0) {
+            const newPrice = currentPrice + bidValue;
+            finalPriceDisplay.textContent = newPrice.toFixed(2);
+        }
     });
+});
 </script>
 
 <script>
