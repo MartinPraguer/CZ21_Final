@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import Add_auctionCreateView, Add_auctionUpdateView, Add_auctionDeleteView, Add_auctionView, current_auctions, auction_archives, authors, shopping_cart
-from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3
+from viewer.views import index, about, contact, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view, auction_list1, user_detail, list_users, auction_list2, auction_list3, last_auction
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about, contact, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
@@ -60,6 +60,7 @@ urlpatterns = [
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
+    path('last_auction/', last_auction, name='last_auction'),
     # path('test/', views.my_view),
     # path('add_auction/<int:pk>/', Add_auctionDetailView.as_view(), name='add_auction-detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
@@ -82,6 +83,7 @@ urlpatterns = [
     path('users/<int:user_id>/', user_detail, name='user_detail'),
     path('cart/', views.cart_view, name='cart_view'),  # URL pro zobrazení košíku
     path('checkout/', views.PaymentView.as_view(), name='checkout'),  # URL pro platbu
+
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje
