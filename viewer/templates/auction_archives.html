@@ -81,7 +81,11 @@
                     {% endif %}
 
                     <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
-                    <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+               {% if add_auction.previous_price is None %}
+    <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }} Kč</p>
+{% else %}
+    <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+{% endif %}
 
                     {% if add_auction.previous_price %}
                     <p class="u-align-center u-text u-text-7">
@@ -213,7 +217,11 @@
                     {% endif %}
 
                     <p class="u-align-center u-text u-text-5">{{ add_auction.category }} - {{ add_auction.name_auction }}</p>
-                    <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+               {% if add_auction.previous_price is None %}
+    <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }} Kč</p>
+{% else %}
+    <p class="u-align-center u-text u-text-6">{{ add_auction.price|price_format }} Kč</p>
+{% endif %}
 
                 {% if add_auction.previous_price %}
                         <p class="u-align-center u-text u-text-7">
