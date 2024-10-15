@@ -1,6 +1,11 @@
 Auction gallery:
 
-[] pri prihlaseni umoznit uzivateli, aby si upravil profil
+[*] přidání volného řádku u kartičky, protože se zkracovala
+[*-] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
+[*] oprava None zobrazování ceny u nově přidaných aukcí
+[*-] sjetí na konec stránky po přidání příhozu - nefunguje úplně podle představy
+[*] javascript u detailu stránky zobrazí aktuální výši příhozu
+[ ] pri prihlaseni umoznit uzivateli, aby si upravil profil
 [ ] testovat, testovat, testovat
 [*] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
 [ ] zelené buy now rozbijí logiku nákupu u již skončených aukcí, jde je přidat do košíku
