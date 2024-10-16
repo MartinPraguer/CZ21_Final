@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import AddauctionUpdateView, AddauctionDeleteView, AddauctionView, current_auctions, auction_archives, authors
-from viewer.views import index, about, detailed_search, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page, last_auction
+from viewer.views import AddauctionUpdateView, AddauctionDeleteView, AddauctionView,  authors
+from viewer.views import index, about, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
-from viewer.views import index, about, statues, jewelry, numismatics, paintings, AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
+from viewer.views import index, about,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
+from viewer.views_sablony import statues, jewelry, numismatics, paintings, paintings, last_auction, current_auctions, auction_archives, statues, jewelry, numismatics
 from viewer import views
 from viewer.views import PaymentView
 from viewer.views import AddauctionDetailView
@@ -63,7 +64,7 @@ urlpatterns = [
     path('numismatics/', numismatics, name='numismatics'),
     path('last_auction/', last_auction, name='last_auction'),
     # path('test/', views.my_view),
-    # path('add_auction/<int:pk>/', AddauctionDetailView.as_view(), name='add_auction-detail'),
+    # path('add_auction/<int:pk>/', AddauctionDetailView.as_view(), name='add_auction_detail'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

@@ -92,7 +92,7 @@ class BidForm(forms.ModelForm):
         widgets = {
             'amount': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
         }
-
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def clean_amount(self):
         amount = self.cleaned_data['amount']
         if amount <= 0:
