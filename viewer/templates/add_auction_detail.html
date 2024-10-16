@@ -1,6 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
 {% block content %}
 
+    
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1.2em; /* Zvětšení velikosti písma */
+    }
+
+    th, td {
+        padding: 15px; /* Větší mezery mezi buňkami */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9; /* Změna barvy při najetí na řádek */
+    }
+</style>    
+    
+    
 <!-- Zobrazení obrázků pro danou aukci -->
 {% if auction.images.all %}
     <h3>Images:</h3>
@@ -47,11 +74,11 @@
 {% endif %}
 
 {% if auction.auction_type == 'place_bid' %}
-    <p>Starting Price: {{ auction.start_price }} Kč</p>
+    <p>Starting Price: {{ auction.start_price|price_format }} Kč</p>
     {% if auction.price %}
-        <p>Price: <span id="current_price">{{ auction.price }}</span> Kč</p>
+        <p>Price: <span id="current_price">{{ auction.price|price_format }}</span> Kč</p>
     {% endif %}
-    <p>Minimum Bid: {{ auction.minimum_bid }} Kč</p>
+    <p>Minimum Bid: {{ auction.minimum_bid|price_format }} Kč</p>
 
     {% if auction_expired %}
         <p style="color: red;">The auction has already ended. It is not possible to add more bids.</p>
@@ -67,7 +94,7 @@
         </form>
 
         <!-- Dynamické zobrazení nové celkové ceny -->
-        <p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
+<p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
     {% endif %}
     
     <h2>Bids</h2>
@@ -84,8 +111,8 @@
             <tbody>
                 {% for bid in bids %}
                 <tr>
-                    <td>{{ bid.price }}</td>
-                    <td>{{ bid.amount }} Kč</td>
+                    <td>{{ bid.price|price_format }}</td>
+                    <td>{{ bid.amount|price_format }} Kč</td>
                     <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
                     <!-- Odkaz na detail uživatele, který přihodil -->
                     <td><a href="{% url 'user_detail' bid.user.id %}">{{ bid.user }}</a></td>
@@ -102,59 +129,77 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const bidInput = document.getElementById('new_bid');
     const finalPriceDisplay = document.getElementById('final_price');
+    const bidInput = document.getElementById('new_bid');
 
-    // Získání aktuální ceny (buď auction.price, nebo auction.start_price)
-    let currentPrice = parseFloat(finalPriceDisplay.textContent);
+    // Převést textové číslo na číslo (odstraní mezery a nahradí čárku tečkou pro korektní parsing)
+    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.')); 
 
-    // Pokud je currentPrice NaN, nastav currentPrice na nulu
-    if (isNaN(currentPrice)) {
-        currentPrice = 0;
+    // Funkce pro formátování ceny
+    function formatPrice(price) {
+        // Pokud je cena celé číslo, zobrazí ji bez desetinných míst
+        if (price % 1 === 0) {
+            return price.toLocaleString('cs-CZ'); // České formátování (tečka pro tisíce, žádné desetinné místo)
+        } else {
+            // Pokud má desetinná místa, zobrazíme dvě desetinná místa
+            return price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
     }
 
-    // Aktualizace ceny při změně vstupu
-    bidInput.addEventListener('input', function() {
-        const bidValue = parseFloat(bidInput.value);
+    // Nastavit na stránce formátovanou cenu hned po načtení
+    finalPriceDisplay.textContent = formatPrice(currentPrice);
 
-        // Pokud je vstup prázdný, zobrazí se původní cena (currentPrice)
-        if (bidInput.value === '') {
-            finalPriceDisplay.textContent = currentPrice.toFixed(2);
-        } else if (!isNaN(bidValue) && bidValue >= 0) {
-            const newPrice = currentPrice + bidValue;
-            finalPriceDisplay.textContent = newPrice.toFixed(2);
-        }
-    });
+    // Při zadávání nového příhozu (bidu) aktualizovat cenu
+    if (bidInput) {
+        bidInput.addEventListener('input', function(event) {
+            const bidValue = parseFloat(event.target.value);
+            if (!isNaN(bidValue)) {
+                // Vypočítat novou cenu
+                const newPrice = currentPrice + bidValue;
+                // Zobrazit nově formátovanou cenu
+                finalPriceDisplay.textContent = formatPrice(newPrice);
+            }
+        });
+    }
 });
 </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const bidForm = document.querySelector('form');
+    const finalPriceDisplay = document.getElementById('final_price');
+    const bidInput = document.getElementById('new_bid');
 
-    // Uložení přesné pozice scrollu před odesláním formuláře
-    if (bidForm) {
-        bidForm.addEventListener('submit', function(event) {
-            // Uložit aktuální scroll pozici do localStorage
-            localStorage.setItem('scrollPosition', window.scrollY);
+    // Převést textové číslo na číslo (odstraní mezery a nahradí čárku tečkou pro korektní parsing)
+    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.'));
+
+    // Funkce pro formátování ceny
+    function formatPrice(price) {
+        // Zajistí přesnost na dvě desetinná místa a poté zaokrouhlí na celé číslo
+        const exactPrice = Math.round((price + Number.EPSILON) * 100) / 100;
+        const roundedPrice = Math.round(exactPrice); // Zaokrouhlíme na celé číslo
+        // Formátování pro české ceny s tečkou jako oddělovačem tisíců
+        return roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Nastavit na stránce formátovanou cenu hned po načtení
+    finalPriceDisplay.textContent = formatPrice(currentPrice);
+
+    // Při zadávání nového příhozu (bidu) aktualizovat cenu
+    if (bidInput) {
+        bidInput.addEventListener('input', function(event) {
+            const bidValue = parseFloat(event.target.value);
+
+            // Pokud je vstup prázdný, vrátí se původní cena
+            if (event.target.value === '') {
+                finalPriceDisplay.textContent = formatPrice(currentPrice);
+            } else if (!isNaN(bidValue)) {
+                // Vypočítat novou cenu a zajistit přesnost
+                const newPrice = currentPrice + bidValue;
+                // Zobrazit nově formátovanou cenu
+                finalPriceDisplay.textContent = formatPrice(newPrice);
+            }
         });
     }
-
-    // Obnovení pozice po načtení stránky
-    const scrollPosition = localStorage.getItem('scrollPosition');
-    if (scrollPosition) {
-        setTimeout(() => {
-            window.scrollTo(0, parseInt(scrollPosition, 10));
-            localStorage.removeItem('scrollPosition');  // Odstranit, aby se nepoužívala znovu
-        }, 100);  // Zpoždění, aby se stránka načetla
-    }
-
-    // Pokud chcete stále sjíždět na konec po každém načtení, můžete zachovat tento kód
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-        }, 100);  // Po načtení stránky sjede dolů
-    });
 });
 </script>
 
