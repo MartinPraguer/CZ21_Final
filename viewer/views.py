@@ -223,7 +223,7 @@ class PaymentView(View):
 
     template_name = 'form.html'
 class AddauctionView(TemplateView):
-    template_name = 'add_auction.html'
+    template_name = 'add_auction_form.html'
     extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
 
 class AddAuctionCreateView(CreateView):
@@ -268,18 +268,17 @@ class AddAuctionCreateView(CreateView):
 
 
 class AddauctionUpdateView(UpdateView):
-    template_name = 'add_auction_form.html'
+    template_name = 'add_auction_form.html'  # Stránka, která se zobrazí při editaci
     model = AddAuction
     form_class = AddAuctionForm
-    model = AddAuction
-    form_class = AddAuctionForm
-    success_url = reverse_lazy('add_auction')
+    success_url = reverse_lazy('add_auction')  # Přesměrování po úspěšné editaci
+
 
 
 class AddauctionDeleteView(DeleteView):
-    template_name = 'add_auction_form.html'
     model = AddAuction
-    success_url = reverse_lazy('add_auction')
+    template_name = 'confirm_delete.html'  # Nová šablona pro potvrzení smazání
+    success_url = reverse_lazy('index')  # Přesměrování na hlavní stránku po smazání
 
 logger = logging.getLogger(__name__)
 

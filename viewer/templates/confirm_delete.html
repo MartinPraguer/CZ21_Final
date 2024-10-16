@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Opravdu chcete smazat aukci: "{{ object.name_auction }}"?</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Smazat</button>
+        <a href="{% url 'add_auction_detail' object.pk %}" class="btn btn-secondary">Zrušit</a>
+    </form>
+{% endblock %}

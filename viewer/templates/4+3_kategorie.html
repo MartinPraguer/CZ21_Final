@@ -111,7 +111,7 @@
         <div class="add_auction-container">
             {% for add_auction in promotion_page_obj %}
                 <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white promotion-auction">
-                    <a href="{% url 'add_auction-detail' add_auction.pk %}"
+                    <a href="{% url 'add_auction_detail' add_auction.pk %}"
                        style="text-decoration: none; color: inherit;">
                         <div class="u-container-layout u-similar-container u-container-layout-2">
 
@@ -207,7 +207,7 @@
         <div class="add_auction-container">
             {% for add_auction in buy_now_page_obj %}
                 <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white buy-now-auction">
-                    <a href="{% url 'add_auction-detail' add_auction.pk %}"
+                    <a href="{% url 'add_auction_detail' add_auction.pk %}"
                        style="text-decoration: none; color: inherit;">
                         <div class="u-container-layout u-similar-container u-container-layout-2">
 
@@ -256,8 +256,17 @@
                                 {% endif %}
                             </p>
                             {% if user.is_superuser %}
-                                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
-                                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                                <!-- Formulář pro úpravu s metodou POST -->
+                                <form action="{% url 'add_auction_update' add_auction.pk %}" method="GET" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+
+                                <!-- Formulář pro smazání s metodou POST -->
+                                <form action="{% url 'add_auction_delete' add_auction.pk %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             {% endif %}
                         </div>
                     </a>
@@ -286,7 +295,7 @@
         <div class="add_auction-container">
             {% for add_auction in no_promotion_page_obj %}
                 <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white without-promotion-auction">
-                    <a href="{% url 'add_auction-detail' add_auction.pk %}"
+                    <a href="{% url 'add_auction_detail' add_auction.pk %}"
                        style="text-decoration: none; color: inherit;">
                         <div class="u-container-layout u-similar-container u-container-layout-2">
 
