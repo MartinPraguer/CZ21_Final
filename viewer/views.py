@@ -49,7 +49,7 @@ from django.db import transaction  # Přidej tento import
 
 from django.shortcuts import redirect
 from .models import Cart, ArchivedPurchase, UserAccounts
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 
@@ -99,7 +99,7 @@ def pay_button(request):
 class SignUpView(View):
     def get(self, request):
         form = SignUpForm()
-        return render(request, 'sign_up.html', {'form': form})
+        return render(request, './registration/sign_up.html', {'form': form})
 
     @transaction.atomic  # Přidej atomic blok, aby všechny operace byly buď úspěšné, nebo se vrátí zpět
     def post(self, request):
@@ -140,7 +140,7 @@ class SignUpView(View):
             except IntegrityError:
                 form.add_error(None, 'Chyba při vytváření účtu. Zkuste to prosím znovu.')
 
-        return render(request, 'sign_up.html', {'form': form})
+        return render(request, './registration/sign_up.html', {'form': form})
 
 # platebni brana a odkazy na vyzkouseni Pro předplatné: http://localhost:8000/payment/subscription/
 # Pro košík: http://localhost:8000/payment/cart/
@@ -359,7 +359,7 @@ def checkout_view(request):
     return render(request, 'checkout.html')
 
 
-
+@permission_required("viewer.add_category")
 def authors(request):
     return HttpResponse(f'AHOJ')
 

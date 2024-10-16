@@ -40,6 +40,8 @@ admin.site.register(AddAuction)
 # admin.site.register(Auction)
 admin.site.register(Cart)
 admin.site.register(Profile)
+from django.contrib.auth.models import Permission
+admin.site.register(Permission)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
