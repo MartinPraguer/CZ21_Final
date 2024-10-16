@@ -1,7 +1,7 @@
 Auction gallery:
 
-[*] přidání volného řádku u kartičky, protože se zkracovala
-[*-] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
+- [ ] přidání volného řádku u kartičky, protože se zkracovala
+- [x] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
 [*] oprava None zobrazování ceny u nově přidaných aukcí
 [*-] sjetí na konec stránky po přidání příhozu - nefunguje úplně podle představy
 [*] javascript u detailu stránky zobrazí aktuální výši příhozu
@@ -81,3 +81,7 @@ Auction gallery:
 [*] přehled aukcí např. 10
 [ ] návrh od konzultanta, pouze na zvážení - volba měny, lupička na přiblížení detailu malby, šperku, sochy; forma dodání, faktura, dodání kam - fakturační adresa stejná jako místo dodání, osobní odběr, jestli je to na firmu, takže IČO a DIČO, možnost platby - převodem, paypal, kartou, při doručení, připojištění zásilky, možnost osobní prohlídky po dobou aukce, možnost konzultace ohledně ceny díla, kontaktní adresy, děláme něco mezi aukrem a galerií umění, jak je ošetřené kurátory štengrování při falešné bidování, doklad o pravosti díla za příplatek
 [*] počet kliknutí nefunguje
+
+
+# ER Diagram
+![ER](./ERDiagram.png)
