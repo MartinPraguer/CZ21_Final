@@ -18,7 +18,11 @@
 
 <!-- Odkaz na detail uživatele, který vytvořil aukci -->
 <p>Auction Creater: <a href="{% url 'user_detail' auction.user_creator.id %}">{{ auction.user_creator }}</a></p>
-
+    
+        
+{% if auction.name_buyer %}
+    <p>Auction buyer: <a href="{% url 'user_detail' auction.name_buyer.id %}">{{ auction.name_buyer }}</a></p>
+{% endif %}
 <p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
 <p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
 <p>Numbers of Views: {{ auction.number_of_views }}</p>
