@@ -455,7 +455,7 @@ def detailed_search(request):
         if auction_type:
             auctions = auctions.filter(auction_type=auction_type)
 
-        # Filtrace podle ceny
+        # Filtrace podle ceny Place bid
         price_from = form.cleaned_data.get('price_from')
         price_to = form.cleaned_data.get('price_to')
         if price_from:
@@ -502,7 +502,7 @@ def detailed_search(request):
             Q(user_creator__last_name__icontains=hledany_vyraz_capitalized)
         )
 
-    return render(request, 'detailed_search.html', {'form': form, 'searchs': auctions})
+    return render(request, 'detailed_search.html', {'form': form, 'search': auctions})
 
 
 
@@ -570,7 +570,7 @@ def auction_detail(request, pk):
             # Uložení aukce s novou cenou
             auction.save()
 
-            return redirect('add_auction-detail', pk=auction.pk)
+            return redirect('add_auction_detail', pk=auction.pk)
 
         else:
             return render(request, 'add_auction_detail.html', {

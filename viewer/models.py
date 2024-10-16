@@ -111,7 +111,7 @@ class AddAuction(models.Model):
 
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

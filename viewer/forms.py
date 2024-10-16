@@ -74,6 +74,7 @@ class AddAuctionForm(ModelForm):
             'promotion': forms.HiddenInput(),
             'auction_start_date': forms.HiddenInput(),
             'auction_end_date': forms.HiddenInput(),
+            'is_sold': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
