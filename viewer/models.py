@@ -91,43 +91,36 @@ class Category(models.Model):
 class AddAuction(models.Model):
     name_auction = models.CharField(max_length=128)
     user_creator = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
-    name_bider = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True,
-                                   blank=True)
-    name_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True,
-                                   blank=True)
+    name_bider = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
+    name_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
     description = models.TextField(default="No description provided")
     promotion = models.BooleanField(default=False)
 
-    # Odstranění auto_now_add a přidání logiky v save() metodě
     auction_start_date = models.DateTimeField(null=True, blank=True)
     auction_end_date = models.DateTimeField(null=True, blank=True)
 
     number_of_views = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
-    # Typ aukce
     AUCTION_TYPE_CHOICES = [
         ('buy_now', 'Buy Now'),
         ('place_bid', 'Place Bid'),
     ]
     auction_type = models.CharField(max_length=10, choices=AUCTION_TYPE_CHOICES, default='place_bid')
 
-    # "Buy Now" políčka
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    # "Place Bid" políčka
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    is_sold = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        # Pokud není zadaný čas začátku aukce, nastavíme aktuální čas
         if not self.auction_start_date:
             self.auction_start_date = timezone.now()
 
-        # Pokud není nastaven konec aukce, přičteme 7 dní k začátku aukce
         if not self.auction_end_date:
             self.auction_end_date = self.auction_start_date + timedelta(days=7)
 
@@ -136,12 +129,12 @@ class AddAuction(models.Model):
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
-    def is_sold(self):
-        """Metoda, která vrací True, pokud aukce má přiřazeného kupujícího."""
+    def check_is_sold(self):
+        """Vrací True, pokud aukce má přiřazeného kupujícího."""
         return self.name_buyer is not None
 
     def is_active(self):
-        """Metoda vrací True, pokud aukce ještě neskončila."""
+        """Vrací True, pokud aukce ještě neskončila."""
         return self.auction_end_date is None or self.auction_end_date > timezone.now()
 
 

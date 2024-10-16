@@ -65,7 +65,7 @@ def pay_button(request):
 
         if not cart_items.exists():
             # Pokud je košík prázdný, přesměruj uživatele zpět
-            return redirect('cart_page')
+            return redirect('cart')
 
         # Přesuneme položky z košíku do archivovaných nákupů
         for item in cart_items:
@@ -76,10 +76,11 @@ def pay_button(request):
                 price=item.price
             )
 
-            # Označíme aukci jako zakoupenou (pokud máš nějaký takový příznak)
+            # Označíme aukci jako zakoupenou
             auction = item.auction
             auction.name_buyer = user  # Uložíme uživatele jako kupujícího
             auction.auction_end_date = timezone.now()  # Ukončíme aukci
+            auction.is_sold = True  # Nastavíme aukci jako prodanou
             auction.save()
 
         # Vymažeme položky z košíku
@@ -627,11 +628,12 @@ def auction_archives(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     # Předejte název stránky
-    return render(request, template_name='auction_archives.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Auction Archives',  # Předání názvu stránky
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
-        'no_promotion_page_obj': no_promotion_page_obj
+        'no_promotion_page_obj': no_promotion_page_obj,
+        'current_time': current_time,
     })
 
 
@@ -641,14 +643,18 @@ def current_auctions(request):
 
     # Přesun aukcí, kterým vypršel čas, do archivovaných, pokud nejsou prodané
     expired_auctions = AddAuction.objects.filter(auction_end_date__lte=current_time, is_sold=False)
+
     for auction in expired_auctions:
-        # Pokud aukce není v archivu, přesuneme ji
-        if not ArchivedPurchase.objects.filter(auction=auction).exists():
-            ArchivedPurchase.objects.create(
-                user=auction.name_buyer,  # Nebo ponechej prázdné, pokud není kupující
-                auction=auction,
-                price=auction.price
-            )
+        # Zkontrolujeme, zda aukce má kupujícího a cenu, než ji přesuneme do archivovaných nákupů
+        if auction.name_buyer and auction.price is not None:
+            # Pokud aukce není v archivu, přesuneme ji
+            if not ArchivedPurchase.objects.filter(auction=auction).exists():
+                ArchivedPurchase.objects.create(
+                    user=auction.name_buyer,  # Zde se uloží uživatel jako kupující
+                    auction=auction,
+                    price=auction.price  # Cena aukce
+                )
+        # Označíme aukci jako prodanou
         auction.is_sold = True
         auction.save()
 
@@ -697,7 +703,7 @@ def current_auctions(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     # Předejte název stránky
-    return render(request, template_name='current_auctions.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Current Auctions',  # Předání názvu stránky
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
@@ -754,7 +760,7 @@ def last_auction(request):
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
     # Vykreslení šablony s aukcemi
-    return render(request, template_name='last_auction.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Last auction',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
@@ -818,7 +824,7 @@ def paintings(request):
             else:
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
-    return render(request, template_name='paintings.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Paintings',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
@@ -880,7 +886,7 @@ def statues(request):
             else:
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
-    return render(request, template_name='statues.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Statues',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
@@ -941,7 +947,7 @@ def jewelry(request):
             else:
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
-    return render(request, template_name='jewelry.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Jewelry',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,
@@ -1003,7 +1009,7 @@ def numismatics(request):
             else:
                 auction.days_left = auction.hours_left = auction.minutes_left = 0
 
-    return render(request, template_name='numismatics.html', context={
+    return render(request, template_name='4+3_kategorie.html', context={
         'page_name': 'Numismatics',
         'buy_now_page_obj': buy_now_page_obj,
         'promotion_page_obj': promotion_page_obj,

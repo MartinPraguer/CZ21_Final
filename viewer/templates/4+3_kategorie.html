@@ -79,28 +79,26 @@
             min-height: 60px;
         }
 
-        {#.sold-label {#}
-        {#    color: red;#}
-        {#    font-weight: bold;#}
-        {#    font-size: 18px;#}
-        {
-        #}#}
+
         .sold-label {
-    background-color: #DAA520;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: default;
-    border-radius: 5px;
-    min-width: 120px; /* Nastavení minimální šířky */
-}
+            background-color: #ff4d4d; /* Změna na červenou barvu */
+            color: white; /* Bílý text */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: default;
+            border-radius: 5px; /* Zaoblené rohy */
+            min-width: 120px;
+            font-weight: bold; /* Ztučnění textu */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Přidání stínu */
+        }
 
         .sold-label:hover {
-            background-color: #FFD700;
+            background-color: #ff6666; /* Světlejší červená při najetí myší */
+        }
 
         /* Jasnější zlatá při najetí myší */
     </style>
@@ -144,10 +142,12 @@
                             {% endif %}
 
                             {% if add_auction.previous_price %}
-                                <p class="u-align-center u-text u-text-7">
+                                <p class="u-align-center u-text u-text-7 odskok">
                                     <del>{{ add_auction.previous_price|price_format }} Kč</del>
                                     <br>
                                 </p>
+                            {% else %}
+                                <br>
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
@@ -166,8 +166,8 @@
                             <p class="u-align-center u-text u-text-8">
                                 {% if add_auction.is_sold %}
                                     <button class="sold-label">Sold</button>
-                                {% elif add_auction.is_expired %}
-                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_end_date < current_time and not add_auction.is_sold %}
+                                    <button class="sold-label">Not Sold</button>
                                 {% elif add_auction.auction_type == 'place_bid' %}
                                     <button class="btn btn-gold">Place Bid</button>
                                 {% else %}
@@ -244,11 +244,11 @@
                                 {% endif %}
                             </p>
 
-                               <p class="u-align-center u-text u-text-8">
+                            <p class="u-align-center u-text u-text-8">
                                 {% if add_auction.is_sold %}
                                     <button class="sold-label">Sold</button>
-                                {% elif add_auction.is_expired %}
-                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_end_date < current_time and not add_auction.is_sold %}
+                                    <button class="sold-label">Not Sold</button>
                                 {% elif add_auction.auction_type == 'place_bid' %}
                                     <button class="btn btn-gold">Place Bid</button>
                                 {% else %}
@@ -315,10 +315,12 @@
                             {% endif %}
 
                             {% if add_auction.previous_price %}
-                                <p class="u-align-center u-text u-text-7">
+                                <p class="u-align-center u-text u-text-7 odskok">
                                     <del>{{ add_auction.previous_price|price_format }} Kč</del>
                                     <br>
                                 </p>
+                            {% else %}
+                                <br>
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
@@ -338,13 +340,14 @@
                             <p class="u-align-center u-text u-text-8">
                                 {% if add_auction.is_sold %}
                                     <button class="sold-label">Sold</button>
-                                {% elif add_auction.is_expired %}
-                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_end_date < current_time and not add_auction.is_sold %}
+                                    <button class="sold-label">Not Sold</button>
                                 {% elif add_auction.auction_type == 'place_bid' %}
                                     <button class="btn btn-gold">Place Bid</button>
                                 {% else %}
                                     <button class="btn btn-gold">Buy Now</button>
                                 {% endif %}
+                            </p>
                             </p>
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
