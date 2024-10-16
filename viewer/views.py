@@ -37,8 +37,7 @@ from django.db import transaction  # Přidej tento import
 from django.shortcuts import redirect
 from .models import Cart, ArchivedPurchase, UserAccounts
 from django.contrib.auth.decorators import login_required, permission_required
-
-
+from viewer.views_sablony import *
 
 
 

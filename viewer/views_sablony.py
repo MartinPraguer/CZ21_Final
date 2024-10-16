@@ -1,39 +1,4 @@
-from django.http import HttpResponse
-from viewer.forms import SignUpForm
-from django.views.generic import UpdateView, DeleteView, TemplateView
-from django.urls import reverse_lazy
-import logging
-from django.contrib.auth import login
-from viewer.models import UserAccounts
-from django.db import IntegrityError
-from django.views import View
-from django.http import JsonResponse
-from django.conf import settings
-import stripe
-from .models import Category
-from .forms import AuctionSearchForm
-from django.db.models import Q
-from django.views.generic.detail import DetailView
-from .models import Cart
-from django.utils import timezone
-from .models import Bid
-from django.contrib.auth.decorators import login_required
-from .forms import AddAuctionForm
-from django.views.generic.edit import CreateView
-from django.urls import reverse
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from .models import AddAuction
-from .models import AddAuction, AuctionImage
-from django.db import transaction
-from viewer.models import Profile
-from django.http import HttpResponseForbidden
-from django.db import transaction  # Přidej tento import
-
-
+from viewer.views import *
 
 
 

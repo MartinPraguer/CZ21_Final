@@ -1,0 +1,6 @@
+pip install coverage
+coverage run --source='.' manage.py test
+coverage report
+
+pip install pytest
+pytest viewer/test_123.py
