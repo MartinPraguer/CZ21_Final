@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import AddauctionUpdateView, AddauctionDeleteView, AddauctionView,  authors
+from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors
 from viewer.views import index, about, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
@@ -53,7 +53,7 @@ urlpatterns = [
     path("detailed_search/", detailed_search, name="detailed_search"),
     # path("inzeraty/<int:pk>/", auction, name='auction'),
     # path('add_auction/create', add_auction, name='add_auction'),
-    path('add_auction/', AddauctionView.as_view(), name='add_auction'),
+    # path('add_auction/', AddauctionView.as_view(), name='add_auction'),
     path('add_auction/create/', AddAuctionCreateView.as_view(), name='add_auction_create'),
     path('auction_success/<int:pk>/', views.auction_success_view, name='auction_success_view'),  # Přidána URL pro úspěšné vytvoření aukce
     path('add_auction/update/<pk>', AddauctionUpdateView.as_view(), name='add_auction_update'),
