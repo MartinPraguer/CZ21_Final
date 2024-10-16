@@ -54,6 +54,29 @@
         .slideshow-image.active {
             display: block;
         }
+        
+.btn-gold {
+    background-color: #DAA520; /* Zlatavá barva */
+    color: white; /* Barva textu */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* Zaoblené rohy */
+}
+
+.btn-gold:hover {
+    background-color: #FFD700; /* Jasnější zlatá při najetí myší */
+}
+.time-remaining {
+    white-space: normal;
+    text-align: center;
+    display: block;
+    min-height: 40px;
+}
     </style>
 
     <!-- Start of centered content wrapper -->
@@ -86,7 +109,7 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             {% if add_auction.previous_price is None %}
                                 <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }}
                                     Kč</p><br>
@@ -102,7 +125,7 @@
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -114,7 +137,7 @@
                                 {% endif %}
                             </p>
 
-                            <p class="u-align-center u-text u-text-8">Place Bid</p>
+                            <p class="u-align-center u-text u-text-8"><button class="btn btn-gold">Place Bid</button></p>
 
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
@@ -168,12 +191,12 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now_price|price_format }}
                                 Kč</p>
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -185,9 +208,7 @@
                                 {% endif %}
                             </p>
 
-                            <p class="u-align-center u-text u-text-8"><a
-                                    href="{% url 'cart_view' %}?add_auction_id={{ add_auction.id }}"
-                                    class="btn btn-success">Buy Now</a></p>
+                            <p class="u-align-center u-text u-text-8"><button class="btn btn-gold">Buy Now</button></p>
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
@@ -239,7 +260,7 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             {% if add_auction.previous_price is None %}
                                 <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }}
                                     Kč</p>
@@ -255,7 +276,7 @@
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -268,7 +289,7 @@
                             </p>
 
 
-                            <p class="u-align-center u-text u-text-8">Place Bid</p>
+                            <p class="u-align-center u-text u-text-8"><button class="btn btn-gold">Place Bid</button></p>
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>

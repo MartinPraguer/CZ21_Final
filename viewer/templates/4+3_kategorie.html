@@ -4,61 +4,106 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
+    <style>
+        /* Wrapper for centering all content */
+        .center-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
+        .buy-now-auction, .promotion-auction {
+            border: 3px solid gold;
+            background-color: #fff8dc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 15px;
+            vertical-align: top;
+            width: 250px;
+        }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-<style>
-    /* Wrapper for centering all content */
-    .center-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-    }
+        .buy-now-auction:hover, .promotion-auction:hover, .without-promotion-auction:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+        }
 
-    .buy-now-auction, .promotion-auction {
-        border: 3px solid gold;
-        background-color: #fff8dc;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        display: inline-block;
-        margin: 15px;
-        vertical-align: top;
-        width: 250px;
-    }
+        /* Slideshow */
+        .slideshow-container {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
+        /* Obrázky mají pevnou velikost */
+        .slideshow-image {
+            width: 100%; /* Pevná šířka obrázku */
+            height: 200px; /* Pevná výška obrázku */
+            object-fit: cover; /* Obrázky se přizpůsobí a oříznou, aby zapadly do velikosti */
+            display: none; /* Skryjeme obrázky, které nejsou aktivní */
+            border-radius: 5px;
+        }
 
-    .buy-now-auction:hover, .promotion-auction:hover, .without-promotion-auction:hover{
-        transform: scale(1.02);
-        transition: transform 0.2s ease-in-out;
-    }
+        /* Aktivní obrázek */
+        .slideshow-image.active {
+            display: block;
+        }
 
-    /* Slideshow */
-    .slideshow-container {
-        position: relative;
-        overflow: hidden;
-    }
+        .btn-gold {
+            background-color: #DAA520; /* Zlatavá barva */
+            color: white; /* Barva textu */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px; /* Zaoblené rohy */
+        }
 
-    /* Obrázky mají pevnou velikost */
-    .slideshow-image {
-        width: 100%; /* Pevná šířka obrázku */
-        height: 200px; /* Pevná výška obrázku */
-        object-fit: cover; /* Obrázky se přizpůsobí a oříznou, aby zapadly do velikosti */
-        display: none; /* Skryjeme obrázky, které nejsou aktivní */
-        border-radius: 5px;
-    }
+        .btn-gold:hover {
+            background-color: #FFD700; /* Jasnější zlatá při najetí myší */
+        }
 
-    /* Aktivní obrázek */
-    .slideshow-image.active {
-        display: block;
-    }
-</style>
+        .time-remaining {
+            white-space: normal;
+            text-align: center;
+            display: block;
+            min-height: 60px;
+        }
 
+        {#.sold-label {#}
+        {#    color: red;#}
+        {#    font-weight: bold;#}
+        {#    font-size: 18px;#}
+        {
+        #}#}
+        .sold-label {
+    background-color: #DAA520;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: default;
+    border-radius: 5px;
+    min-width: 120px; /* Nastavení minimální šířky */
+}
+
+        .sold-label:hover {
+            background-color: #FFD700;
+
+        /* Jasnější zlatá při najetí myší */
+    </style>
 
     <!-- Start of centered content wrapper -->
     <div class="center-wrapper">
@@ -90,7 +135,7 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             {% if add_auction.previous_price is None %}
                                 <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }}
                                     Kč</p><br>
@@ -106,7 +151,7 @@
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -118,7 +163,17 @@
                                 {% endif %}
                             </p>
 
-                            <p class="u-align-center u-text u-text-8">Place Bid</p>
+                            <p class="u-align-center u-text u-text-8">
+                                {% if add_auction.is_sold %}
+                                    <button class="sold-label">Sold</button>
+                                {% elif add_auction.is_expired %}
+                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_type == 'place_bid' %}
+                                    <button class="btn btn-gold">Place Bid</button>
+                                {% else %}
+                                    <button class="btn btn-gold">Buy Now</button>
+                                {% endif %}
+                            </p>
 
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
@@ -172,12 +227,12 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             <p class="u-align-center u-text u-text-6">{{ add_auction.buy_now_price|price_format }}
                                 Kč</p>
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -189,9 +244,17 @@
                                 {% endif %}
                             </p>
 
-                            <p class="u-align-center u-text u-text-8"><a
-                                    href="{% url 'cart_view' %}?add_auction_id={{ add_auction.id }}"
-                                    class="btn btn-success">Buy Now</a></p>
+                               <p class="u-align-center u-text u-text-8">
+                                {% if add_auction.is_sold %}
+                                    <button class="sold-label">Sold</button>
+                                {% elif add_auction.is_expired %}
+                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_type == 'place_bid' %}
+                                    <button class="btn btn-gold">Place Bid</button>
+                                {% else %}
+                                    <button class="btn btn-gold">Buy Now</button>
+                                {% endif %}
+                            </p>
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
@@ -243,7 +306,7 @@
                             {% endif %}
 
                             <p class="u-align-center u-text u-text-5">{{ add_auction.category }}
-                                - {{ add_auction.name_auction }}</p>
+                            <p class="u-align-center u-text u-text-5.1">{{ add_auction.name_auction }}</p>
                             {% if add_auction.previous_price is None %}
                                 <p class="u-align-center u-text u-text-6">{{ add_auction.start_price|price_format }}
                                     Kč</p>
@@ -259,7 +322,7 @@
                             {% endif %}
 
                             <!-- Zobrazení zbývajícího času -->
-                            <p>
+                            <p class="time-remaining">
                                 {% if add_auction.days_left > 0 %}
                                     {{ add_auction.days_left }} days
                                 {% endif %}
@@ -272,7 +335,17 @@
                             </p>
 
 
-                            <p class="u-align-center u-text u-text-8">Place Bid</p>
+                            <p class="u-align-center u-text u-text-8">
+                                {% if add_auction.is_sold %}
+                                    <button class="sold-label">Sold</button>
+                                {% elif add_auction.is_expired %}
+                                    <button class="expired-label">Expired</button>
+                                {% elif add_auction.auction_type == 'place_bid' %}
+                                    <button class="btn btn-gold">Place Bid</button>
+                                {% else %}
+                                    <button class="btn btn-gold">Buy Now</button>
+                                {% endif %}
+                            </p>
                             {% if user.is_superuser %}
                                 <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
                                 <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
