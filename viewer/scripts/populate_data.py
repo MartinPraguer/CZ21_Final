@@ -5,7 +5,7 @@ import random
 import os
 from datetime import timedelta
 from django.utils import timezone
-from viewer.models import AddAuction, User, Category, Bid, AuctionImage
+from viewer.models import AddAuction, User, Category, Bid, AuctionImage, About
 from django.core.files import File
 
 # Nastavení cesty k adresáři s fotografiemi
@@ -133,11 +133,61 @@ def create_expired_auctions_without_bids(users, categories, sample_names, sample
 
     print(f"{expired_auctions_count} expired auctions without bids created.")
 
+
+def get_or_create_user(username, email, password='heslo123'):
+    try:
+        return User.objects.get(username=username)
+    except User.DoesNotExist:
+        return User.objects.create_user(username=username, email=email, password=password)
+
+
 # Funkce `run()` jako vstupní bod skriptu
 def run():
     # Vytvoření superuživatele
     if not User.objects.filter(username='1234').exists():
         User.objects.create_superuser(username='1234', password='1234', email='')
+
+    # Martin Praguer
+    user = get_or_create_user(username='Martin Praguer', email='martin.praguer@gmail.com')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Martin Praguer.png',  # Cesta k obrázku
+            about_user=user,
+            contact = 'martin.praguer@gmail.com',
+            locket1 = 'Role in the project:',
+            locket2 = 'populate data',
+            locket3 = 'templates and details',
+            locket4 = '',
+            locket5 = '',
+        )
+
+    # Andrej Schön
+    user = get_or_create_user(username='Andrej Schön', email='a.schon@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Andrej Schön.jpg',
+            about_user=user,
+            contact = 'a.schon@seznam.cz',
+            locket1 = 'Role in the project:',
+            locket2 = 'account administration',
+            locket3 = 'shopping cart',
+            locket4 = '',
+            locket5 = '',
+        )
+
+    # Ondřej Vitásek
+    user = get_or_create_user(username='Ondřej Vitásek', email='ondrasek11vitasek@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Ondřej Vitásek.jpg',
+            about_user=user,
+            contact = 'ondrasek11vitasek@seznam.cz',
+            locket1 = 'Role in the project:',
+            locket2 = 'morale boost',
+            locket3 = 'tester',
+            locket4 = '',
+            locket5 = '',
+        )
 
     categories = ['Paintings', 'Statues', 'Numismatics', 'Jewelry']
 

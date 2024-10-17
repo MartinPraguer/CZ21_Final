@@ -189,3 +189,14 @@ class ArchivedPurchase(models.Model):
 
     def __str__(self):
         return f"Archived purchase: {self.auction.name_auction} by {self.user.username}"
+
+
+class About(models.Model):
+    photo = ImageField(upload_to='about/', null=True, blank=True)
+    about_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    contact = models.CharField(max_length=128)
+    locket1 = models.TextField()
+    locket2 = models.TextField()
+    locket3 = models.TextField()
+    locket4 = models.TextField()
+    locket5 = models.TextField()

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors
-from viewer.views import index, about, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
+from viewer.views import index, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
@@ -84,7 +84,7 @@ urlpatterns = [
     path('checkout/', views.PaymentView.as_view(), name='checkout'),  # URL pro platbu
     path('pay/', views.pay_button, name='pay_button'),
     path('success/', views.success_page, name='success_page'),
-
+    path('about/', about, name='about'),
 
 
 ]

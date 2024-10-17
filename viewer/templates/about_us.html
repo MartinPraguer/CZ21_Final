@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+    
+    
+ <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+    <style>
+        /* Wrapper for centering all content */
+        .center-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .buy-now-auction, .promotion-auction {
+            border: 3px solid gold;
+            background-color: #fff8dc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 15px;
+            vertical-align: top;
+            width: 250px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .buy-now-auction:hover, .promotion-auction:hover, .without-promotion-auction:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Obrázky mají pevnou velikost */
+        .slideshow-image {
+            width: 100%; /* Pevná šířka obrázku */
+            height: 200px; /* Pevná výška obrázku */
+            object-fit: cover; /* Obrázky se přizpůsobí a oříznou, aby zapadly do velikosti */
+            {#display: none; /* Skryjeme obrázky, které nejsou aktivní */#}
+            border-radius: 5px;
+        }
+
+        /* Aktivní obrázek */
+        .slideshow-image.active {
+            display: block;
+        }
+
+        .btn-gold {
+            background-color: #DAA520; /* Zlatavá barva */
+            color: white; /* Barva textu */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px; /* Zaoblené rohy */
+        }
+
+        .btn-gold:hover {
+            background-color: #FFD700; /* Jasnější zlatá při najetí myší */
+        }
+
+        .time-remaining {
+            white-space: normal;
+            text-align: center;
+            display: block;
+            min-height: 60px;
+        }
+        
+        .contact {
+            white-space: normal;
+            text-align: center;
+            display: block;
+            min-height: 60px;
+        }
+
+        .sold-label {
+            background-color: #ff4d4d; /* Změna na červenou barvu */
+            color: white; /* Bílý text */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: default;
+            border-radius: 5px; /* Zaoblené rohy */
+            min-width: 120px;
+            font-weight: bold; /* Ztučnění textu */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Přidání stínu */
+        }
+
+        .sold-label:hover {
+            background-color: #ff6666; /* Světlejší červená při najetí myší */
+        }
+        
+        .add_auction-container {
+    display: flex;
+    justify-content: center;  /* Vycentruje obsah */
+    flex-wrap: wrap;  /* Umožní zalamování na další řádky, pokud je více karet */
+    gap: 20px;  /* Mezera mezi kartami */
+}
+
+        /* Jasnější zlatá při najetí myší */
+    </style>
+    
+    <!-- Start of centered content wrapper -->
+    <div class="center-wrapper">
+        <h2>{{ page_name }}</h2>
+    
+        <div class="add_auction-container">
+            {% for about in about_entries %}
+                <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white promotion-auction">
+                    <a href="{% url 'add_auction_detail' about.pk %}"
+                       style="text-decoration: none; color: inherit;">
+                        <div class="u-container-layout u-similar-container u-container-layout-2">
+
+
+                        <img class="slideshow-image" src="{{ about.photo.url }}" alt="Photo of {{ about.about_user.username }}">
+                        
+                        
+
+                            <p class="u-align-center u-text u-text-5">{{ about.about_user }}
+                            <p class="u-align-center u-text u-text-6 contact">{{ about.contact }}</p><br>
+                        
+                         
+                                <p class="u-align-center u-text u-text-7">{{ about.locket1 }}</p>
+                            
+                                <p class="u-align-center u-text u-text-8">- {{ about.locket2 }}</p>
+                                
+                                <p class="u-align-center u-text u-text-9">- {{ about.locket3 }}</p>
+                            
+                        
+              
+                        
+
+
+
+                            <!-- Zobrazení zbývajícího času -->
+                            <p class="time-remaining">
+                                {% if add_auction.days_left > 0 %}
+                                    {{ add_auction.days_left }} days
+                                {% endif %}
+                                {% if add_auction.hours_left > 0 %}
+                                    {{ add_auction.hours_left }} hours
+                                {% endif %}
+                                {% if add_auction.minutes_left > 0 %}
+                                    {{ add_auction.minutes_left }} minutes
+                                {% endif %}
+                            </p>
+
+                            <p class="u-align-center u-text u-text-8">
+                                {% if add_auction.is_sold %}
+                                    <button class="sold-label">Sold</button>
+                                {% elif add_auction.auction_end_date < current_time and not add_auction.is_sold %}
+                                    <button class="sold-label">Not Sold</button>
+                                {% elif add_auction.auction_type == 'place_bid' %}
+                                    <button class="btn btn-gold">Place Bid</button>
+                                {% else %}
+                                    <button class="btn btn-gold">Buy Now</button>
+                                {% endif %}
+                            </p>
+
+                            {% if user.is_superuser %}
+                                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
+                                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    
+
+{% endblock %}
+
+    
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+{#    <h2>Výsledky vyhledávání</h2>#}
+{#    #}
+{#    {% if searchs %}#}
+{#        <ul>#}
+{#            {% for auction in searchs %}#}
+{#                <li>#}
+{#                #}
+{#                {% if auction.photo %}#}
+{#                        <img src="{{ auction.photo.url }}" alt="{{ auction.name }}" style="max-width: 200px;">#}
+{#                    {% endif %}<br>#}
+{#                #}
+{#                    <h3>{{ auction.name_auction }}</h3>#}
+{#                    <p>Kategorie: {{ auction.category }}</p>#}
+{#                    <p>Cena: {{ auction.price }} | Buy Now cena: {{ auction.buy_now_price }}</p>#}
+{#                    <p>Datum začátku: {{ auction.auction_start_date }} | Datum konce: {{ auction.auction_end_date }}</p>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <p>Nebyly nalezeny žádné aukce.</p>#}
+{#    {% endif %}    #}
+    
+    
+{#    <h1>Search Results</h1>#}
+{#    {% if searchs %}#}
+{#        <ul>#}
+{#            {% for ad in searchs %}#}
+{#                <li>#}
+{#                     {% if ad.photo %}#}
+{#                        <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">#}
+{#                    {% endif %}<br>#}
+{#                    <strong>{{ ad.name_auction }}</strong><br>#}
+{#                    Category: {{ ad.category }}<br>#}
+{#                    Description: {{ ad.description }}<br>#}
+{#                    Auction creator: {{ ad.user_creator }}<br>#}
+{#                    {% if ad.name_buyer %}#}
+{#                    Auction buyer: {{ ad.name_buyer }}<br>#}
+{#                    {% endif %}</br><br>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <p>No results found for your search.</p>#}
+{#    {% endif %}#}

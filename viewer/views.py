@@ -1,5 +1,3 @@
-# ŘAZENÍ OD ZADU (zhruba): index, about, 4 kategorie, current_auction, auction_archives, last_auction, auction_form, auction_detail, detail_search....
-
 from django.http import HttpResponse
 from viewer.forms import SignUpForm
 from django.views.generic import UpdateView, DeleteView, TemplateView
@@ -16,7 +14,7 @@ from .models import Category
 from .forms import AuctionSearchForm
 from django.db.models import Q
 from django.views.generic.detail import DetailView
-from .models import Cart
+from .models import Cart, About
 from django.utils import timezone
 from .models import Bid
 from django.contrib.auth.decorators import login_required
@@ -594,11 +592,14 @@ def auction_detail(request, pk):
 
 
 def about(request):
-    return render(
-        request,
-        "about.html",
-        context={}
-    )
+    # Získání všech záznamů z modelu About
+    about_entries = About.objects.all()
+    page_name = 'About us'
+    # Předání těchto dat do šablony
+    return render(request, 'about_us.html', {
+        'page_name': page_name,
+        'about_entries': about_entries,
+    })
 
 
 def index(request):

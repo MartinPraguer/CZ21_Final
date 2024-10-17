@@ -1,18 +1,19 @@
-#Spouštění aplikace:
+# Spouštění aplikace:
 
 - pip install -r requirements.txt
 - python manage.py makemigrations
 - python manage.py migrate
 - python manage.py runserver
+- python manage.py runscript populate_data -v3
 
 
 
-Auction gallery - průběžné body:
+# Auction gallery - průběžné body:
 
 - [X] přidání volného řádku u kartičky, protože se zkracovala
 - [x] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
 - [x] oprava None zobrazování ceny u nově přidaných aukcí
-- [x]- sjetí na konec stránky po přidání příhozu - nefunguje úplně podle představy
+- [x] sjetí na konec stránky po přidání příhozu - nefunguje úplně podle představy
 - [x] javascript u detailu stránky zobrazí aktuální výši příhozu
 - [ ] pri prihlaseni umoznit uzivateli, aby si upravil profil
 - [ ] testovat, testovat, testovat
@@ -24,7 +25,7 @@ Auction gallery - průběžné body:
 - [x] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 - [x] opravit, aby nešla dát částka pod minimální příhoz
 - [x] users list a detail uživatelů
-- [x]- opravit detailní hledání - chybí description, a otestovat ho - neotestované
+- [x] - opravit detailní hledání - chybí description, a otestovat ho - neotestované
 - [X] napojit Androjovu větev s koupí na to co již máme a udělat pomyslný nákup s tím, že se daná aukce odebere ze seznamu akcí
 - [ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
 - [ ] finalized - přepsat veškeré texty do angličtiny
@@ -34,7 +35,7 @@ Auction gallery - průběžné body:
 - [x] opravit názvy tříd
 - [x] přejmenovat záložku Authors na Prodávající/kupující
 - [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
-- [x]- vyvořit 3-4 testy - ještě to zkorigovat
+- [x] - vyvořit 3-4 testy - ještě to zkorigovat
 - [X] vytvořit premium ucet a napárovat to s promotions kategoriemi
 - [x] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 - [x] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
@@ -47,7 +48,7 @@ Auction gallery - průběžné body:
 - [X] CRUD - přejmenovat add, protože křičelo - nevím kde to Andrejovi křičelo, u mě všechno OK
 - [x] buy now - u kup teď odstranit přidávání příhozů
 - [x] login-log out tlačítko
-- [x]- přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
+- [x] - přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
 - [x] posunout menu doleva
 - [-] záložka aukce - nevím jak to bylo myšleno
 - [x] ukázat kolik zbývá času do konce aukce
