@@ -264,12 +264,20 @@ class AddAuctionCreateView(CreateView):
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
 
+
 class AddauctionUpdateView(UpdateView):
-    template_name = 'add_auction_form.html'  # Stránka, která se zobrazí při editaci
     model = AddAuction
     form_class = AddAuctionForm
-    success_url = reverse_lazy('add_auction')  # Přesměrování po úspěšné editaci
+    template_name = 'add_auction_form.html'
 
+    def get_success_url(self):
+        # Po úspěšné aktualizaci se uživatel přesměruje na stránku úspěchu
+        return reverse('auction_success_view', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['auction'] = self.object  # Přidání aukce do kontextu
+        return context
 
 
 class AddauctionDeleteView(DeleteView):
