@@ -127,6 +127,12 @@
     {% endif %}
 {% endif %}
 
+{% if user.is_superuser %}
+    <form action="{% url 'add_auction_delete' auction.pk %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Smazat Aukci</button>
+    </form>
+{% endif %}
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
     

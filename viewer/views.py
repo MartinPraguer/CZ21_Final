@@ -330,6 +330,10 @@ class AddauctionDeleteView(DeleteView):
     template_name = 'confirm_delete.html'  # Nová šablona pro potvrzení smazání
     success_url = reverse_lazy('index')  # Přesměrování na hlavní stránku po smazání
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, f'Aukce "{self.object.name_auction}" byla úspěšně smazána.')  # Přidání zprávy
+        return super().delete(request, *args, **kwargs)
+
 logger = logging.getLogger(__name__)
 
 
