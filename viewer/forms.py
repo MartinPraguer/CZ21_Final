@@ -2,12 +2,12 @@ from viewer.models import UserAccounts
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from viewer.models import Profile, AccountType
-from django.contrib.auth.models import User
-from django import forms
 from .models import AddAuction, Category
 from .models import Bid
 from multiupload.fields import MultiFileField
-
+from django import forms
+from .models import Profile
+from django.contrib.auth.models import User
 
 
 
@@ -112,3 +112,17 @@ class AuctionSearchForm(forms.Form):
     price_to = forms.DecimalField(required=False, label='Cena do', max_digits=10, decimal_places=2)
     auction_start_date_from = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku od')
     auction_start_date_to = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku do')
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['city', 'address', 'zip_code', 'avatar']
+        widgets = {
+            'avatar': forms.FileInput(),
+        }

@@ -1,7 +1,7 @@
 {% load static %}
 <nav>
     {% if user.is_authenticated %}
-        <div style="margin-left: 1cm;"> <!-- Posunutí doprava o 1 cm -->
+        <div style="margin-left: 0.25cm;"> <!-- Posunutí doprava o 1 cm -->
             <p style="color: #333333;">Logged in as {{ user.username }}
                 {% if user.useraccounts.account_type.account_type == 'Premium' %}
                     <span style="color: #DAA520;">(Premium User)</span>
@@ -9,13 +9,13 @@
             </p>
 
             {% if user.profile.avatar %}
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="user-avatar" width="50" height="50">
+                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img src="{{ user.profile.avatar.url }}" alt="Avatar" class="user-avatar" width="50" height="50"></a>
             {% else %}
-                <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50">
+                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50"></a>
             {% endif %}
 
-            <a href="{% url 'cart_view' %}" class="btn btn-link" style="color: #333333;">View cart</a> <!-- Tmavě šedý text -->
-
+            <a href="{% url 'auctions' %}" class="btn btn-link" style="color: #333333;">Auctions</a>
+            
             <form method="post" action="{% url 'logout' %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-link" style="color: #333333;">Logout</button> <!-- Tmavě šedý text -->

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+    <style>
+        /* Wrapper for centering all content */
+        .center-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .buy-now-auction, .promotion-auction {
+            border: 3px solid gold;
+            background-color: #fff8dc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 15px;
+            vertical-align: top;
+            width: 250px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .buy-now-auction:hover, .promotion-auction:hover, .without-promotion-auction:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Obrázky mají pevnou velikost */
+        .slideshow-image {
+            width: 100%; /* Pevná šířka obrázku */
+            height: 200px; /* Pevná výška obrázku */
+            object-fit: cover; /* Obrázky se přizpůsobí a oříznou, aby zapadly do velikosti */
+            display: none; /* Skryjeme obrázky, které nejsou aktivní */
+            border-radius: 5px;
+        }
+
+        /* Aktivní obrázek */
+        .slideshow-image.active {
+            display: block;
+        }
+
+        .btn-gold {
+            background-color: #DAA520; /* Zlatavá barva */
+            color: white; /* Barva textu */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px; /* Zaoblené rohy */
+        }
+
+        .btn-gold:hover {
+            background-color: #FFD700; /* Jasnější zlatá při najetí myší */
+        }
+
+        .time-remaining {
+            white-space: normal;
+            text-align: center;
+            display: block;
+            min-height: 60px;
+        }
+
+
+        .sold-label {
+            background-color: #ff4d4d; /* Změna na červenou barvu */
+            color: white; /* Bílý text */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: default;
+            border-radius: 5px; /* Zaoblené rohy */
+            min-width: 120px;
+            font-weight: bold; /* Ztučnění textu */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Přidání stínu */
+        }
+
+        .sold-label:hover {
+            background-color: #ff6666; /* Světlejší červená při najetí myší */
+        }
+
+        /* Jasnější zlatá při najetí myší */
+    </style>
+
+
+    <!-- Wrapper pro centrální obsah -->
+    <div class="center-wrapper">
+        <h2>Your Auctions</h2>
+
+        <div class="add_auction-container">
+            {% for auction in auctions %}
+                <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white promotion-auction">
+                    <a href="{% url 'add_auction_detail' auction.pk %}" style="text-decoration: none; color: inherit;">
+                        <div class="u-container-layout u-similar-container u-container-layout-2">
+
+                            <!-- Zobrazení obrázků pro aukci (slideshow) -->
+                            {% if auction.images.all %}
+                                <div class="slideshow-container" id="slideshow-{{ auction.pk }}">
+                                    {% for image in auction.images.all %}
+                                        <img class="slideshow-image" alt="Image for {{ auction.name_auction }}" src="{{ image.image.url }}">
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>No image available</p>
+                            {% endif %}
+
+                            <p class="u-align-center u-text">{{ auction.category.name }}</p>
+                            <p class="u-align-center u-text">{{ auction.name_auction }}</p>
+
+                            {% if auction.previous_price is None %}
+                                <p class="u-align-center u-text">{{ auction.start_price|price_format }} Kč</p>
+                            {% else %}
+                                <p class="u-align-center u-text">{{ auction.price|price_format }} Kč</p>
+                            {% endif %}
+
+                            {% if auction.previous_price %}
+                                <p class="u-align-center u-text odskok">
+                                    <del>{{ auction.previous_price|price_format }} Kč</del>
+                                </p>
+                            {% endif %}
+
+                            <!-- Zobrazení zbývajícího času -->
+                            <p class="time-remaining">
+                                {% if auction.days_left > 0 %}
+                                    {{ auction.days_left }} days
+                                {% endif %}
+                                {% if auction.hours_left > 0 %}
+                                    {{ auction.hours_left }} hours
+                                {% endif %}
+                                {% if auction.minutes_left > 0 %}
+                                    {{ auction.minutes_left }} minutes
+                                {% endif %}
+                            </p>
+
+                            <p class="u-align-center u-text">
+                                {% if auction.is_sold %}
+                                    <button class="sold-label">Sold</button>
+                                {% elif auction.auction_end_date < current_time and not auction.is_sold %}
+                                    <button class="sold-label">Not Sold</button>
+                                {% elif auction.auction_type == 'place_bid' %}
+                                    <button class="btn btn-gold">Place Bid</button>
+                                {% else %}
+                                    <button class="btn btn-gold">Buy Now</button>
+                                {% endif %}
+                            </p>
+
+                            {% if user.is_superuser %}
+                                <!-- Formuláře pro úpravu a mazání aukcí -->
+                                <form action="{% url 'add_auction_update' auction.pk %}" method="GET" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+                                <form action="{% url 'add_auction_delete' auction.pk %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Stránkování -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if auctions.has_previous %}
+                    <a href="?page={{ auctions.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="current">Page {{ auctions.number }} of {{ auctions.paginator.num_pages }}</span>
+                {% if auctions.has_next %}
+                    <a href="?page={{ auctions.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Slideshow script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slideshows = document.querySelectorAll('[id^="slideshow-"]');
+
+            slideshows.forEach(function (slideshow) {
+                let images = slideshow.querySelectorAll('.slideshow-image');
+                let index = 0;
+
+                function showNextImage() {
+                    images.forEach(img => img.classList.remove('active'));
+                    index = (index + 1) % images.length;
+                    images[index].classList.add('active');
+                }
+
+                images[0].classList.add('active');
+                setInterval(showNextImage, 3000);
+            });
+        });
+    </script>
+
+{% endblock %}
+

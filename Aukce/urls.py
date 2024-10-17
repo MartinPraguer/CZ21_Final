@@ -49,7 +49,9 @@ urlpatterns = [
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
+    path('profile/', views.profile, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('auctions/', views.auctions, name='auctions'),
 
 
     path("", index, name='index'),

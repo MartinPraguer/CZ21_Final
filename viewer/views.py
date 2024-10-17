@@ -35,6 +35,9 @@ from django.db import transaction  # Přidej tento import
 from django.shortcuts import redirect
 from .models import Cart, ArchivedPurchase, UserAccounts
 from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm, UserForm
 
 
 
@@ -46,15 +49,57 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 
 
-# from django.contrib.auth.views import LoginView
-#
-# class MyLoginView(LoginView):
-#     template_name = 'registration/login.html'
-#
-#     def get_success_url(self):
-#         # Pokud je v URL parametr `next`, přesměruje se uživatel tam, jinak na výchozí stránku
-#         return self.request.GET.get('next', '/')
 
+
+
+
+
+
+
+@login_required
+def auctions(request):
+    # Získáme všechny aukce vytvořené přihlášeným uživatelem
+    auctions = AddAuction.objects.filter(user_creator=request.user)
+
+    # Předáme aukce do šablony
+    return render(request, 'auctions.html', {'auctions': auctions})
+
+
+@login_required
+def profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    user = request.user
+    return render(request, 'profile.html', {'user': user, 'profile': profile})
+
+
+@login_required
+def profile(request):
+    profile = request.user.profile  # Předpokládáme, že každý uživatel má profil
+    user = request.user
+    return render(request, 'profile.html', {'user': user, 'profile': profile})
+
+
+@login_required
+def edit_profile(request):
+    # Získáme aktuální uživatelský profil a informace o uživateli
+    profile = request.user.profile
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')  # Přesměrování na stránku profilu po uložení
+
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=profile)
+
+    return render(request, 'edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
 
 
 def success_page(request):
