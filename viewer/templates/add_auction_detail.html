@@ -3,7 +3,7 @@
 {% load my_filters %}
 {% block content %}
 
-    
+
 <style>
     table {
         width: 100%;
@@ -25,9 +25,9 @@
     tr:hover {
         background-color: #f9f9f9; /* Změna barvy při najetí na řádek */
     }
-</style>    
-    
-    
+</style>
+
+
 <!-- Zobrazení obrázků pro danou aukci -->
 {% if auction.images.all %}
     <h3>Images:</h3>
@@ -45,8 +45,8 @@
 
 <!-- Odkaz na detail uživatele, který vytvořil aukci -->
 <p>Auction Creater: <a href="{% url 'user_detail' auction.user_creator.id %}">{{ auction.user_creator }}</a></p>
-    
-        
+
+
 {% if auction.name_buyer %}
     <p>Auction buyer: <a href="{% url 'user_detail' auction.name_buyer.id %}">{{ auction.name_buyer }}</a></p>
 {% endif %}
@@ -60,7 +60,7 @@
 {% endif %}
 
 {% if auction.auction_type == 'buy_now' %}
-    <p>Price: {{ auction.buy_now_price }} Kč</p>
+    <p>Price: {{ auction.buy_now_price|price_format }} Kč</p>
     <h3>Buy Now</h3>
 
     {% if auction_expired %}
@@ -133,7 +133,7 @@
     const bidInput = document.getElementById('new_bid');
 
     // Převést textové číslo na číslo (odstraní mezery a nahradí čárku tečkou pro korektní parsing)
-    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.')); 
+    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.'));
 
     // Funkce pro formátování ceny
     function formatPrice(price) {

@@ -175,9 +175,18 @@
                                 {% endif %}
                             </p>
 
-                            {% if user.is_superuser %}
-                                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
-                                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                                {% if user.is_superuser %}
+                                <!-- Formulář pro úpravu s metodou POST -->
+                                <form action="{% url 'add_auction_update' add_auction.pk %}" method="GET" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+
+                                <!-- Formulář pro smazání s metodou POST -->
+                                <form action="{% url 'add_auction_delete' add_auction.pk %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             {% endif %}
                         </div>
                     </a>
@@ -359,8 +368,17 @@
                             </p>
                             </p>
                             {% if user.is_superuser %}
-                                <a href="{% url 'add_auction_update' add_auction.pk %}">Edit</a>
-                                <a href="{% url 'add_auction_delete' add_auction.pk %}">Delete</a>
+                                <!-- Formulář pro úpravu s metodou POST -->
+                                <form action="{% url 'add_auction_update' add_auction.pk %}" method="GET" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+
+                                <!-- Formulář pro smazání s metodou POST -->
+                                <form action="{% url 'add_auction_delete' add_auction.pk %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             {% endif %}
                         </div>
                     </a>

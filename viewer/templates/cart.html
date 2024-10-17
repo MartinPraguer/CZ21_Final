@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load my_filters %}
 {% block content %}
     <h2>Váš košík</h2>
 
@@ -15,7 +16,7 @@
                 {% for cart in cart_items %}
                     <tr>
                         <td>{{ cart.auction.name_auction }}</td> <!-- Zobrazí název položky -->
-                        <td>{{ cart.price }} Kč</td> <!-- Zobrazí cenu za kus -->
+                        <td>{{ cart.price|price_format }} Kč</td> <!-- Zobrazí cenu za kus -->
                         <td>
                             <!-- Tlačítko pro odstranění položky -->
                             <a href="?remove_auction_id={{ cart.auction.id }}" class="btn btn-danger">Odstranit</a>
@@ -26,7 +27,7 @@
         </table>
 
         <!-- Zobrazení celkové částky košíku -->
-        <h3>Celková cena: {{ cart_total_amount }} Kč</h3>
+        <h3>Celková cena: {{ cart_total_amount|price_format }} Kč</h3>
 
         <!-- Stylizované tlačítko pro přechod k platbě -->
         <a href="{% url 'payment' 'cart' %}" class="btn btn-primary">Pokračovat k platbě</a>

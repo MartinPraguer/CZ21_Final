@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load my_filters %}
 {% block content %}
 
 <h1>Platba za {{ payment_type }}</h1>
@@ -8,10 +9,10 @@
     <h2>Položky v košíku:</h2>
     <ul>
         {% for item in cart_items %}
-            <li>{{ item.auction.name_auction }} - {{ item.price|floatformat:2 }} Kč</li> <!-- Opraveno formátování ceny -->
+            <li>{{ item.auction.name_auction }} - {{ item.price|price_format }} Kč</li> <!-- Opraveno formátování ceny -->
         {% endfor %}
     </ul>
-    <p>Celková částka: {{ cart_total_amount|floatformat:2 }} Kč</p> <!-- Opraveno formátování celkové částky -->
+    <p>Celková částka: {{ cart_total_amount|price_format }} Kč</p> <!-- Opraveno formátování celkové částky -->
 {% endif %}
 
 <form action="{% url 'payment' payment_type %}" method="post">
