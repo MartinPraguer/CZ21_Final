@@ -591,7 +591,7 @@ def auction_detail(request, pk):
 
 
 
-def about(request):
+def about_us(request):
     # Získání všech záznamů z modelu About
     about_entries = About.objects.all()
     page_name = 'About us'

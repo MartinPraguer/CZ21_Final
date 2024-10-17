@@ -151,6 +151,7 @@ def run():
 
         # Získání typu účtu 'premium'
         # account_premium = AccountType.objects.get(name='premium')
+        # account_user, created = AccountType.objects.get_or_create(account_type='User')
         account_premium, created = AccountType.objects.get_or_create(account_type='Premium')
         premium_user_account = UserAccounts.objects.create(
             user=superuser,
