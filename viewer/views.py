@@ -37,7 +37,7 @@ from django.db import transaction  # Přidej tento import
 from django.shortcuts import redirect
 from .models import Cart, ArchivedPurchase, UserAccounts
 from django.contrib.auth.decorators import login_required, permission_required
-from viewer.views_sablony import *
+
 
 
 
@@ -506,7 +506,90 @@ def detailed_search(request):
     return render(request, 'detailed_search.html', {'form': form, 'search': auctions})
 
 
+def auction_detail(request, pk):
+    auction = get_object_or_404(AddAuction, pk=pk)
 
+    auction_views = AddAuction.objects.get(pk=pk)
+    auction_views.number_of_views += 1
+    auction_views.save()
+
+
+
+    # Seřazení příhozů podle času, abychom je zobrazili chronologicky
+    bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
+
+    # Kontrola, zda aukce už vypršela
+    auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
+
+    if auction_expired:
+        time_left = None
+    else:
+        # Výpočet zbývajícího času
+        time_left = auction.auction_end_date - timezone.now()
+        days = time_left.days
+        hours, remainder = divmod(time_left.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        if request.method == 'POST':
+            if not request.user.is_authenticated:
+                # Přesměrování na login s parametrem next
+                return redirect(f'{reverse("login")}?next={request.path}')
+
+        new_bid_value = request.POST.get('new_bid')
+
+        if new_bid_value:
+            try:
+                new_bid = int(new_bid_value)
+            except ValueError:
+                return render(request, 'add_auction_detail.html', {
+                    'auction': auction,
+                    'bids': bids,
+                    'error_message': 'Prosím zadejte platnou částku příhozu.'
+                })
+
+            if auction.minimum_bid and new_bid < auction.minimum_bid:
+                return render(request, 'add_auction_detail.html', {
+                    'auction': auction,
+                    'bids': bids,
+                    'error_message': f'Your bid is lower than the minimum bid. Minimum bid is {auction.minimum_bid} Kč.'
+                })
+
+            # Pokud aukce nemá žádnou cenu, začínáme se start_price
+            if auction.price is None:
+                auction.price = auction.start_price
+
+            # Nastavení previous_price na aktuální cenu
+            auction.previous_price = auction.price
+
+            # Zvýšení ceny o nový příhoz
+            auction.price += new_bid
+
+            # Uložení nového příhozu s cenou po příhozu
+            Bid.objects.create(auction=auction, user=request.user, amount=new_bid, price=auction.price)
+
+            # Nastavení posledního přihazujícího
+            auction.name_bider = request.user
+
+            # Uložení aukce s novou cenou
+            auction.save()
+
+            return redirect('add_auction_detail', pk=auction.pk)
+
+        else:
+            return render(request, 'add_auction_detail.html', {
+                'auction': auction,
+                'bids': bids,
+                'error_message': 'Musíte zadat částku příhozu.'
+            })
+
+    return render(request, 'add_auction_detail.html', {
+        'auction': auction,
+        'bids': bids,
+        'auction_expired': auction_expired,
+        'days': days if not auction_expired else 0,
+        'hours': hours if not auction_expired else 0,
+        'minutes': minutes if not auction_expired else 0
+    })
 
 
 
