@@ -48,7 +48,14 @@ from viewer.views_sablony import *
 
 
 
-
+# from django.contrib.auth.views import LoginView
+#
+# class MyLoginView(LoginView):
+#     template_name = 'registration/login.html'
+#
+#     def get_success_url(self):
+#         # Pokud je v URL parametr `next`, přesměruje se uživatel tam, jinak na výchozí stránku
+#         return self.request.GET.get('next', '/')
 
 
 
@@ -291,9 +298,11 @@ class AddauctionDetailView(DetailView):
 
 def add_to_cart(request, auction_id):
     # Kontrola, zda je uživatel přihlášen
+
+    # Kontrola, zda je uživatel přihlášen
     if not request.user.is_authenticated:
-        # Pokud uživatel není přihlášen, přesměruj ho na přihlašovací stránku
-        return redirect('login')
+        # Přesměrování na login s parametrem next
+        return redirect(f'{reverse("login")}?next={request.path}')
 
     auction = get_object_or_404(AddAuction, pk=auction_id)
 

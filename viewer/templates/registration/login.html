@@ -3,10 +3,14 @@
 {% block content %}
   <div class="container">
     <h2>Login</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <!-- Skryté pole pro předání parametru 'next' -->
+    <input type="hidden" name="next" value="{{ request.GET.next|default_if_none:'/' }}">
+    
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
   </div>
 {% endblock %}

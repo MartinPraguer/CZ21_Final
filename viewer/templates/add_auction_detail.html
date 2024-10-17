@@ -86,13 +86,17 @@
         {% if error_message %}
     <p style="color: red;">{{ error_message }}</p>
         {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            <label for="new_bid">Your Bid:</label>
-            <input type="number" id="new_bid" name="new_bid" min="1" required>
-            <button type="submit">Place Bid</button>
-        </form>
-
+<form method="post">
+    {% csrf_token %}
+    
+    <input type="hidden" name="next" value="{{ request.GET.next|default_if_none:'/' }}">
+    
+    <label for="new_bid">Your Bid:</label>
+    <input type="number" id="new_bid" name="new_bid" min="1" required>
+    
+    <button type="submit">Place Bid</button>
+</form>
+<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">Přihlásit se</a>
         <!-- Dynamické zobrazení nové celkové ceny -->
 <p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
     {% endif %}

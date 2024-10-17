@@ -1,4 +1,5 @@
 from viewer.views import *
+from django.utils import timezone
 
 
 
@@ -17,6 +18,8 @@ def auction_detail(request, pk):
     auction_views.number_of_views += 1
     auction_views.save()
 
+
+
     # Seřazení příhozů podle času, abychom je zobrazili chronologicky
     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
 
@@ -32,9 +35,10 @@ def auction_detail(request, pk):
         hours, remainder = divmod(time_left.seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-    if request.method == 'POST':
-        if not request.user.is_authenticated:
-            return redirect('login')
+        if request.method == 'POST':
+            if not request.user.is_authenticated:
+                # Přesměrování na login s parametrem next
+                return redirect(f'{reverse("login")}?next={request.path}')
 
         new_bid_value = request.POST.get('new_bid')
 
