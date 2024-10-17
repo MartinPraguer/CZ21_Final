@@ -22,7 +22,7 @@
         {% endfor %}
     </ul>
 
-    <h3>Bought Auctions:</h3>_detau
+    <h3>Bought Auctions:</h3>
     <ul>
         {% for auction in bought_auctions %}
             <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
