@@ -86,17 +86,15 @@
         {% if error_message %}
     <p style="color: red;">{{ error_message }}</p>
         {% endif %}
-<form method="post">
+<form method="post" id="bid-form">
     {% csrf_token %}
-    
-    <input type="hidden" name="next" value="{{ request.GET.next|default_if_none:'/' }}">
-    
     <label for="new_bid">Your Bid:</label>
     <input type="number" id="new_bid" name="new_bid" min="1" required>
-    
-    <button type="submit">Place Bid</button>
-</form>
-<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">Přihlásit se</a>
+
+    <!-- Tlačítko Place Bid -->
+    <button type="submit" class="btn btn-primary" id="place-bid-btn">Place Bid</button>
+</form>  
+        
         <!-- Dynamické zobrazení nové celkové ceny -->
 <p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
     {% endif %}
@@ -131,41 +129,30 @@
 
 <a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
 
+    
+  
+
+<!-- Skript pro posun na tlačítko po odeslání formuláře -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const finalPriceDisplay = document.getElementById('final_price');
-    const bidInput = document.getElementById('new_bid');
+    // Uložit pozici při kliknutí na tlačítko Place Bid
+    document.addEventListener('DOMContentLoaded', function () {
+        const bidButton = document.querySelector('#place-bid-btn'); // Odkaz na tlačítko
 
-    // Převést textové číslo na číslo (odstraní mezery a nahradí čárku tečkou pro korektní parsing)
-    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.'));
-
-    // Funkce pro formátování ceny
-    function formatPrice(price) {
-        // Pokud je cena celé číslo, zobrazí ji bez desetinných míst
-        if (price % 1 === 0) {
-            return price.toLocaleString('cs-CZ'); // České formátování (tečka pro tisíce, žádné desetinné místo)
-        } else {
-            // Pokud má desetinná místa, zobrazíme dvě desetinná místa
-            return price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (bidButton) {
+            bidButton.addEventListener('click', function () {
+                // Uložit aktuální scroll pozici do localStorage před odesláním formuláře
+                localStorage.setItem('scrollPosition', window.scrollY);
+            });
         }
-    }
 
-    // Nastavit na stránce formátovanou cenu hned po načtení
-    finalPriceDisplay.textContent = formatPrice(currentPrice);
-
-    // Při zadávání nového příhozu (bidu) aktualizovat cenu
-    if (bidInput) {
-        bidInput.addEventListener('input', function(event) {
-            const bidValue = parseFloat(event.target.value);
-            if (!isNaN(bidValue)) {
-                // Vypočítat novou cenu
-                const newPrice = currentPrice + bidValue;
-                // Zobrazit nově formátovanou cenu
-                finalPriceDisplay.textContent = formatPrice(newPrice);
-            }
-        });
-    }
-});
+        // Obnovit pozici při načtení stránky
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            // Odstranit uloženou pozici, aby se nepoužila při dalších změnách stránek
+            localStorage.removeItem('scrollPosition');
+        }
+    });
 </script>
 
 <script>
