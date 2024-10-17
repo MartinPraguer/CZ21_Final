@@ -221,9 +221,7 @@ class PaymentView(View):
 
 
     template_name = 'form.html'
-class AddauctionView(TemplateView):
-    template_name = 'add_auction_form.html'
-    extra_context = {'last_auctions': AddAuction.objects.order_by("-created")[:12]}
+
 
 class AddAuctionCreateView(CreateView):
     model = AddAuction
@@ -233,10 +231,8 @@ class AddAuctionCreateView(CreateView):
     def get_context_data(self, **kwargs):
         # Získání původního kontextu z nadřazené třídy
         context = super().get_context_data(**kwargs)
-
-                # Informace o přihlášení uživatele
-        context['user_authenticated'] = self.request.user.is_authenticated
-
+        context['last_auctions'] = AddAuction.objects.order_by("-created")[:12]  # Přidání posledních aukcí
+        context['user_authenticated'] = self.request.user.is_authenticated  # Informace o přihlášení uživatele
         return context
 
     def form_valid(self, form):
@@ -250,10 +246,7 @@ class AddAuctionCreateView(CreateView):
         auction = form.save(commit=False)  # Uložení aukce bez odeslání do databáze
 
         # Nastavení promotion na základě typu účtu
-        if self.request.user.useraccounts.account_type.account_type == 'Premium':
-            auction.promotion = True  # Premium uživatelé mají promotion
-        else:
-            auction.promotion = False  # Obyčejní uživatelé nemají promotion
+        auction.promotion = self.request.user.useraccounts.account_type.account_type == 'Premium'
 
         auction.save()  # Uložení aukce do databáze
 
