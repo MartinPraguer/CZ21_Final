@@ -1,5 +1,7 @@
 # python manage.py runscript populate_data -v3
 
+from django.contrib.auth import get_user_model
+from viewer.models import UserAccounts, AccountType
 import time
 import random
 import os
@@ -143,9 +145,23 @@ def get_or_create_user(username, email, password='heslo123'):
 
 # Funkce `run()` jako vstupní bod skriptu
 def run():
-    # Vytvoření superuživatele
     if not User.objects.filter(username='1234').exists():
-        User.objects.create_superuser(username='1234', password='1234', email='')
+        # Vytvoření superuživatele
+        superuser = User.objects.create_superuser(username='1234', password='1234', email='')
+
+        # Získání typu účtu 'premium'
+        # account_premium = AccountType.objects.get(name='premium')
+        account_premium, created = AccountType.objects.get_or_create(account_type='Premium')
+        premium_user_account = UserAccounts.objects.create(
+            user=superuser,
+            account_type=account_premium,
+            is_premium=True,
+            premium_expiry_date=timezone.now() + timedelta(days=30)
+        )
+
+        # Výstup pro kontrolu
+        print(
+            f"Prémiový účet vytvořen: {premium_user_account.is_premium}, Expirace: {premium_user_account.premium_expiry_date}")
 
     # Martin Praguer
     user = get_or_create_user(username='Martin Praguer', email='martin.praguer@gmail.com')
