@@ -2,9 +2,9 @@
 <nav>
     {% if user.is_authenticated %}
         <div style="margin-left: 1cm;"> <!-- Posunutí doprava o 1 cm -->
-            <p style="color: #333333;">Přihlášen jako {{ user.username }}
+            <p style="color: #333333;">Logged in as {{ user.username }}
                 {% if user.useraccounts.account_type.account_type == 'Premium' %}
-                    <span style="color: gold;">(Premium User)</span>
+                    <span style="color: #DAA520;">(Premium User)</span>
                 {% endif %}
             </p>
 
@@ -14,15 +14,15 @@
                 <img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50">
             {% endif %}
 
-            <a href="{% url 'cart_view' %}" class="btn btn-link" style="color: #333333;">Zobrazit košík</a> <!-- Tmavě šedý text -->
+            <a href="{% url 'cart_view' %}" class="btn btn-link" style="color: #333333;">View cart</a> <!-- Tmavě šedý text -->
 
             <form method="post" action="{% url 'logout' %}" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-link" style="color: #333333;">Odhlásit se</button> <!-- Tmavě šedý text -->
+                <button type="submit" class="btn btn-link" style="color: #333333;">Logout</button> <!-- Tmavě šedý text -->
             </form>
         </div>
     {% else %}
-        <a href="{% url 'login' %}" class="btn btn-link" style="color: #333333;">Přihlásit se</a> <!-- Tmavě šedý text -->
-        <a href="{% url 'sign_up' %}" class="btn btn-link" style="color: #333333;">Registrovat se</a> <!-- Tmavě šedý text -->
+        <a href="{% url 'login' %}" class="btn btn-link" style="color: #333333;">Login</a> <!-- Tmavě šedý text -->
+        <a href="{% url 'sign_up' %}" class="btn btn-link" style="color: #333333;">Sign up</a> <!-- Tmavě šedý text -->
     {% endif %}
 </nav>

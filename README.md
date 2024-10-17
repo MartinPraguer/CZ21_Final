@@ -5,15 +5,19 @@
 - python manage.py migrate
 - python manage.py runserver
 - python manage.py runscript populate_data -v3
-
+- admin - jméno/heslo: 1234/1234
 
 
 # Auction gallery - průběžné body:
 
+
+
+
+- [x] počet kliknutí nefunguje
 - [X] přidání volného řádku u kartičky, protože se zkracovala
 - [x] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
 - [x] oprava None zobrazování ceny u nově přidaných aukcí
-- [x] sjetí na konec stránky po přidání příhozu - nefunguje úplně podle představy
+- [x] sjetí na konec stránky po přidání příhozu
 - [x] javascript u detailu stránky zobrazí aktuální výši příhozu
 - [ ] pri prihlaseni umoznit uzivateli, aby si upravil profil
 - [ ] testovat, testovat, testovat
@@ -28,14 +32,16 @@
 - [x] - opravit detailní hledání - chybí description, a otestovat ho - neotestované
 - [X] napojit Androjovu větev s koupí na to co již máme a udělat pomyslný nákup s tím, že se daná aukce odebere ze seznamu akcí
 - [ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
+- [ ] finalized - testy
+- [ ] finalized - populační data
 - [ ] finalized - přepsat veškeré texty do angličtiny
 - [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
 - [ ] finalized - odstranit z html kódu poznámky
-- [x] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
+- [ ] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
 - [x] opravit názvy tříd
 - [x] přejmenovat záložku Authors na Prodávající/kupující
 - [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
-- [x] - vyvořit 3-4 testy - ještě to zkorigovat
+- [ ] - vyvořit 3-4 testy - ještě to zkorigovat
 - [X] vytvořit premium ucet a napárovat to s promotions kategoriemi
 - [x] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 - [x] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
@@ -50,14 +56,13 @@
 - [x] login-log out tlačítko
 - [x] - přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
 - [x] posunout menu doleva
-- [-] záložka aukce - nevím jak to bylo myšleno
 - [x] ukázat kolik zbývá času do konce aukce
 - [x] na stránce probíhající akce udělat forcyklus přidaných příhozů
 - [-] pořešit hlavy soch
 - [x] přidat, aby šlo přidávat vícero obrázku k jedné aukci
 - [x] pokazily se obrázky velkých kategorií, tak to opravit
-- [-] přidat odkazy na jednotlivé stránky a přidat forcyklus na stránky podle kategorie - už nevím jak jsem to myslel
-- [-] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
+- [X] přidat odkazy na jednotlivýcg stránkách a přidat forcyklus na stránky podle kategorie
+- [X] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
 - [x] udělat košík a koupi produktu
 - [ ] udělat hodnocení nákupu - prodávající/kupující
 - [x] vytvořit uživatelské účty
@@ -90,7 +95,7 @@
 - [x] vkládání nabídky
 - [x] přehled aukcí např. 10
 - [ ] návrh od konzultanta, pouze na zvážení - volba měny, lupička na přiblížení detailu malby, šperku, sochy; forma dodání, faktura, dodání kam - fakturační adresa stejná jako místo dodání, osobní odběr, jestli je to na firmu, takže IČO a DIČO, možnost platby - převodem, paypal, kartou, při doručení, připojištění zásilky, možnost osobní prohlídky po dobou aukce, možnost konzultace ohledně ceny díla, kontaktní adresy, děláme něco mezi aukrem a galerií umění, jak je ošetřené kurátory štengrování při falešné bidování, doklad o pravosti díla za příplatek
-- [x] počet kliknutí nefunguje
+
 
 
 # ER Diagram

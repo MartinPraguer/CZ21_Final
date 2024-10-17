@@ -19,7 +19,7 @@ from django.urls import path
 from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors
 from viewer.views import index, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
-from viewer.views import index, about,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
+from viewer.views import index, about_us,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
 from viewer.views_sablony import statues, jewelry, numismatics, paintings, paintings, last_auction, current_auctions, auction_archives, statues, jewelry, numismatics
 from viewer import views
@@ -46,47 +46,47 @@ admin.site.register(Permission)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('sign-up/', SignUpView.as_view(), name='sign_up'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+
+
     path("", index, name='index'),
-    # path("pridat_inzerat", pridat_inzerat)
-    path("about/", about, name='about'),
-    # path("search/", search, name='search'),
-    path("detailed_search/", detailed_search, name="detailed_search"),
-    # path("inzeraty/<int:pk>/", auction, name='auction'),
-    # path('add_auction/create', add_auction, name='add_auction'),
-    # path('add_auction/', AddauctionView.as_view(), name='add_auction'),
-    path('add_auction/create/', AddAuctionCreateView.as_view(), name='add_auction_create'),
-    path('auction_success/<int:pk>/', views.auction_success_view, name='auction_success_view'),  # Přidána URL pro úspěšné vytvoření aukce
-    path('add_auction/update/<pk>', AddauctionUpdateView.as_view(), name='add_auction_update'),
-    path('add_auction/delete/<pk>', AddauctionDeleteView.as_view(), name='add_auction_delete'),
     path('paintings/', paintings, name='paintings'),
     path('statues/', statues, name='statues'),
     path('jewelry/', jewelry, name='jewelry'),
     path('numismatics/', numismatics, name='numismatics'),
-    path('last_auction/', last_auction, name='last_auction'),
-    # path('test/', views.my_view),
-    # path('add_auction/<int:pk>/', AddauctionDetailView.as_view(), name='add_auction_detail'),
-    path('sign-up/', SignUpView.as_view(), name='sign_up'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('add_auction/<int:pk>/', views.auction_detail, name='add_auction_detail'),
     path('current_auctions/', current_auctions, name='current_auctions'),
     path('auction_archives/', auction_archives, name='auction_archives'),
-    path('authors/', authors, name='authors'),
+    path("detailed_search/", detailed_search, name="detailed_search"),
+    path('last_auction/', last_auction, name='last_auction'),
+    path('about_us/', about_us, name='about_us'),
+
+
+
+    path('add_auction/<int:pk>/', views.auction_detail, name='add_auction_detail'),
+    path('add_auction/create/', AddAuctionCreateView.as_view(), name='add_auction_create'),
+    path('auction_success/<int:pk>/', views.auction_success_view, name='auction_success_view'),
+    path('add_auction/update/<pk>', AddauctionUpdateView.as_view(), name='add_auction_update'),
+    path('add_auction/delete/<pk>', AddauctionDeleteView.as_view(), name='add_auction_delete'),
+
+
+
+    path('list_users/', list_users, name='list_users'),
+    path('users/<int:user_id>/', user_detail, name='user_detail'),
+
+
+
     path('add_to_cart/<int:auction_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),
     path('checkout/', checkout_view, name='checkout'),
     path('payment/<str:payment_type>/', PaymentView.as_view(), name='payment'),
     path('success/', TemplateView.as_view(template_name="success.html"), name='success'),
     path('error/', TemplateView.as_view(template_name="error.html"), name='error'),
-    path('list_users/', list_users, name='list_users'),
-    path('users/<int:user_id>/', user_detail, name='user_detail'),
-    path('cart/', views.cart_view, name='cart_view'),  # URL pro zobrazení košíku
-    path('checkout/', views.PaymentView.as_view(), name='checkout'),  # URL pro platbu
+    path('checkout/', views.PaymentView.as_view(), name='checkout'),
     path('pay/', views.pay_button, name='pay_button'),
     path('success/', views.success_page, name='success_page'),
-    path('about/', about, name='about'),
-
-
 ]
 
 # Přidání URL pro obsluhu mediálních souborů během vývoje

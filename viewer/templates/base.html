@@ -116,21 +116,26 @@
                 Current auctions
             </a>
             <a class="nav-item nav-link" href="{% url 'auction_archives' %}" style="color: black;">
-                Auction archives
+                Auction archives</a>
                 {% if user.is_authenticated and user.useraccounts.account_type.account_type == 'Premium' %}
                     </a>
                     <a class="nav-item nav-link" href="{% url 'list_users' %}" style="color: black;">
                     Users
                 {% endif %}
-                </a>
+                
             <a class="nav-item nav-link" href="{% url 'add_auction_create' %}" style="color: black;">
                 Add auction
             </a>
             <a class="nav-item nav-link" href="{% url 'last_auction' %}" style="color: black;">
                 Last auction
             </a>
-            <a class="nav-item nav-link" href="{% url 'about' %}" style="color: black;">
-                About
+                {% if user.is_authenticated and user.useraccounts.account_type.account_type == 'Premium' %}
+                    </a>
+                    <a class="nav-item nav-link" href="{% url 'list_users' %}" style="color: black;">
+                    Users
+                {% endif %}
+            <a class="nav-item nav-link" href="{% url 'about_us' %}" style="color: black;">
+                About us
             </a>
             <a href="{% url 'cart_view' %}" class="">
                 {{ cart_count }}
