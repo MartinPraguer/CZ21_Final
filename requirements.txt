@@ -5,3 +5,4 @@ django-multiupload
 coverage
 pytest
 selenium
+sqlalchemy_get_or_create
