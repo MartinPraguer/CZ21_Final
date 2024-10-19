@@ -19,6 +19,17 @@ def create_default_users(sender, **kwargs):
         )
         UserAccounts.objects.create(user=superuser, account_type=account_premium)
 
+    superuser_username = '1234'
+    if not User.objects.filter(username=superuser_username).exists():
+        superuser = User.objects.create_superuser(
+            username=superuser_username,
+            password='1234',
+            email='1234@example.com'
+        )
+        superuser.is_staff = True  # Premium uživatelé mají přístup do administrace
+        superuser.save()
+        UserAccounts.objects.create(user=superuser, account_type=account_premium)  # Použití instance superuser
+
     # Vytvoření Premium uživatele
     premium_username = 'premiumuser'
     if not User.objects.filter(username=premium_username).exists():
