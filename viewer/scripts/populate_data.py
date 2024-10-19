@@ -137,16 +137,21 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
         )
         add_auction_images(auction, categorized_photos[category.name])
 
+        # Pokud je aukce typu 'buy_now', nastavíme kupujícího
         if auction_type == 'buy_now':
             auction.name_buyer = random.choice(users)  # Nastavíme kupujícího pro 'Buy Now' aukci
             auction.is_sold = True
             auction.save()
 
+        # Pokud je aukce typu 'place_bid', přidáme příhozy
         elif auction_type == 'place_bid':
             current_price = start_price
             num_bids = random.randint(1, 10)
+            last_bidder = None  # Proměnná pro uchování posledního přihazujícího
+
             for _ in range(num_bids):
                 bidder = random.choice(users)
+                last_bidder = bidder  # Uložení posledního přihazujícího
                 min_bid_increment = auction.minimum_bid
                 bid_amount = random.randint(min_bid_increment, min_bid_increment + 2000)
                 auction.previous_price = current_price
@@ -158,8 +163,13 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
                     price=current_price,
                     timestamp=timezone.now()
                 )
-            auction.price = current_price
-            auction.save()
+
+            # Po skončení přihazování nastavíme posledního přihazujícího jako kupujícího
+            if last_bidder:
+                auction.name_buyer = last_bidder
+                auction.is_sold = True  # Označíme aukci jako prodanou
+                auction.price = current_price
+                auction.save()
 
 # Hlavní funkce pro spuštění skriptu
 def run():
