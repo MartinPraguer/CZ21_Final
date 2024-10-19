@@ -100,6 +100,27 @@
             background-color: #ff6666; /* Světlejší červená při najetí myší */
         }
 
+        .not-sold-label {
+            background-color: #f47e7e; /* Změna na červenou barvu */
+            color: white; /* Bílý text */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: default;
+            border-radius: 5px; /* Zaoblené rohy */
+            min-width: 120px;
+            font-weight: bold; /* Ztučnění textu */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Přidání stínu */
+        }
+
+        .not-sold-label:hover {
+            background-color: #ff6666; /* Světlejší červená při najetí myší */
+        }        
+        
+        
         /* Jasnější zlatá při najetí myší */
     </style>
 
@@ -167,7 +188,7 @@
     {% if add_auction.check_is_sold %}
         <button class="sold-label">Sold</button>
     {% elif add_auction.is_expired and not add_auction.check_is_sold %}
-        <button class="sold-label">Not Sold</button>
+        <button class="not-sold-label">Not Sold</button>
     {% elif add_auction.auction_type == 'place_bid' %}
         <button class="btn btn-gold">Place Bid</button>
     {% else %}
@@ -257,7 +278,7 @@
     {% if add_auction.check_is_sold %}
         <button class="sold-label">Sold</button>
     {% elif add_auction.is_expired and not add_auction.check_is_sold %}
-        <button class="sold-label">Not Sold</button>
+        <button class="not-sold-label">Not Sold</button>
     {% elif add_auction.auction_type == 'place_bid' %}
         <button class="btn btn-gold">Place Bid</button>
     {% else %}
@@ -359,7 +380,7 @@
     {% if add_auction.check_is_sold %}
         <button class="sold-label">Sold</button>
     {% elif add_auction.is_expired and not add_auction.check_is_sold %}
-        <button class="sold-label">Not Sold</button>
+        <button class="not-sold-label">Not Sold</button>
     {% elif add_auction.auction_type == 'place_bid' %}
         <button class="btn btn-gold">Place Bid</button>
     {% else %}

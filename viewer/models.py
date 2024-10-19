@@ -137,7 +137,16 @@ class AddAuction(models.Model):
         # Automaticky nastavíme datum konce aukce na 7 dní po začátku
         self.auction_end_date = self.auction_start_date + timedelta(days=7)
 
-        super().save(*args, **kwargs)  # Uložíme objekt
+        # Nejprve uložíme aukci, aby měla primární klíč (ID)
+        super().save(*args, **kwargs)
+
+        # Po uložení aukce zkontrolujeme, zda byla prodána, a případně aktualizujeme stav
+        is_sold_updated = self.check_is_sold()
+
+        # Pokud došlo ke změně stavu prodané aukce, znovu ji uložíme
+        if self.is_sold != is_sold_updated:
+            self.is_sold = is_sold_updated
+            super().save(update_fields=['is_sold'])
 
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
