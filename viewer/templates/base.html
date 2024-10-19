@@ -116,13 +116,7 @@
                 Current auctions
             </a>
             <a class="nav-item nav-link" href="{% url 'auction_archives' %}" style="color: black;">
-                Auction archives</a>
-                {% if user.is_authenticated and user.useraccounts.account_type.account_type == 'Premium' %}
-                    </a>
-                    <a class="nav-item nav-link" href="{% url 'list_users' %}" style="color: black;">
-                    Users
-                {% endif %}
-                
+                Auction archives</a>         
             <a class="nav-item nav-link" href="{% url 'add_auction_create' %}" style="color: black;">
                 Add auction
             </a>
