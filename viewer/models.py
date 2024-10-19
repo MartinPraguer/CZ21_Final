@@ -110,32 +110,27 @@ class AddAuction(models.Model):
     auction_type = models.CharField(max_length=10, choices=AUCTION_TYPE_CHOICES, default='place_bid')
 
     buy_now_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     start_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     previous_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
-        if not self.auction_start_date:
-            self.auction_start_date = timezone.now()
+    def is_expired(self):
+        return self.auction_end_date and self.auction_end_date <= timezone.now()
 
-        if not self.auction_end_date:
-            self.auction_end_date = self.auction_start_date + timedelta(days=7)
+    def has_bids(self):
+        return self.bids.exists()
 
-        super().save(*args, **kwargs)
+    def check_is_sold(self):
+        if self.auction_type == 'buy_now':
+            return self.is_expired() and self.name_buyer is not None
+        if self.auction_type == 'place_bid':
+            return self.is_expired() and self.has_bids()
+        return False
 
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
-
-    def check_is_sold(self):
-        """Vrací True, pokud aukce má přiřazeného kupujícího."""
-        return self.name_buyer is not None
-
-    def is_active(self):
-        """Vrací True, pokud aukce ještě neskončila."""
-        return self.auction_end_date is None or self.auction_end_date > timezone.now()
 
 
 
