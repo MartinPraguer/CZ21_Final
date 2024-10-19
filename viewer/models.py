@@ -129,6 +129,16 @@ class AddAuction(models.Model):
             return self.is_expired() and self.has_bids()
         return False
 
+    def save(self, *args, **kwargs):
+        # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené
+        if not self.auction_start_date:
+            self.auction_start_date = timezone.now()
+
+        # Automaticky nastavíme datum konce aukce na 7 dní po začátku
+        self.auction_end_date = self.auction_start_date + timedelta(days=7)
+
+        super().save(*args, **kwargs)  # Uložíme objekt
+
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
