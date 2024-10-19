@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <h2>{{ user.username }}'s Profile</h2>
 
-  <img src="{{ profile.avatar.url }}" alt="Avatar" width="150">
+{% if profile.avatar %}
+    <img src="{{ profile.avatar.url }}" alt="Avatar" width="150">
+{% else %}
+    <img src="{% static 'avatar.png' %}" alt="Avatar" width="150">
+{% endif %}
   
   <p>First Name: {{ user.first_name }}</p>
   <p>Last Name: {{ user.last_name }}</p>

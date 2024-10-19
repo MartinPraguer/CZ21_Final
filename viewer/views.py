@@ -72,12 +72,6 @@ def profile(request):
     return render(request, 'profile.html', {'user': user, 'profile': profile})
 
 
-@login_required
-def profile(request):
-    profile = request.user.profile  # Předpokládáme, že každý uživatel má profil
-    user = request.user
-    return render(request, 'profile.html', {'user': user, 'profile': profile})
-
 
 @login_required
 def edit_profile(request):
