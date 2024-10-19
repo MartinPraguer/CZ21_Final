@@ -26,34 +26,47 @@ def create_default_categories():
     return category_objects
 
 
+
 # Funkce pro vytvoření uživatelů
 def create_default_users():
     user_model = get_user_model()
-
     premium_nicks = ["SkylineWalker", "ThunderBlade", "MysticVoyager", "PixelCrafter", "ShadowHunter23", "NeonNinja",
                      "BlazeRunner", "1234"]
     user_nicks = ["FrozenPhoenix", "CyberSailor", "EchoJumper", "IronWolfX", "CosmicRider", "LunarKnight7",
                   "SwiftFalcon", "CrimsonEcho"]
-
     users = []
+    # Vytvoření superuživatele
+    superuser, created = user_model.objects.get_or_create(
+        username='1234',
+        defaults={
+            'email': 'admin@example.com',
+            'is_staff': True,
+            'is_superuser': True
+        }
+    )
+    if created:
+        superuser.set_password('1234')  # Nastavení hesla
+        superuser.save()
+    users.append(superuser)
+    # Vytváření premium uživatelů
     for username in premium_nicks:
+        if username == '1234':
+            continue  # Superuživatel již byl vytvořen, přeskočit
         user, created = user_model.objects.get_or_create(username=username,
                                                          defaults={'email': f'{username}@example.com'})
         if created:
             user.set_password('1234')  # Nastavení šifrovaného hesla
             user.save()
-
         account_premium, _ = AccountType.objects.get_or_create(account_type='Premium')
         UserAccounts.objects.create(user=user, account_type=account_premium, is_premium=True)
         users.append(user)
-
+    # Vytváření obyčejných uživatelů
     for username in user_nicks:
         user, created = user_model.objects.get_or_create(username=username,
                                                          defaults={'email': f'{username}@example.com'})
         if created:
             user.set_password('1234')  # Nastavení šifrovaného hesla
             user.save()
-
         users.append(user)
     return users
 
