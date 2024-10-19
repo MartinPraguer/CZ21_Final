@@ -170,7 +170,13 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
                 # Zajistíme, že příhoz bude větší než minimální příhoz
                 min_bid_increment = auction.minimum_bid  # Získáme minimální příhoz z aukce
                 bid_amount = random.randint(min_bid_increment, min_bid_increment + 2000)  # Musí být alespoň minimální příhoz
+
+                # Aktualizujeme previous_price před zvýšením aktuální ceny
+                auction.previous_price = current_price
+
                 current_price += bid_amount
+
+                # Vytvoření nového příhozu
                 Bid.objects.create(
                     auction=auction,
                     user=bidder,
@@ -178,6 +184,8 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
                     price=current_price,
                     timestamp=timezone.now()
                 )
+
+            # Uložíme poslední aktuální cenu a previous_price do aukce
             auction.price = current_price
             auction.save()
 
