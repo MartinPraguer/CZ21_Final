@@ -26,7 +26,6 @@ def create_default_categories():
     return category_objects
 
 
-
 # Funkce pro vytvoření uživatelů
 def create_default_users():
     user_model = get_user_model()
@@ -168,7 +167,9 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
             num_bids = random.randint(1, 10)
             for _ in range(num_bids):
                 bidder = random.choice(users)
-                bid_amount = random.randint(500, 2000)
+                # Zajistíme, že příhoz bude větší než minimální příhoz
+                min_bid_increment = auction.minimum_bid  # Získáme minimální příhoz z aukce
+                bid_amount = random.randint(min_bid_increment, min_bid_increment + 2000)  # Musí být alespoň minimální příhoz
                 current_price += bid_amount
                 Bid.objects.create(
                     auction=auction,
