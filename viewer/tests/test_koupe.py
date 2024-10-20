@@ -38,7 +38,7 @@ class TestTestkoupe():
     time.sleep(3)
     self.driver.find_element(By.CSS_SELECTOR, "form:nth-child(15) > button").click()
     time.sleep(3)
-    self.driver.find_element(By.LINK_TEXT, "Pokračovat k platbě").click()
+    self.driver.find_element(By.LINK_TEXT, "Proceed to payment").click()
     time.sleep(3)
 
 
