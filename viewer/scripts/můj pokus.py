@@ -362,3 +362,46 @@ def run():
     )
 
     print("Data populated successfully!")
+
+
+    # Martin Praguer
+    user = get_or_create_user(username='Martin Praguer', email='martin.praguer@gmail.com')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Martin Praguer.png',  # Cesta k obrázku
+            about_user=user,
+            contact = 'martin.praguer@gmail.com',
+            locket1 = 'Role in the project:',
+            locket2 = 'populate data',
+            locket3 = 'templates and details',
+            locket4 = '',
+            locket5 = '',
+        )
+
+    # Andrej Schön
+    user = get_or_create_user(username='Andrej Schön', email='a.schon@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Andrej Schön.jpg',
+            about_user=user,
+            contact = 'a.schon@seznam.cz',
+            locket1 = 'Role in the project:',
+            locket2 = 'account administration',
+            locket3 = 'shopping cart',
+            locket4 = '',
+            locket5 = '',
+        )
+
+    # Ondřej Vitásek
+    user = get_or_create_user(username='Ondřej Vitásek', email='ondrasek11vitasek@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about/Ondřej Vitásek.jpg',
+            about_user=user,
+            contact = 'ondrasek11vitasek@seznam.cz',
+            locket1 = 'Role in the project:',
+            locket2 = 'morale boost',
+            locket3 = 'tester',
+            locket4 = '',
+            locket5 = '',
+        )
