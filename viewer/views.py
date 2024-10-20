@@ -41,63 +41,82 @@ from .forms import ProfileForm, UserForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import AddAuction, TransactionEvaluation, User
-from .forms import EvaluationForm
 from django.db.models import Avg
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+from .forms import SellerEvaluationForm, BuyerEvaluationForm
 
 
 @login_required
 def add_evaluation(request, auction_id):
     auction = get_object_or_404(AddAuction, id=auction_id)
-    evaluation, created = TransactionEvaluation.objects.get_or_create(
-        auction=auction, seller=auction.user_creator, buyer=auction.name_buyer
-    )
+    print(f"Auction found: {auction.name_auction}")
 
-    if request.method == 'POST':
-        form = EvaluationForm(request.POST, instance=evaluation)
+    # Kontrola, zda už kupující/prodávající již udělili hodnocení
+    evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, buyer=request.user).exists()
 
-        # Zpracování formuláře pro prodávajícího
-        if request.user == auction.user_creator:
-            form.fields['buyer_rating'].required = True
-            form.fields['buyer_comment'].required = False  # Optional field
-            if form.is_valid():
-                evaluation.buyer_rating = form.cleaned_data['buyer_rating']
-                evaluation.buyer_comment = form.cleaned_data['buyer_comment']
+    if evaluation_exists:
+        print("Uživatel již udělil hodnocení.")
+        # Přesměruj nebo zobraz zprávu, že hodnocení již bylo uděleno
+        return redirect('add_auction_detail', pk=auction.id)
+
+    if request.user == auction.user_creator:
+        print("User is the seller")
+        # Formulář pro prodávajícího
+        if request.method == 'POST':
+            seller_form = SellerEvaluationForm(request.POST)
+            print(f"Form data received: {request.POST}")
+
+            if seller_form.is_valid():
+                print("Seller form is valid")
+                evaluation = seller_form.save(commit=False)
+                evaluation.auction = auction
+                evaluation.seller = request.user  # Nastavuje prodávajícího
+                print(f"Seller set to: {request.user}")
                 evaluation.save()
-                return redirect('add_auction_detail', pk=auction.id)
+                print("Evaluation saved successfully")
+                return redirect('auction_detail', auction_id=auction.id)
+            else:
+                print("Seller form is not valid")
+                print(seller_form.errors)
+        else:
+            seller_form = SellerEvaluationForm()
 
-        # Zpracování formuláře pro kupujícího
-        elif request.user == auction.name_buyer:
-            form.fields['seller_rating'].required = True
-            form.fields['seller_comment'].required = False  # Optional field
-            if form.is_valid():
-                evaluation.seller_rating = form.cleaned_data['seller_rating']
-                evaluation.seller_comment = form.cleaned_data['seller_comment']
+        return render(request, 'add_evaluation.html', {
+            'form': seller_form,
+            'is_seller': True,
+            'auction': auction,
+        })
+
+    elif request.user == auction.name_buyer:
+        print("User is the buyer")
+        # Formulář pro kupujícího
+        if request.method == 'POST':
+            buyer_form = BuyerEvaluationForm(request.POST)
+            print(f"Form data received: {request.POST}")
+
+            if buyer_form.is_valid():
+                print("Buyer form is valid")
+                evaluation = buyer_form.save(commit=False)
+                evaluation.auction = auction
+                evaluation.buyer = request.user  # Nastavuje kupujícího
+                evaluation.seller = auction.user_creator  # Musíme přiřadit prodávajícího, protože model to vyžaduje
+                print(f"Buyer set to: {request.user}, Seller set to: {auction.user_creator}")
                 evaluation.save()
+                print("Evaluation saved successfully")
                 return redirect('add_auction_detail', pk=auction.id)
+            else:
+                print("Buyer form is not valid")
+                print(buyer_form.errors)
+        else:
+            buyer_form = BuyerEvaluationForm()
 
-    else:
-        form = EvaluationForm(instance=evaluation)
+        return render(request, 'add_evaluation.html', {
+            'form': buyer_form,
+            'is_seller': False,
+            'auction': auction,
+        })
 
-    return render(request, 'add_evaluation.html', {'form': form, 'auction': auction})
 
-
+# add_evaluation.html
 @login_required
 def auctions(request):
     # Získáme všechny aukce vytvořené přihlášeným uživatelem

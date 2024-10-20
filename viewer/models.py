@@ -66,24 +66,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class TransactionEvaluation(models.Model):
-    auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE, related_name='evaluations')
-
-    # Prodávající
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_given')
-    seller_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)])
-    seller_comment = models.TextField(blank=True, null=True)
-
-    # Kupující
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_received')
-    buyer_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)])
-    buyer_comment = models.TextField(blank=True, null=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Auction {self.auction} - Seller: {self.seller}, Buyer: {self.buyer}"
-
 
 class AddAuction(models.Model):
     name_auction = models.CharField(max_length=128)
@@ -113,19 +95,19 @@ class AddAuction(models.Model):
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
 
-    # def is_expired(self):
-    #     return self.auction_end_date and self.auction_end_date <= timezone.now()
-    #
-    # def has_bids(self):
-    #     return self.bids.exists()
-    #
-    # def check_is_sold(self):
-    #     if self.auction_type == 'buy_now':
-    #         return self.is_expired() and self.name_buyer is not None
-    #     if self.auction_type == 'place_bid':
-    #         return self.is_expired() and self.has_bids()
-    #     return False
-    #
+    def is_expired(self):
+        return self.auction_end_date and self.auction_end_date <= timezone.now()
+
+    def has_bids(self):
+        return self.bids.exists()
+
+    def check_is_sold(self):
+        if self.auction_type == 'buy_now':
+            return self.is_expired() and self.name_buyer is not None
+        if self.auction_type == 'place_bid':
+            return self.is_expired() and self.has_bids()
+        return False
+
     # def save(self, *args, **kwargs):
     #     # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené
     #     if not self.auction_start_date:
@@ -149,6 +131,18 @@ class AddAuction(models.Model):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
 
+class TransactionEvaluation(models.Model):
+    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE, related_name='evaluations')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_evaluations')
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_evaluations')
+    seller_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
+    seller_comment = models.TextField(blank=True, null=True)
+    buyer_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
+    buyer_comment = models.TextField(blank=True, null=True)
+    transaction_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Auction {self.auction} - Seller: {self.seller}, Buyer: {self.buyer}"
 
 
 class Bid(models.Model):

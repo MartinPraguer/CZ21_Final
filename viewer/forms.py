@@ -15,12 +15,19 @@ from django.contrib.auth.decorators import login_required
 
 
 
-class EvaluationForm(forms.ModelForm):
+class SellerEvaluationForm(forms.ModelForm):
     class Meta:
         model = TransactionEvaluation
-        fields = ['seller_rating', 'seller_comment', 'buyer_rating', 'buyer_comment']
+        fields = ['seller_rating', 'seller_comment']
         widgets = {
             'seller_rating': forms.RadioSelect(choices=[(i, f'{i} stars') for i in range(1, 6)]),
+        }
+
+class BuyerEvaluationForm(forms.ModelForm):
+    class Meta:
+        model = TransactionEvaluation
+        fields = ['buyer_rating', 'buyer_comment']
+        widgets = {
             'buyer_rating': forms.RadioSelect(choices=[(i, f'{i} stars') for i in range(1, 6)]),
         }
 
