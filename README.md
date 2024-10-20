@@ -19,8 +19,8 @@
 - [x] oprava None zobrazování ceny u nově přidaných aukcí
 - [x] sjetí na konec stránky po přidání příhozu
 - [x] javascript u detailu stránky zobrazí aktuální výši příhozu
-- [ ] pri prihlaseni umoznit uzivateli, aby si upravil profil
-- [ ] testovat, testovat, testovat
+- [x] pri prihlaseni umoznit uzivateli, aby si upravil profil
+- [x] testovat, testovat, testovat
 - [x] pokud dám nižší než minimální příhoz, nezobrazí se žádné upozornění
 - [X] zelené buy now rozbijí logiku nákupu u již skončených aukcí, jde je přidat do košíku
 - [x] je potřeba fixnout zobrazení vícero obrázků u aukce, aby to jelo konzistentně
@@ -31,17 +31,17 @@
 - [x] users list a detail uživatelů
 - [x] - opravit detailní hledání - chybí description, a otestovat ho - neotestované
 - [X] napojit Androjovu větev s koupí na to co již máme a udělat pomyslný nákup s tím, že se daná aukce odebere ze seznamu akcí
-- [ ] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
-- [ ] finalized - testy
-- [ ] finalized - populační data
-- [ ] finalized - přepsat veškeré texty do angličtiny
+- [x] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
+- [x] finalized - testy
+- [x] finalized - populační data
+- [x] finalized - přepsat veškeré texty do angličtiny
 - [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
-- [ ] finalized - odstranit z html kódu poznámky
+- [x] finalized - odstranit z html kódu poznámky
 - [ ] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
 - [x] opravit názvy tříd
 - [x] přejmenovat záložku Authors na Prodávající/kupující
-- [ ] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
-- [ ] - vyvořit 3-4 testy - ještě to zkorigovat
+- [x] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
+- [x] - vyvořit 3-4 testy - ještě to zkorigovat
 - [X] vytvořit premium ucet a napárovat to s promotions kategoriemi
 - [x] zapracovat auction_list do 4 kategorií a do archivovaných aukcí
 - [x] zajistit, aby nešlo přispívat/kupovat u již archivovaných aukcí
@@ -64,7 +64,7 @@
 - [X] přidat odkazy na jednotlivýcg stránkách a přidat forcyklus na stránky podle kategorie
 - [X] potřebovali bychom předělat models - sloučit Auction a Advertisement, možná i hodnocení aukce
 - [x] udělat košík a koupi produktu
-- [ ] udělat hodnocení nákupu - prodávající/kupující
+- [x] udělat hodnocení nákupu - prodávající/kupující
 - [x] vytvořit uživatelské účty
 - [x] registrace/přihlášení/odhlášení
 - [ ] rozjet stránky na rosti.cz
@@ -73,7 +73,7 @@
 - [x] přepsat advertisement na add_auction
 - [x] oddělat z hlavní stránky probíhající aukce a dát tam je obrázky s odkazem na další stránky
 - [x] udělat jednu stránku probíhající aukce
-- [ ] zprovoznit .js velkého obrázku
+- [x] zprovoznit .js velkého obrázku
 - [x] přidat okdaz kup teď u kup teď aukcí
 - [x] barevně zvýraznit promotion a kup teď
 - [x] CRUD - dodělat zbylých 10%, aby fungoval - nefunguje delete a neprojeví se změny úprav

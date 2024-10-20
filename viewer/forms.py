@@ -52,13 +52,13 @@ class SignUpForm(UserCreationForm):
         required=True,
         validators=[RegexValidator(regex=r'^\d{5}$', message="PSČ musí obsahovat přesně 5 číslic.")]
     )
-
+        # overeni, jestli uzivatelske jmeno uz existuje
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("Uživatel s tímto uživatelským jménem již existuje.")
         return username
-
+        # ulozeni uzivatele a jeho profilu
     def save(self, commit=True):
         user = super().save(commit=False)
         print(f"DEBUG: Username being saved: {user.username}")  # Zobrazí uživatelské jméno

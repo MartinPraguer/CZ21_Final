@@ -95,6 +95,7 @@ class AddAuction(models.Model):
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
 
+
     def is_expired(self):
         return self.auction_end_date and self.auction_end_date <= timezone.now()
 
