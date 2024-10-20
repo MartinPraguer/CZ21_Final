@@ -17,14 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors
-from viewer.views import index, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page
+from viewer.views import index, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page, success_delete
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about_us,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart, Profile
 from viewer.views_sablony import statues, jewelry, numismatics, paintings, paintings, last_auction, current_auctions, auction_archives, statues, jewelry, numismatics
 from viewer import views
 from viewer.views import PaymentView
-from viewer.views import AddauctionDetailView
 from django.contrib.auth.views import LogoutView
 from viewer.views import SignUpView
 from django.contrib.auth import views as auth_views
@@ -72,6 +71,8 @@ urlpatterns = [
     path('auction_success/<int:pk>/', views.auction_success_view, name='auction_success_view'),
     path('add_auction/update/<pk>', AddauctionUpdateView.as_view(), name='add_auction_update'),
     path('add_auction/delete/<pk>', AddauctionDeleteView.as_view(), name='add_auction_delete'),
+    path('success_delete/<str:auction_title>/', success_delete, name='success_delete'),
+    path('add_auction/confirm_delete/<int:pk>/', AddauctionDeleteView.as_view(), name='confirm_delete'),
 
 
 

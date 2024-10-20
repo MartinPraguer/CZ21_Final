@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Auction "{{ auction_title }}" was successfully deleted.</h1>
+  <a href="{% url 'index' %}">Back to main page.</a> <!-- Link na seznam aukcí -->
+{% endblock %}
