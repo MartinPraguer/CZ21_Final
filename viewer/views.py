@@ -321,24 +321,44 @@ class AddauctionUpdateView(UpdateView):
 
 class AddauctionDeleteView(DeleteView):
     model = AddAuction
-    template_name = 'confirm_delete.html'  # Nová šablona pro potvrzení smazání
-    success_url = reverse_lazy('index')  # Přesměrování na hlavní stránku po smazání
+    template_name = 'confirm_delete.html'  # Šablona pro potvrzení smazání
 
-logger = logging.getLogger(__name__)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['auction'] = self.get_object()  # Získání aukce a její předání do šablony
+        return context
+
+    def get_success_url(self):
+        auction_title = self.object.name_auction  # Získání názvu aukce
+        return reverse('success_delete', kwargs={'auction_title': auction_title})
+
+    def delete(self, request, *args, **kwargs):
+        auction = self.get_object()  # Získání aukce, která má být smazána
+        auction.delete()  # Aukce je smazána
+        return redirect(self.get_success_url())  # Přesměrování po úspěšném smazání
 
 
-class AddauctionDetailView(DetailView):
-    model = AddAuction
-    template_name = 'add_auction_detail.html'
-    context_object_name = 'add_auction'
 
-    # metoda na zvyšování počtu zobrazení po každém kliknutí
 
-    def get_object(self, queryset=None):
-        add_auction = super().get_object(queryset)
-        add_auction.number_of_views += 1
-        add_auction.save()
-        return add_auction
+
+
+
+def success_delete(request, auction_title):
+    # Zobrazí stránku s potvrzením úspěšného smazání
+    return render(request, 'success_delete.html', {'auction_title': auction_title})
+
+# class AddauctionDetailView(DetailView):
+#     model = AddAuction
+#     template_name = 'add_auction_detail.html'
+#     context_object_name = 'add_auction'
+#
+#     # metoda na zvyšování počtu zobrazení po každém kliknutí
+#
+#     def get_object(self, queryset=None):
+#         add_auction = super().get_object(queryset)
+#         add_auction.number_of_views += 1
+#         add_auction.save()
+#         return add_auction
 
 
 def add_to_cart(request, auction_id):
