@@ -113,47 +113,46 @@ class AddAuction(models.Model):
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
 
-    def is_expired(self):
-        return self.auction_end_date and self.auction_end_date <= timezone.now()
-
-    def has_bids(self):
-        return self.bids.exists()
-
-    def check_is_sold(self):
-        if self.auction_type == 'buy_now':
-            return self.is_expired() and self.name_buyer is not None
-        if self.auction_type == 'place_bid':
-            return self.is_expired() and self.has_bids()
-        return False
-
-
-
-    def save(self, *args, **kwargs):
-        # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené
-        if not self.auction_start_date:
-            self.auction_start_date = timezone.now()
-
-        # Automaticky nastavíme datum konce aukce na 7 dní po začátku
-        self.auction_end_date = self.auction_start_date + timedelta(days=7)
-
-        # Nejprve uložíme aukci, aby měla primární klíč (ID)
-        super().save(*args, **kwargs)
-
-        # Po uložení aukce zkontrolujeme, zda byla prodána, a případně aktualizujeme stav
-        is_sold_updated = self.check_is_sold()
-
-        # Pokud došlo ke změně stavu prodané aukce, znovu ji uložíme
-        if self.is_sold != is_sold_updated:
-            self.is_sold = is_sold_updated
-            super().save(update_fields=['is_sold'])
+    # def is_expired(self):
+    #     return self.auction_end_date and self.auction_end_date <= timezone.now()
+    #
+    # def has_bids(self):
+    #     return self.bids.exists()
+    #
+    # def check_is_sold(self):
+    #     if self.auction_type == 'buy_now':
+    #         return self.is_expired() and self.name_buyer is not None
+    #     if self.auction_type == 'place_bid':
+    #         return self.is_expired() and self.has_bids()
+    #     return False
+    #
+    # def save(self, *args, **kwargs):
+    #     # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené
+    #     if not self.auction_start_date:
+    #         self.auction_start_date = timezone.now()
+    #
+    #     # Automaticky nastavíme datum konce aukce na 7 dní po začátku
+    #     self.auction_end_date = self.auction_start_date + timedelta(days=7)
+    #
+    #     # Nejprve uložíme aukci, aby měla primární klíč (ID)
+    #     super().save(*args, **kwargs)
+    #
+    #     # Po uložení aukce zkontrolujeme, zda byla prodána, a případně aktualizujeme stav
+    #     is_sold_updated = self.check_is_sold()
+    #
+    #     # Pokud došlo ke změně stavu prodané aukce, znovu ji uložíme
+    #     if self.is_sold != is_sold_updated:
+    #         self.is_sold = is_sold_updated
+    #         super().save(update_fields=['is_sold'])
 
     def __str__(self):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
 
 
+
 class Bid(models.Model):
-    auction = models.ForeignKey('AddAuction', related_name='bids', on_delete=models.CASCADE)
+    auction = models.ForeignKey(AddAuction, related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Příhoz uživatele
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Cena po přičtení tohoto příhozu
