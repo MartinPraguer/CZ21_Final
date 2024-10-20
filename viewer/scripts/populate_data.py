@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
-from viewer.models import AddAuction, Bid, Category, UserAccounts, AccountType, AuctionImage
+from viewer.models import AddAuction, Bid, Category, UserAccounts, AccountType, AuctionImage, About
 from django.utils import timezone
 from datetime import timedelta
 import random
 import os
 from django.core.files import File
+from viewer.models import TransactionEvaluation
 
 # Cesty k fotografiím
 PHOTO_DIR = 'media/photos/'
@@ -22,8 +23,21 @@ def create_default_categories():
         category_objects.append(category)
     return category_objects
 
+def get_or_create_user(username, email):
+    user_model = get_user_model()  # Získáme model User (základní nebo rozšířený)
+    user, created = user_model.objects.get_or_create(username=username, defaults={'email': email})
+
+    # Pokud byl uživatel právě vytvořen, nastavíme mu výchozí heslo
+    if created:
+        user.set_password('1234')  # Můžeš změnit heslo na bezpečnější
+        user.save()
+
+    return user
+
+
 # Funkce pro vytvoření uživatelů
 def create_default_users():
+
     user_model = get_user_model()
     premium_nicks = ["SkylineWalker", "ThunderBlade", "MysticVoyager", "PixelCrafter", "ShadowHunter23", "NeonNinja",
                      "BlazeRunner", "1234"]
@@ -39,6 +53,50 @@ def create_default_users():
         superuser.set_password('1234')
         superuser.save()
     users.append(superuser)
+
+    # Martin Praguer
+    user = get_or_create_user(username='Martin Praguer', email='martin.praguer@gmail.com')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about_us/Martin Praguer.png',  # Cesta k obrázku
+            about_user=user,
+            contact='martin.praguer@gmail.com',
+            locket1='Role in the project:',
+            locket2='populate data',
+            locket3='templates and details',
+            locket4='',
+            locket5='',
+        )
+
+    # Andrej Schön
+    user = get_or_create_user(username='Andrej Schön', email='a.schon@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about_us/Andrej Schön.jpg',
+            about_user=user,
+            contact='a.schon@seznam.cz',
+            locket1='Role in the project:',
+            locket2='account administration',
+            locket3='shopping cart',
+            locket4='',
+            locket5='',
+        )
+
+    # Ondřej Vitásek
+    user = get_or_create_user(username='Ondřej Vitásek', email='ondrasek11vitasek@seznam.cz')
+    if not About.objects.filter(about_user=user).exists():
+        About.objects.create(
+            photo='about_us/Ondřej Vitásek.jpg',
+            about_user=user,
+            contact='ondrasek11vitasek@seznam.cz',
+            locket1='Role in the project:',
+            locket2='morale boost',
+            locket3='tester',
+            locket4='',
+            locket5='',
+        )
+
+
 
     for username in premium_nicks:
         if username == '1234':
@@ -61,7 +119,7 @@ def create_default_users():
 
 # Funkce pro přidání obrázků k aukci
 def add_auction_images(auction, category_photos):
-    num_images = random.randint(1, 1)
+    num_images = random.randint(1, 3)
     selected_photos = random.sample(category_photos, num_images)
     for photo in selected_photos:
         photo_path = os.path.join(PHOTO_DIR, photo)
@@ -141,6 +199,10 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
             auction.is_sold = True
             auction.save()
 
+            # Generování hodnocení mezi prodávajícím a kupujícím pro 'Buy Now' aukce, pokud je aukce skončená
+            if expired:
+                generate_evaluation(auction, auction.user_creator, auction.name_buyer)
+
         # Pokud je aukce typu 'place_bid', přidáme příhozy
         elif auction_type == 'place_bid':
             current_price = start_price
@@ -166,12 +228,46 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
             if expired and last_bidder:
                 auction.name_buyer = last_bidder
                 auction.is_sold = True
+                auction.save()
+
+                # Generování hodnocení mezi prodávajícím a kupujícím, pokud je aukce skončená
+                generate_evaluation(auction, auction.user_creator, auction.name_buyer)
+
             # Pokud aukce ještě nevypršela, označ posledního přihazujícího jako name_bider
             elif not expired and last_bidder:
                 auction.name_bider = last_bidder
 
             auction.price = current_price
             auction.save()
+
+
+def generate_evaluation(auction, seller, buyer):
+    """Funkce pro generování vzájemného hodnocení mezi prodávajícím a kupujícím."""
+    seller_rating = random.randint(1, 5)
+    buyer_rating = random.randint(1, 5)
+
+    # Komentáře pro prodávajícího a kupujícího
+    seller_comments = [
+        "The buyer was very prompt and polite.",
+        "Smooth transaction, would recommend.",
+        "Quick payment, easy communication."
+    ]
+    buyer_comments = [
+        "The item was as described, fast delivery.",
+        "Seller was very professional and helpful.",
+        "Great experience, would buy again!"
+    ]
+
+    # Vytvoření hodnocení
+    TransactionEvaluation.objects.create(
+        auction=auction,
+        seller=seller,
+        buyer=buyer,
+        seller_rating=seller_rating,
+        buyer_rating=buyer_rating,
+        seller_comment=random.choice(seller_comments),
+        buyer_comment=random.choice(buyer_comments),
+    )
 
 # Hlavní funkce pro spuštění skriptu
 def run():

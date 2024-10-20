@@ -59,15 +59,7 @@ from django.db.models import Avg
 
 
 
-def user_detail(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    average_seller_rating = user.seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
-    average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
-    return render(request, 'user_detail.html', {
-        'user': user,
-        'average_seller_rating': average_seller_rating,
-        'average_buyer_rating': average_buyer_rating
-    })
+
 
 
 @login_required
@@ -527,6 +519,18 @@ def list_users(request):
         return HttpResponseForbidden("Nemáte oprávnění pro zobrazení ostatních uživatelů.")
 
 
+def user_review(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    # Získání průměrného hodnocení
+    average_rating = user.reviews_received.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+
+    return render(request, 'user_review.html', {
+        'user': user,
+        'average_rating': average_rating
+    })
+
+
 
 @login_required
 def user_detail(request, user_id):
@@ -537,16 +541,20 @@ def user_detail(request, user_id):
         created_auctions = user.created_auctions.all()  # Aukce vytvořené uživatelem
         bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
         bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
+        average_rating = user.reviews_received.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
 
         return render(request, 'user_detail.html', {
             'user': user,
             'created_auctions': created_auctions,
             'bided_auctions': bided_auctions,
             'bought_auctions': bought_auctions,
+            'average_rating': average_rating
         })
     else:
         return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
 
+    user = get_object_or_404(User, id=user_id)
+    average_rating = user.reviews_received.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
 
 def detailed_search(request):
     hledany_vyraz = request.GET.get('Search', '').strip()

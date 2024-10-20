@@ -70,15 +70,13 @@ class TransactionEvaluation(models.Model):
     auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE, related_name='evaluations')
 
     # Prodávající
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_reviews', null=True, blank=True)
-    seller_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], null=True,
-                                                     blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_given')
+    seller_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)])
     seller_comment = models.TextField(blank=True, null=True)
 
     # Kupující
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_reviews', null=True, blank=True)
-    buyer_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], null=True,
-                                                    blank=True)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_received')
+    buyer_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)])
     buyer_comment = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -127,6 +125,8 @@ class AddAuction(models.Model):
         if self.auction_type == 'place_bid':
             return self.is_expired() and self.has_bids()
         return False
+
+
 
     def save(self, *args, **kwargs):
         # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené

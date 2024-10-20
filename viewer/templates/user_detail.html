@@ -3,7 +3,7 @@
 {% load my_filters %}
 {% block content %}
     <h2>{{ user.username }}'s Auction Details</h2>
-
+    
     <h3>Created Auctions:</h3>
     <ul>
         {% for auction in created_auctions %}
@@ -31,4 +31,17 @@
         {% endfor %}
     </ul>
 
+    <h3>User rating:</h3>
+
+{% if user.reviews_received.exists %}
+    <p>Average rating: {{ average_rating|default:"No ratings yet" }}</p>
+    <ul>
+        {% for review in user.reviews_received.all %}
+            <li>{{ review.seller.username }}: {{ review.buyer_rating }} stars - {{ review.buyer_comment }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>This user has no ratings yet.</p>
+{% endif %}
+    
 {% endblock %}

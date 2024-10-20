@@ -81,7 +81,6 @@ urlpatterns = [
     path('auction/<int:auction_id>/evaluate/', views.add_evaluation, name='add_evaluation'),
 
 
-
     path('add_to_cart/<int:auction_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),
     path('checkout/', checkout_view, name='checkout'),
