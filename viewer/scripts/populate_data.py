@@ -1,5 +1,3 @@
-# python manage.py runscript populate_data -v3
-
 from django.contrib.auth import get_user_model
 from viewer.models import AddAuction, Bid, Category, UserAccounts, AccountType, AuctionImage
 from django.utils import timezone
@@ -132,7 +130,7 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
             promotion=(premium == 'premium'),
             auction_start_date=auction_start_date,
             auction_end_date=auction_end_date,
-            is_sold=True,
+            is_sold=False,
             number_of_views=random.randint(0, 1000),
         )
         add_auction_images(auction, categorized_photos[category.name])
@@ -164,12 +162,16 @@ def create_auctions_with_bids(users, categories, auction_type, premium, expired,
                     timestamp=timezone.now()
                 )
 
-            # Po skončení přihazování nastavíme posledního přihazujícího jako kupujícího
-            if last_bidder:
+            # Pokud aukce již vypršela, poslední přihazující se stane kupujícím
+            if expired and last_bidder:
                 auction.name_buyer = last_bidder
-                auction.is_sold = True  # Označíme aukci jako prodanou
-                auction.price = current_price
-                auction.save()
+                auction.is_sold = True
+            # Pokud aukce ještě nevypršela, označ posledního přihazujícího jako name_bider
+            elif not expired and last_bidder:
+                auction.name_bider = last_bidder
+
+            auction.price = current_price
+            auction.save()
 
 # Hlavní funkce pro spuštění skriptu
 def run():
