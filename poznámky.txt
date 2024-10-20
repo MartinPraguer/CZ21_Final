@@ -4,3 +4,12 @@ coverage report
 
 pip install pytest
 pytest viewer/test_123.py
+
+- python manage.py runscript populate_data -v3
+
+TESTY:
+python manage.py test viewer.tests.test_login
+python manage.py test viewer.tests.test_registrace
+pytest viewer/tests/test_koupe.py
+pytest viewer/tests/test_add_auction.py
+pytest viewer/tests/test_profil.py
