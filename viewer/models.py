@@ -45,7 +45,7 @@ class Profile(models.Model):
     user = OneToOneField(User, on_delete=models.CASCADE)
     city = CharField(max_length=128, default="City")
     address = CharField(max_length=256, default="Address")  # Ulice, číslo domu
-    zip_code = CharField(max_length=10, default="00000")
+    zip_code = IntegerField(default=00000)
     created_at = DateTimeField(auto_now_add=True)
     account_status = OneToOneField(AccountStatus, on_delete=models.SET_NULL, null=True)
     avatar = ImageField(upload_to='avatars/', null=True, blank=True)

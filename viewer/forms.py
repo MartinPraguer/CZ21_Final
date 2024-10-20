@@ -8,12 +8,15 @@ from multiupload.fields import MultiFileField
 from django import forms
 from .models import Profile
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 
 
 
 
 
 class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True, help_text='Required. Enter your first name.')
+    last_name = forms.CharField(max_length=30, required=True, help_text='Required. Enter your last name.')
     email = forms.EmailField(max_length=254, required=True, help_text='Required. Enter a valid email address.')
     city = forms.CharField(max_length=128, required=True)
     address = forms.CharField(max_length=256, required=True)
@@ -23,7 +26,14 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'city', 'address', 'zip_code', 'avatar', 'account_type')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'city', 'address', 'zip_code', 'avatar', 'account_type')
+
+    # Použijeme RegexField, aby PSČ povolovalo pouze číselné hodnoty
+    zip_code = forms.CharField(
+        max_length=10,
+        required=True,
+        validators=[RegexValidator(regex=r'^\d{5}$', message="PSČ musí obsahovat přesně 5 číslic.")]
+    )
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -34,6 +44,8 @@ class SignUpForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         print(f"DEBUG: Username being saved: {user.username}")  # Zobrazí uživatelské jméno
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
         if commit:
             user.save()
             print(f"DEBUG: User {user.username} saved successfully.")
