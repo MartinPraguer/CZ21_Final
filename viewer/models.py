@@ -61,31 +61,30 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-# class Auction(models.Model):
-#     name = CharField(max_length=128)
-#     category = ForeignKey(Category, on_delete=models.CASCADE, default=1)  # Opravený řetězcový odkaz na Category
-#     description = TextField(default="No description provided")
-#     photo = ImageField(upload_to='photos/', null=True, blank=True)
-#     minimum_bid = IntegerField(default=0)
-#     price = IntegerField(default=0)
-#     buy_now = BooleanField(default=False)
-#     promotion = BooleanField(default=False)
-#     auction_start_date = DateTimeField(auto_now_add=True)
-#     auction_end_date = DateTimeField(auto_now_add=True)
-#     number_of_views = IntegerField(default=0)
 
-    # def __str__(self):
-    #     return f"{self.name} - {self.category} - {self.description}"
+from django.db import models
+from django.contrib.auth.models import User
 
-# class TransactionEvaluation(models.Model):
-#     auction = ForeignKey(Auction, on_delete=models.DO_NOTHING)
-#     seller_rating = IntegerField()
-#     sellers_comment = TextField()
-#     buyer_rating = IntegerField()
-#     buyers_comment = TextField()
 
-    # def __str__(self):
-    #     return f"{self.auction} - {self.seller_rating} - {self.buyer_rating}"
+class TransactionEvaluation(models.Model):
+    auction = models.ForeignKey('AddAuction', on_delete=models.CASCADE, related_name='evaluations')
+
+    # Prodávající
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_reviews', null=True, blank=True)
+    seller_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], null=True,
+                                                     blank=True)
+    seller_comment = models.TextField(blank=True, null=True)
+
+    # Kupující
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_reviews', null=True, blank=True)
+    buyer_rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], null=True,
+                                                    blank=True)
+    buyer_comment = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Auction {self.auction} - Seller: {self.seller}, Buyer: {self.buyer}"
 
 
 class AddAuction(models.Model):

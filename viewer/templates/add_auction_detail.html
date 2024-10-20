@@ -132,7 +132,27 @@
     {% endif %}
 {% endif %}
 
-<a href="javascript:history.back()" style="text-decoration: none; color: inherit;">Back to Previous Page</a>
+    
+<h2>Rating for this auction</h2>
+
+{% if auction.evaluations.exists %}
+    <h3>Seller rating</h3>
+    <p>Seller: {{ auction.evaluations.first.seller.username }}</p>
+    <p>Evaluation: {{ auction.evaluations.first.seller_rating }} hvězdiček</p>
+    <p>Comment: {{ auction.evaluations.first.seller_comment }}</p>
+    
+    <h3>Buyer rating</h3>
+    <p>Buyer: {{ auction.evaluations.first.buyer.username }}</p>
+    <p>Evaluations: {{ auction.evaluations.first.buyer_rating }} hvězdiček</p>
+    <p>Comment: {{ auction.evaluations.first.buyer_comment }}</p>
+{% else %}
+    <p>No ratings have been added yet.</p>
+{% endif %}    
+<a href="{% url 'add_evaluation' auction.id %}"><button type="submit" class="btn btn-primary">Add rating</button></a>    
+    <br>
+    <br>
+    
+<a href="javascript:history.back()" style="text-decoration: none; color: inherit;"><button type="submit" class="">Back to Previous Page</button></a>
 
     
   

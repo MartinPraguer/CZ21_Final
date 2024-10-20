@@ -38,6 +38,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, UserForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import AddAuction, TransactionEvaluation, User
+from .forms import EvaluationForm
+from django.db.models import Avg
 
 
 
@@ -54,6 +59,51 @@ from .forms import ProfileForm, UserForm
 
 
 
+def user_detail(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    average_seller_rating = user.seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
+    average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+    return render(request, 'user_detail.html', {
+        'user': user,
+        'average_seller_rating': average_seller_rating,
+        'average_buyer_rating': average_buyer_rating
+    })
+
+
+@login_required
+def add_evaluation(request, auction_id):
+    auction = get_object_or_404(AddAuction, id=auction_id)
+    evaluation, created = TransactionEvaluation.objects.get_or_create(
+        auction=auction, seller=auction.user_creator, buyer=auction.name_buyer
+    )
+
+    if request.method == 'POST':
+        form = EvaluationForm(request.POST, instance=evaluation)
+
+        # Zpracování formuláře pro prodávajícího
+        if request.user == auction.user_creator:
+            form.fields['buyer_rating'].required = True
+            form.fields['buyer_comment'].required = False  # Optional field
+            if form.is_valid():
+                evaluation.buyer_rating = form.cleaned_data['buyer_rating']
+                evaluation.buyer_comment = form.cleaned_data['buyer_comment']
+                evaluation.save()
+                return redirect('add_auction_detail', pk=auction.id)
+
+        # Zpracování formuláře pro kupujícího
+        elif request.user == auction.name_buyer:
+            form.fields['seller_rating'].required = True
+            form.fields['seller_comment'].required = False  # Optional field
+            if form.is_valid():
+                evaluation.seller_rating = form.cleaned_data['seller_rating']
+                evaluation.seller_comment = form.cleaned_data['seller_comment']
+                evaluation.save()
+                return redirect('add_auction_detail', pk=auction.id)
+
+    else:
+        form = EvaluationForm(instance=evaluation)
+
+    return render(request, 'add_evaluation.html', {'form': form, 'auction': auction})
 
 
 @login_required

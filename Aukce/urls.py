@@ -78,6 +78,7 @@ urlpatterns = [
 
     path('list_users/', list_users, name='list_users'),
     path('users/<int:user_id>/', user_detail, name='user_detail'),
+    path('auction/<int:auction_id>/evaluate/', views.add_evaluation, name='add_evaluation'),
 
 
 

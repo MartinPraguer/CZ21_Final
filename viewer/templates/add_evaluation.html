@@ -1,0 +1,23 @@
+<h2>Evaluation of the auction {{ auction.name_auction }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    {% if user == auction.user_creator %}
+        <!-- Prodávající hodnotí kupujícího -->
+        <h3>Buyer rating</h3>
+        <p>Buyer: {{ auction.name_buyer.username }}</p>
+        {{ form.buyer_rating }}
+        {{ form.buyer_comment }}
+    
+    {% elif user == auction.name_buyer %}
+        <!-- Kupující hodnotí prodávajícího -->
+        <h3>Seller rating</h3>
+        <p>Seller: {{ auction.user_creator.username }}</p>
+        {{ form.seller_rating }}
+        {{ form.seller_comment }}
+    
+    {% endif %}
+    
+    <button type="submit">Submit a review</button>
+</form>

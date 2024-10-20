@@ -9,9 +9,20 @@ from django import forms
 from .models import Profile
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from .models import TransactionEvaluation
+from django.contrib.auth.decorators import login_required
 
 
 
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = TransactionEvaluation
+        fields = ['seller_rating', 'seller_comment', 'buyer_rating', 'buyer_comment']
+        widgets = {
+            'seller_rating': forms.RadioSelect(choices=[(i, f'{i} stars') for i in range(1, 6)]),
+            'buyer_rating': forms.RadioSelect(choices=[(i, f'{i} stars') for i in range(1, 6)]),
+        }
 
 
 class SignUpForm(UserCreationForm):
