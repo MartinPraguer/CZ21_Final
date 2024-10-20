@@ -554,14 +554,15 @@ def detailed_search(request):
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
 
-    auction_views = AddAuction.objects.get(pk=pk)
-    auction_views.number_of_views += 1
-    auction_views.save()
-
-
+    # Zvýšení počtu zobrazení
+    auction.number_of_views += 1
+    auction.save()
 
     # Seřazení příhozů podle času, abychom je zobrazili chronologicky
     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
+
+    # Získání posledního přihazujícího (pokud nějaký je)
+    last_bider = bids.first().user if bids.exists() else None
 
     # Kontrola, zda aukce už vypršela
     auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
@@ -575,10 +576,10 @@ def auction_detail(request, pk):
         hours, remainder = divmod(time_left.seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        if request.method == 'POST':
-            if not request.user.is_authenticated:
-                # Přesměrování na login s parametrem next
-                return redirect(f'{reverse("login")}?next={request.path}')
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            # Přesměrování na login s parametrem next
+            return redirect(f'{reverse("login")}?next={request.path}')
 
         new_bid_value = request.POST.get('new_bid')
 
@@ -627,9 +628,11 @@ def auction_detail(request, pk):
                 'error_message': 'Musíte zadat částku příhozu.'
             })
 
+    # Předání dat do šablony
     return render(request, 'add_auction_detail.html', {
         'auction': auction,
         'bids': bids,
+        'last_bider': last_bider,  # Přidáno pro šablonu
         'auction_expired': auction_expired,
         'days': days if not auction_expired else 0,
         'hours': hours if not auction_expired else 0,
