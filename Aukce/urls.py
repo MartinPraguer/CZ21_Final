@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors
+from viewer.views import AddauctionUpdateView, AddauctionDeleteView, authors, add_evaluation
 from viewer.views import index, detailed_search,   AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view,  user_detail, list_users, success_page, success_delete
 from viewer.models import AccountStatus, AccountType, UserAccounts, Category, AddAuction, Cart
 from viewer.views import index, about_us,  AddAuctionCreateView, auction_success_view, add_to_cart, cart_view, checkout_view
@@ -79,7 +79,7 @@ urlpatterns = [
 
     path('list_users/', list_users, name='list_users'),
     path('users/<int:user_id>/', user_detail, name='user_detail'),
-    path('auction/<int:auction_id>/evaluate/', views.add_evaluation, name='add_evaluation'),
+    path('auction/<int:auction_id>/add_evaluation/<str:user_type>/', views.add_evaluation, name='add_evaluation'),
 
 
 

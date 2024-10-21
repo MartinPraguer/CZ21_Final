@@ -40,12 +40,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, UserForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import AddAuction, TransactionEvaluation, User
+from .models import AddAuction, User
 from django.db.models import Avg
 from .forms import SellerEvaluationForm, BuyerEvaluationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import AddAuction, TransactionEvaluation
+from .models import AddAuction, SellerEvaluation, BuyerEvaluation
 from .forms import SellerEvaluationForm, BuyerEvaluationForm
 
 
@@ -75,121 +75,120 @@ from .forms import SellerEvaluationForm, BuyerEvaluationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from .models import AddAuction, TransactionEvaluation, UserAccounts
+from .models import AddAuction, BuyerEvaluation, SellerEvaluation, UserAccounts
 from .forms import SellerEvaluationForm, BuyerEvaluationForm
 from django.db.models import Avg
 
 
 @login_required
-def add_evaluation(request, auction_id):
+def add_seller_evaluation(request, auction_id):
     auction = get_object_or_404(AddAuction, id=auction_id)
-    print(f"Auction found: {auction.name_auction}")
 
-    # Kontrola, zda už uživatel (prodávající nebo kupující) již udělil hodnocení
-    if request.user == auction.user_creator:
-        evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, seller=request.user).exists()
+    if request.method == 'POST':
+        form = SellerEvaluationForm(request.POST)
+        if form.is_valid():
+            evaluation = form.save(commit=False)
+            evaluation.auction = auction
+            evaluation.seller = request.user  # Nastavení prodávajícího
+            evaluation.save()
+            return redirect('auction_detail', auction_id=auction.id)
     else:
-        evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, buyer=request.user).exists()
+        form = SellerEvaluationForm()
+
+    return render(request, 'add_evaluation.html', {'form': form, 'auction': auction, 'is_seller': True})
+
+
+@login_required
+def add_buyer_evaluation(request, auction_id):
+    auction = get_object_or_404(AddAuction, id=auction_id)
+
+    if request.method == 'POST':
+        form = BuyerEvaluationForm(request.POST)
+        if form.is_valid():
+            evaluation = form.save(commit=False)
+            evaluation.auction = auction
+            evaluation.buyer = request.user  # Nastavení kupujícího
+            evaluation.save()
+            return redirect('auction_detail', auction_id=auction.id)
+    else:
+        form = BuyerEvaluationForm()
+
+    return render(request, 'add_evaluation.html', {'form': form, 'auction': auction, 'is_buyer': True})
+
+
+@login_required
+def add_evaluation(request, auction_id, user_type):
+    auction = get_object_or_404(AddAuction, id=auction_id)
+
+    # Rozlišení podle typu uživatele: 'buyer' nebo 'seller'
+    if user_type == 'buyer':
+        evaluation_exists = BuyerEvaluation.objects.filter(auction=auction, buyer=request.user).exists()
+        form_class = BuyerEvaluationForm
+        user_role = 'Kupující'
+    else:
+        evaluation_exists = SellerEvaluation.objects.filter(auction=auction, seller=request.user).exists()
+        form_class = SellerEvaluationForm
+        user_role = 'Prodávající'
 
     if evaluation_exists:
-        print("Uživatel již udělil hodnocení.")
-        return redirect('add_auction_detail', pk=auction.id)
+        return redirect('auction_detail', auction_id=auction.id)
 
-    # Rozdělení formuláře pro prodávajícího nebo kupujícího
-    if request.user == auction.user_creator:
-        print("User is the seller")
-        if request.method == 'POST':
-            seller_form = SellerEvaluationForm(request.POST)
-            if seller_form.is_valid():
-                evaluation = seller_form.save(commit=False)
-                evaluation.auction = auction
-                evaluation.seller = request.user  # Nastavení prodávajícího
-                evaluation.buyer = auction.name_buyer  # Přiřadíme kupujícího z aukce
-                print(f"Hodnocení připraveno k uložení: Seller Rating - {evaluation.seller_rating}")
-                evaluation.save()
-                print("Seller evaluation saved successfully")
-                return redirect('add_auction_detail', pk=auction.id)
+    if request.method == 'POST':
+        form = form_class(request.POST)
+        if form.is_valid():
+            evaluation = form.save(commit=False)
+            evaluation.auction = auction
+
+            if user_type == 'buyer':
+                evaluation.buyer = request.user  # Uživatel je kupující
             else:
-                print("Seller form is not valid")
-                print(seller_form.errors)
-        else:
-            seller_form = SellerEvaluationForm()
-        return render(request, 'add_evaluation.html', {
-            'form': seller_form,
-            'is_seller': True,
-            'auction': auction,
-        })
+                evaluation.seller = request.user  # Uživatel je prodávající
 
-    elif auction.name_buyer and request.user == auction.name_buyer:
-        print("User is the buyer")
-        if request.method == 'POST':
-            buyer_form = BuyerEvaluationForm(request.POST)
-            if buyer_form.is_valid():
-                evaluation = buyer_form.save(commit=False)
-                evaluation.auction = auction
-                evaluation.buyer = request.user  # Nastavení kupujícího
-                evaluation.seller = auction.user_creator  # Přiřazení prodávajícího
-                print(f"Hodnocení připraveno k uložení: Buyer Rating - {evaluation.buyer_rating}")
-                evaluation.save()
-                print("Buyer evaluation saved successfully")
-                return redirect('add_auction_detail', pk=auction.id)
-            else:
-                print("Buyer form is not valid")
-                print(buyer_form.errors)
-        else:
-            buyer_form = BuyerEvaluationForm()
-
-        return render(request, 'add_evaluation.html', {
-            'form': buyer_form,
-            'is_seller': False,
-            'auction': auction,
-        })
+            evaluation.save()
+            return redirect('auction_detail', auction_id=auction.id)
     else:
-        print("Uživatel není oprávněn hodnotit tuto aukci.")
-        return redirect('add_auction_detail', pk=auction.id)
+        form = form_class()
+
+    return render(request, 'add_evaluation.html', {
+        'form': form,
+        'auction': auction,
+        'user_role': user_role  # Kupující nebo Prodávající
+    })
+
 
 
 @login_required
 def user_detail(request, user_id):
-    # Kontrola, zda je uživatel Premium nebo Superuser
-    user_account = UserAccounts.objects.get(user=request.user)
-    if user_account.account_type.account_type == 'Premium' or request.user.is_superuser:
-        user = get_object_or_404(User, id=user_id)  # Získání detailů uživatele
+    user = get_object_or_404(User, id=user_id)
 
-        # Aukce vytvořené uživatelem
-        created_auctions = user.created_auctions.all()
-        # Aukce, kde uživatel přihazoval
-        bided_auctions = user.bided_auctions.all()
-        # Aukce, které uživatel koupil
-        bought_auctions = user.listed_auctions.all()
+    # Načtení recenzí, kde je uživatel kupujícím
+    given_buyer_reviews = BuyerEvaluation.objects.filter(buyer=user)
 
-        # Získání průměrného hodnocení jako kupujícího
-        average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+    # Načtení recenzí, kde je uživatel prodávajícím
+    given_seller_reviews = SellerEvaluation.objects.filter(seller=user)
 
-        # Získání průměrného hodnocení jako prodávajícího
-        average_seller_rating = user.seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
+    # Výpočet průměrného hodnocení jako kupujícího
+    average_buyer_rating = given_buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
 
-        # Získání hodnocení, která uživatel udělil jako kupující
-        given_buyer_reviews = TransactionEvaluation.objects.filter(buyer=user)
+    # Výpočet průměrného hodnocení jako prodávajícího
+    average_seller_rating = given_seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
 
-        # Získání hodnocení, která uživatel udělil jako prodávající
-        given_seller_reviews = TransactionEvaluation.objects.filter(seller=user)
+    # Aukce vytvořené uživatelem (pokud potřebuješ zobrazit)
+    created_auctions = AddAuction.objects.filter(user_creator=user)
 
-        return render(request, 'user_detail.html', {
-            'user': user,
-            'created_auctions': created_auctions,
-            'bided_auctions': bided_auctions,
-            'bought_auctions': bought_auctions,
-            'average_buyer_rating': average_buyer_rating,
-            'average_seller_rating': average_seller_rating,
-            'given_buyer_reviews': given_buyer_reviews,  # Přidání udělených hodnocení jako kupující
-            'given_seller_reviews': given_seller_reviews,  # Přidání udělených hodnocení jako prodávající
-        })
-    else:
-        return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
+    # Aukce, kde uživatel přihazoval nebo se účastnil
+    participated_auctions = AddAuction.objects.filter(bids__user=user).distinct()
 
-
-
+    # Předání dat do šablony
+    return render(request, 'user_detail.html', {
+        'user': user,
+        'given_buyer_reviews': given_buyer_reviews,
+        'given_seller_reviews': given_seller_reviews,
+        'average_buyer_rating': average_buyer_rating,
+        'average_seller_rating': average_seller_rating,
+        'created_auctions': created_auctions,
+        'participated_auctions': participated_auctions,
+    })
 
 
 # add_evaluation.html
@@ -716,7 +715,7 @@ def detailed_search(request):
 
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
-from .models import AddAuction, Bid, TransactionEvaluation
+from .models import AddAuction, Bid
 
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)

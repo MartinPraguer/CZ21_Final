@@ -5,45 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e7631805-3cba-4989-a3d4-af2bc37442e1" name="Changes" comment="fix: test koupě - stránka v en">
-      <change afterPath="$PROJECT_DIR$/viewer/templates/templates_odpadkovy_kos/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/cart_context.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/cart_context.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aukce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Aukce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/scripts/můj pokus.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/scripts/můj pokus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/scripts/populate_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/scripts/populate_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/about_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/about_us.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_auction_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/add_evaluation.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/add_evaluation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/auction_success.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auction_success.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/auctions.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/auctions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/base_4_obrazky.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/cart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/confirm_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/confirm_delete.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/detailed_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/detailed_search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/edit_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/list_users.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/list_users.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/payment.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/payment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/success.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/success_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/success_delete.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/templates/user_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/user_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/tests/test_add_auction.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/tests/test_add_auction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/tests/test_koupe.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/tests/test_koupe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/tests/test_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/tests/test_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/tests/test_profil.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/tests/test_profil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/tests/test_registrace.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/tests/test_registrace.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/views_sablony.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views_sablony.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,24 +67,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "develop-Martin",
-    "last_opened_file_path": "Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/templates/templates_odpadkovy_kos",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-Martin&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/SDA_pycharm/CZ21_Final_Aukce/viewer/templates/templates_odpadkovy_kos&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="Z:\SDA_pycharm\CZ21_Final_Aukce\viewer\templates\templates_odpadkovy_kos" />
@@ -565,7 +534,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="user_detail" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

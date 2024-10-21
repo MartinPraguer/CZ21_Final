@@ -136,14 +136,22 @@ class AddAuction(models.Model):
         return f"{self.name_auction} - {self.user_creator} - {self.category} - {self.description}"
 
 
-class TransactionEvaluation(models.Model):
-    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE, related_name='evaluations')
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_reviews')
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_reviews')
-    seller_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
-    seller_comment = models.TextField(blank=True, null=True)
+
+class BuyerEvaluation(models.Model):
+    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     buyer_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
     buyer_comment = models.TextField(blank=True, null=True)
+    transaction_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Transaction evaluation for auction {self.auction}"
+
+class SellerEvaluation(models.Model):
+    auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
+    seller_comment = models.TextField(blank=True, null=True)
     transaction_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

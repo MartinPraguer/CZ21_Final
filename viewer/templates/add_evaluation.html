@@ -3,20 +3,14 @@
 {% load my_filters %}
 {% block content %}
 
+<h1>Přidat hodnocení jako {{ user_role }}</h1>
+
 <form method="post">
     {% csrf_token %}
-
-    {% if is_seller %}
-        <h3>Seller Rating</h3>
-        {{ form.seller_rating }}
-        {{ form.seller_comment }}
-    {% else %}
-        <h3>Buyer Rating</h3>
-        {{ form.buyer_rating }}
-        {{ form.buyer_comment }}
-    {% endif %}
-
-    <button type="submit">Submit a review</button>
+    {{ form.as_p }}
+    <button type="submit">Odeslat hodnocení</button>
 </form>
+
+<a href="{% url 'auction_detail' auction.id %}">Zpět na aukci</a>
 
 {% endblock %}

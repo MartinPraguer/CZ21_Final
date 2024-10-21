@@ -4,30 +4,35 @@
 {% block content %}
     <h2>{{ user.username }}'s Auction Details</h2>
 
- <h2>Detail uživatele: {{ user.username }}</h2>
+    <h3>Created Auctions:</h3>
+    <ul>
+        {% for auction in created_auctions %}
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</a></li>
+        {% empty %}
+            <li>No auctions created</li>
+        {% endfor %}
+    </ul>
 
-<h3>Vytvořené aukce</h3>
-<ul>
-    {% for auction in created_auctions %}
-    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
-    {% endfor %}
-</ul>
+    <h3>Bided Auctions:</h3>
+    <ul>
+        {% for auction in bided_auctions %}
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Current Bid: {{ auction.price }})</a></li>
+        {% empty %}
+            <li>No auctions bided</li>
+        {% endfor %}
+    </ul>
 
-<h3>Přihazoval na aukcích</h3>
-<ul>
-    {% for auction in bided_auctions %}
-    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
-    {% endfor %}
-</ul>
+    <h3>Bought Auctions:</h3>
+    <ul>
+        {% for auction in bought_auctions %}
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
+        {% empty %}
+            <li>No auctions bought</li>
+        {% endfor %}
+    </ul>
 
-<h3>Aukce, které koupil</h3>
-<ul>
-    {% for auction in bought_auctions %}
-    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
-    {% endfor %}
-</ul>
 
-<h3>Průměrné hodnocení jako kupující</h3>
+<h3>Průměrné hodnocení, které udělil jako kupující</h3>
 <p>
     {% if average_buyer_rating %}
     Průměrné hodnocení: {{ average_buyer_rating }} hvězdiček
@@ -36,7 +41,7 @@
     {% endif %}
 </p>
 
-<h3>Průměrné hodnocení jako prodávající</h3>
+<h3>Průměrné hodnocení, které udělil jako prodávající</h3>
 <p>
     {% if average_seller_rating %}
     Průměrné hodnocení: {{ average_seller_rating }} hvězdiček
@@ -74,6 +79,63 @@
 {% else %}
 <p>Uživatel zatím neudělil žádné hodnocení jako prodávající.</p>
 {% endif %}
+XXXXX
+<h1>Detail uživatele {{ user.username }}</h1>
 
+<h2>Průměrné hodnocení</h2>
+<p>Průměrné hodnocení jako kupující: {{ average_buyer_rating|default:"Žádné hodnocení" }} hvězdiček</p>
+<p>Průměrné hodnocení jako prodávající: {{ average_seller_rating|default:"Žádné hodnocení" }} hvězdiček</p>
+
+<h2>Hodnocení jako kupující</h2>
+{% if given_buyer_reviews %}
+    <ul>
+        {% for review in given_buyer_reviews %}
+        <li>
+            Hodnocení: {{ review.buyer_rating }} hvězdiček<br>
+            Komentář: {{ review.buyer_comment }}<br>
+            Aukce: {{ review.auction.name }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Uživatel nemá žádné hodnocení jako kupující.</p>
+{% endif %}
+
+<h2>Hodnocení jako prodávající</h2>
+{% if given_seller_reviews %}
+    <ul>
+        {% for review in given_seller_reviews %}
+        <li>
+            Hodnocení: {{ review.seller_rating }} hvězdiček<br>
+            Komentář: {{ review.seller_comment }}<br>
+            Aukce: {{ review.auction.name }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Uživatel nemá žádné hodnocení jako prodávající.</p>
+{% endif %}
+
+<h2>Aukce vytvořené uživatelem</h2>
+{% if created_auctions %}
+    <ul>
+        {% for auction in created_auctions %}
+        <li>{{ auction.name }} (vytvořeno {{ auction.created_date }})</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Uživatel nevytvořil žádné aukce.</p>
+{% endif %}
+
+<h2>Aukce, kde uživatel přihazoval</h2>
+{% if participated_auctions %}
+    <ul>
+        {% for auction in participated_auctions %}
+        <li>{{ auction.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Uživatel nepřihazoval na žádné aukce.</p>
+{% endif %}
 
 {% endblock %}
