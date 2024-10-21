@@ -147,7 +147,7 @@ class TransactionEvaluation(models.Model):
     transaction_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Auction {self.auction} - Seller: {self.seller}, Buyer: {self.buyer}"
+        return f"Transaction evaluation for auction {self.auction}"
 
 
 class Bid(models.Model):

@@ -4,47 +4,76 @@
 {% block content %}
     <h2>{{ user.username }}'s Auction Details</h2>
 
-    <h3>Created Auctions:</h3>
-    <ul>
-        {% for auction in created_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
-                - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</a></li>
-        {% empty %}
-            <li>No auctions created</li>
-        {% endfor %}
-    </ul>
+ <h2>Detail uživatele: {{ user.username }}</h2>
 
-    <h3>Bided Auctions:</h3>
-    <ul>
-        {% for auction in bided_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
-                - {{ auction.category.name }} (Current Bid: {{ auction.price }})</a></li>
-        {% empty %}
-            <li>No auctions bided</li>
-        {% endfor %}
-    </ul>
+<h3>Vytvořené aukce</h3>
+<ul>
+    {% for auction in created_auctions %}
+    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
+    {% endfor %}
+</ul>
 
-    <h3>Bought Auctions:</h3>
-    <ul>
-        {% for auction in bought_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
-                - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
-        {% empty %}
-            <li>No auctions bought</li>
-        {% endfor %}
-    </ul>
+<h3>Přihazoval na aukcích</h3>
+<ul>
+    {% for auction in bided_auctions %}
+    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
+    {% endfor %}
+</ul>
 
-    <h3>User rating:</h3>
+<h3>Aukce, které koupil</h3>
+<ul>
+    {% for auction in bought_auctions %}
+    <li>{{ auction.name_auction }} - Cena: {{ auction.price|default:"N/A" }}</li>
+    {% endfor %}
+</ul>
 
-    {% if user.reviews_received.exists %}
-        <p>Average rating: {{ average_rating|default:"No ratings yet" }}</p>
-        <ul>
-            {% for review in user.reviews_received.all %}
-                <li>{{ review.seller.username }}: {{ review.buyer_rating }} stars - {{ review.buyer_comment }}</li>
-            {% endfor %}
-        </ul>
+<h3>Průměrné hodnocení jako kupující</h3>
+<p>
+    {% if average_buyer_rating %}
+    Průměrné hodnocení: {{ average_buyer_rating }} hvězdiček
     {% else %}
-        <p>This user has no ratings yet.</p>
+    Uživatel zatím nemá hodnocení jako kupující.
     {% endif %}
+</p>
+
+<h3>Průměrné hodnocení jako prodávající</h3>
+<p>
+    {% if average_seller_rating %}
+    Průměrné hodnocení: {{ average_seller_rating }} hvězdiček
+    {% else %}
+    Uživatel zatím nemá hodnocení jako prodávající.
+    {% endif %}
+</p>
+
+<h2>Hodnocení, která udělil jako kupující</h2>
+{% if given_buyer_reviews %}
+<ul>
+    {% for review in given_buyer_reviews %}
+    <li>
+        <strong>Aukce:</strong> <a href="{% url 'auction_detail' review.auction.id %}">{{ review.auction.name_auction }}</a><br>
+        <strong>Hodnocení:</strong> {{ review.buyer_rating }} hvězdiček<br>
+        <strong>Komentář:</strong> {{ review.buyer_comment }}<br>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Uživatel zatím neudělil žádné hodnocení jako kupující.</p>
+{% endif %}
+
+<h2>Hodnocení, která udělil jako prodávající</h2>
+{% if given_seller_reviews %}
+<ul>
+    {% for review in given_seller_reviews %}
+    <li>
+        <strong>Aukce:</strong> <a href="{% url 'auction_detail' review.auction.id %}">{{ review.auction.name_auction }}</a><br>
+        <strong>Hodnocení:</strong> {{ review.seller_rating }} hvězdiček<br>
+        <strong>Komentář:</strong> {{ review.seller_comment }}<br>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Uživatel zatím neudělil žádné hodnocení jako prodávající.</p>
+{% endif %}
+
 
 {% endblock %}

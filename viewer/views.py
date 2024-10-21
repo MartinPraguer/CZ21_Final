@@ -43,6 +43,10 @@ from django.contrib.auth.decorators import login_required
 from .models import AddAuction, TransactionEvaluation, User
 from django.db.models import Avg
 from .forms import SellerEvaluationForm, BuyerEvaluationForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import AddAuction, TransactionEvaluation
+from .forms import SellerEvaluationForm, BuyerEvaluationForm
 
 
 
@@ -55,6 +59,25 @@ from .forms import SellerEvaluationForm, BuyerEvaluationForm
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from .models import AddAuction, TransactionEvaluation, UserAccounts
+from .forms import SellerEvaluationForm, BuyerEvaluationForm
+from django.db.models import Avg
 
 
 @login_required
@@ -62,58 +85,53 @@ def add_evaluation(request, auction_id):
     auction = get_object_or_404(AddAuction, id=auction_id)
     print(f"Auction found: {auction.name_auction}")
 
-    # Kontrola, zda už kupující/prodávající již udělili hodnocení
-    evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, buyer=request.user).exists()
+    # Kontrola, zda už uživatel (prodávající nebo kupující) již udělil hodnocení
+    if request.user == auction.user_creator:
+        evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, seller=request.user).exists()
+    else:
+        evaluation_exists = TransactionEvaluation.objects.filter(auction=auction, buyer=request.user).exists()
 
     if evaluation_exists:
         print("Uživatel již udělil hodnocení.")
-        # Přesměruj nebo zobraz zprávu, že hodnocení již bylo uděleno
         return redirect('add_auction_detail', pk=auction.id)
 
+    # Rozdělení formuláře pro prodávajícího nebo kupujícího
     if request.user == auction.user_creator:
         print("User is the seller")
-        # Formulář pro prodávajícího
         if request.method == 'POST':
             seller_form = SellerEvaluationForm(request.POST)
-            print(f"Form data received: {request.POST}")
-
             if seller_form.is_valid():
-                print("Seller form is valid")
                 evaluation = seller_form.save(commit=False)
                 evaluation.auction = auction
-                evaluation.seller = request.user  # Nastavuje prodávajícího
-                print(f"Seller set to: {request.user}")
+                evaluation.seller = request.user  # Nastavení prodávajícího
+                evaluation.buyer = auction.name_buyer  # Přiřadíme kupujícího z aukce
+                print(f"Hodnocení připraveno k uložení: Seller Rating - {evaluation.seller_rating}")
                 evaluation.save()
-                print("Evaluation saved successfully")
-                return redirect('auction_detail', auction_id=auction.id)
+                print("Seller evaluation saved successfully")
+                return redirect('add_auction_detail', pk=auction.id)
             else:
                 print("Seller form is not valid")
                 print(seller_form.errors)
         else:
             seller_form = SellerEvaluationForm()
-
         return render(request, 'add_evaluation.html', {
             'form': seller_form,
             'is_seller': True,
             'auction': auction,
         })
 
-    elif request.user == auction.name_buyer:
+    elif auction.name_buyer and request.user == auction.name_buyer:
         print("User is the buyer")
-        # Formulář pro kupujícího
         if request.method == 'POST':
             buyer_form = BuyerEvaluationForm(request.POST)
-            print(f"Form data received: {request.POST}")
-
             if buyer_form.is_valid():
-                print("Buyer form is valid")
                 evaluation = buyer_form.save(commit=False)
                 evaluation.auction = auction
-                evaluation.buyer = request.user  # Nastavuje kupujícího
-                evaluation.seller = auction.user_creator  # Musíme přiřadit prodávajícího, protože model to vyžaduje
-                print(f"Buyer set to: {request.user}, Seller set to: {auction.user_creator}")
+                evaluation.buyer = request.user  # Nastavení kupujícího
+                evaluation.seller = auction.user_creator  # Přiřazení prodávajícího
+                print(f"Hodnocení připraveno k uložení: Buyer Rating - {evaluation.buyer_rating}")
                 evaluation.save()
-                print("Evaluation saved successfully")
+                print("Buyer evaluation saved successfully")
                 return redirect('add_auction_detail', pk=auction.id)
             else:
                 print("Buyer form is not valid")
@@ -126,6 +144,52 @@ def add_evaluation(request, auction_id):
             'is_seller': False,
             'auction': auction,
         })
+    else:
+        print("Uživatel není oprávněn hodnotit tuto aukci.")
+        return redirect('add_auction_detail', pk=auction.id)
+
+
+@login_required
+def user_detail(request, user_id):
+    # Kontrola, zda je uživatel Premium nebo Superuser
+    user_account = UserAccounts.objects.get(user=request.user)
+    if user_account.account_type.account_type == 'Premium' or request.user.is_superuser:
+        user = get_object_or_404(User, id=user_id)  # Získání detailů uživatele
+
+        # Aukce vytvořené uživatelem
+        created_auctions = user.created_auctions.all()
+        # Aukce, kde uživatel přihazoval
+        bided_auctions = user.bided_auctions.all()
+        # Aukce, které uživatel koupil
+        bought_auctions = user.listed_auctions.all()
+
+        # Získání průměrného hodnocení jako kupujícího
+        average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+
+        # Získání průměrného hodnocení jako prodávajícího
+        average_seller_rating = user.seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
+
+        # Získání hodnocení, která uživatel udělil jako kupující
+        given_buyer_reviews = TransactionEvaluation.objects.filter(buyer=user)
+
+        # Získání hodnocení, která uživatel udělil jako prodávající
+        given_seller_reviews = TransactionEvaluation.objects.filter(seller=user)
+
+        return render(request, 'user_detail.html', {
+            'user': user,
+            'created_auctions': created_auctions,
+            'bided_auctions': bided_auctions,
+            'bought_auctions': bought_auctions,
+            'average_buyer_rating': average_buyer_rating,
+            'average_seller_rating': average_seller_rating,
+            'given_buyer_reviews': given_buyer_reviews,  # Přidání udělených hodnocení jako kupující
+            'given_seller_reviews': given_seller_reviews,  # Přidání udělených hodnocení jako prodávající
+        })
+    else:
+        return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
+
+
+
 
 
 # add_evaluation.html
@@ -650,6 +714,10 @@ def detailed_search(request):
     return render(request, 'detailed_search.html', {'form': form, 'search': auctions})
 
 
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone
+from .models import AddAuction, Bid, TransactionEvaluation
+
 def auction_detail(request, pk):
     auction = get_object_or_404(AddAuction, pk=pk)
 
@@ -675,6 +743,11 @@ def auction_detail(request, pk):
         hours, remainder = divmod(time_left.seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
 
+    # Zjistíme, jestli je aktuální uživatel prodávající nebo kupující
+    is_seller = request.user == auction.user_creator
+    is_buyer = auction.name_buyer and request.user == auction.name_buyer  # Kontrola, jestli má aukce kupujícího
+    can_add_evaluation = is_seller or is_buyer
+
     if request.method == 'POST':
         if not request.user.is_authenticated:
             # Přesměrování na login s parametrem next
@@ -699,23 +772,14 @@ def auction_detail(request, pk):
                     'error_message': f'Your bid is lower than the minimum bid. Minimum bid is {auction.minimum_bid} Kč.'
                 })
 
-            # Pokud aukce nemá žádnou cenu, začínáme se start_price
             if auction.price is None:
                 auction.price = auction.start_price
 
-            # Nastavení previous_price na aktuální cenu
             auction.previous_price = auction.price
-
-            # Zvýšení ceny o nový příhoz
             auction.price += new_bid
 
-            # Uložení nového příhozu s cenou po příhozu
             Bid.objects.create(auction=auction, user=request.user, amount=new_bid, price=auction.price)
-
-            # Nastavení posledního přihazujícího
             auction.name_bider = request.user
-
-            # Uložení aukce s novou cenou
             auction.save()
 
             return redirect('add_auction_detail', pk=auction.pk)
@@ -727,16 +791,17 @@ def auction_detail(request, pk):
                 'error_message': 'Musíte zadat částku příhozu.'
             })
 
-    # Předání dat do šablony
     return render(request, 'add_auction_detail.html', {
         'auction': auction,
         'bids': bids,
-        'last_bider': last_bider,  # Přidáno pro šablonu
+        'last_bider': last_bider,
         'auction_expired': auction_expired,
         'days': days if not auction_expired else 0,
         'hours': hours if not auction_expired else 0,
-        'minutes': minutes if not auction_expired else 0
+        'minutes': minutes if not auction_expired else 0,
+        'can_add_evaluation': can_add_evaluation,  # Předáme proměnnou pro kontrolu hodnocení
     })
+
 
 
 def about_us(request):
