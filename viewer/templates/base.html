@@ -3,7 +3,7 @@
 {% load static %}
 
 <html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
-
+<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 <head>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <meta charset="utf-8">
@@ -20,6 +20,32 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Our Works, ​We love to do, Recent Works, ​Creativity with the power to transform">
+    <meta name="description" content="">
+    <title>Aukční galerie</title>
+    <link rel="stylesheet" href="{% static 'nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'index.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static jquery.js %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static nicepage.js %}" defer=""></script>
+    <meta name="generator" content="Nicepage 6.18.5, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "",
+            "logo": "{% static 'Auction gallery -ořez.gif' %}"
+}
+    </script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
 </head>
 
 <body>
@@ -122,36 +148,7 @@
     </div>
 </nav>
 
-<!DOCTYPE html>
-<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
-<html style="font-size: 16px;" lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="Our Works, ​We love to do, Recent Works, ​Creativity with the power to transform">
-    <meta name="description" content="">
-    <title>Aukční galerie</title>
-    <link rel="stylesheet" href="{% static 'nicepage.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'index.css' %}" media="screen">
-    <script class="u-script" type="text/javascript" src="{% static jquery.js %}" defer=""></script>
-    <script class="u-script" type="text/javascript" src="{% static nicepage.js %}" defer=""></script>
-    <meta name="generator" content="Nicepage 6.18.5, nicepage.com">
-    <meta name="referrer" content="origin">
-    <link id="u-theme-google-font" rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Organization",
-            "name": "",
-            "logo": "{% static 'Auction gallery -ořez.gif' %}"
-}
-    </script>
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Home">
-    <meta property="og:type" content="website">
-    <meta data-intl-tel-input-cdn-path="intlTelInput/">
-</head>
+
 
 <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
     <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
