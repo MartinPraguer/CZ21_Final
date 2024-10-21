@@ -2,35 +2,36 @@
 {% load my_filters %}
 {% block content %}
 
-<h1>Payment for {{ payment_type }}</h1>
+    <h1>Payment for {{ payment_type }}</h1>
 
-<!-- Zobrazíme obsah košíku, pokud se jedná o platbu za košík -->
-{% if payment_type == 'cart' %}
-    <h2>Items in cart:</h2>
-    <ul>
-        {% for item in cart_items %}
-            <li>{{ item.auction.name_auction }} - {{ item.price|price_format }} Kč</li> <!-- Opraveno formátování ceny -->
-        {% endfor %}
-    </ul>
-    <p>Total amount: {{ cart_total_amount|price_format }} Kč</p> <!-- Opraveno formátování celkové částky -->
-{% endif %}
+    <!-- Zobrazíme obsah košíku, pokud se jedná o platbu za košík -->
+    {% if payment_type == 'cart' %}
+        <h2>Items in cart:</h2>
+        <ul>
+            {% for item in cart_items %}
+                <li>{{ item.auction.name_auction }} - {{ item.price|price_format }} Kč</li>
+                <!-- Opraveno formátování ceny -->
+            {% endfor %}
+        </ul>
+        <p>Total amount: {{ cart_total_amount|price_format }} Kč</p> <!-- Opraveno formátování celkové částky -->
+    {% endif %}
 
-<form action="{% url 'payment' payment_type %}" method="post">
-    {% csrf_token %}
+    <form action="{% url 'payment' payment_type %}" method="post">
+        {% csrf_token %}
 
-    <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="{{ stripe_public_key }}"
-        data-name="{% if payment_type == 'subscription' %}Premium Account{% else %}Platba za košík{% endif %}"
-        data-description="{% if payment_type == 'subscription' %}Paying for a premium account{% else %}Platba za položky v košíku{% endif %}"
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto"
-        data-currency="czk"
-        data-amount="{{ cart_total_amount_in_halere }}">
-    </script>
+        <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="{{ stripe_public_key }}"
+                data-name="{% if payment_type == 'subscription' %}Premium Account{% else %}Platba za košík{% endif %}"
+                data-description="{% if payment_type == 'subscription' %}Paying for a premium account{% else %}Platba za položky v košíku{% endif %}"
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                data-locale="auto"
+                data-currency="czk"
+                data-amount="{{ cart_total_amount_in_halere }}">
+        </script>
 
 
-</form>
+    </form>
     <button type="submit" id="checkout-button">
         Payment
     </button>
@@ -38,10 +39,10 @@
     <br>
     <br>
     <form method="POST" action="{% url 'pay_button' %}">
-    {% csrf_token %}
-    <button type="submit">Test pay button</button>
-</form>
-    
-    
-    
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Test pay button</button>
+    </form>
+
+
+
 {% endblock %}

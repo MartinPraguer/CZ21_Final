@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+
 <form method="post">
     {% csrf_token %}
 
@@ -13,3 +18,5 @@
 
     <button type="submit">Submit a review</button>
 </form>
+
+{% endblock %}

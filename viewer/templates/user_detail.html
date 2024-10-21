@@ -3,11 +3,12 @@
 {% load my_filters %}
 {% block content %}
     <h2>{{ user.username }}'s Auction Details</h2>
-    
+
     <h3>Created Auctions:</h3>
     <ul>
         {% for auction in created_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</a></li>
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
+                - {{ auction.category.name }} (Views: {{ auction.number_of_views }})</a></li>
         {% empty %}
             <li>No auctions created</li>
         {% endfor %}
@@ -16,7 +17,8 @@
     <h3>Bided Auctions:</h3>
     <ul>
         {% for auction in bided_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Current Bid: {{ auction.price }})</a></li>
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
+                - {{ auction.category.name }} (Current Bid: {{ auction.price }})</a></li>
         {% empty %}
             <li>No auctions bided</li>
         {% endfor %}
@@ -25,7 +27,8 @@
     <h3>Bought Auctions:</h3>
     <ul>
         {% for auction in bought_auctions %}
-            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }} - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
+            <li><a href="{% url 'add_auction_detail' auction.id %}">{{ auction.name_auction }}
+                - {{ auction.category.name }} (Bought for: {{ auction.buy_now_price }})</a></li>
         {% empty %}
             <li>No auctions bought</li>
         {% endfor %}
@@ -33,15 +36,15 @@
 
     <h3>User rating:</h3>
 
-{% if user.reviews_received.exists %}
-    <p>Average rating: {{ average_rating|default:"No ratings yet" }}</p>
-    <ul>
-        {% for review in user.reviews_received.all %}
-            <li>{{ review.seller.username }}: {{ review.buyer_rating }} stars - {{ review.buyer_comment }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>This user has no ratings yet.</p>
-{% endif %}
-    
+    {% if user.reviews_received.exists %}
+        <p>Average rating: {{ average_rating|default:"No ratings yet" }}</p>
+        <ul>
+            {% for review in user.reviews_received.all %}
+                <li>{{ review.seller.username }}: {{ review.buyer_rating }} stars - {{ review.buyer_comment }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>This user has no ratings yet.</p>
+    {% endif %}
+
 {% endblock %}

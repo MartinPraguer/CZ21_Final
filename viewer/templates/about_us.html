@@ -115,7 +115,7 @@
     gap: 20px;  /* Mezera mezi kartami */
 }
 
-        /* Jasnější zlatá při najetí myší */
+
     </style>
     
     <!-- Start of centered content wrapper -->
@@ -162,7 +162,7 @@
                                 {% endif %}
                             </p>
 
-                            <p class="u-align-center u-text u-text-8">
+                            <a class="u-align-center u-text u-text-8">
                                 {% if add_auction.is_sold %}
                                     <button class="sold-label">Sold</button>
                                 {% elif add_auction.auction_end_date < current_time and not add_auction.is_sold %}
@@ -170,7 +170,7 @@
                                 {% elif add_auction.auction_type == 'place_bid' %}
                                     <button class="btn btn-gold">Place Bid</button>
                                 {% else %}
-                                    <button class="btn btn-gold">Buy Now</button>
+                                    <a href="{{ about.locket5 }}"><button class="btn btn-gold">Buy Now</button></a>
                                 {% endif %}
                             </p>
 

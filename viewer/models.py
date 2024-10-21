@@ -1,15 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import OneToOneField, ForeignKey, CharField, DateTimeField, IntegerField, TextField, BooleanField, ImageField
+from django.db.models import OneToOneField, ForeignKey, CharField, DateTimeField, IntegerField, TextField, BooleanField, \
+    ImageField
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum
+
 
 class AccountStatus(models.Model):
     account_status = CharField(max_length=128)
 
     def __str__(self):
         return self.account_status
+
 
 class AccountType(models.Model):
     account_type = models.CharField(max_length=128)
@@ -41,6 +44,7 @@ class UserAccounts(models.Model):
         self.is_premium = True
         self.save()
 
+
 class Profile(models.Model):
     user = OneToOneField(User, on_delete=models.CASCADE)
     city = CharField(max_length=128, default="City")
@@ -54,7 +58,6 @@ class Profile(models.Model):
         return self.user.username
 
 
-
 class Category(models.Model):
     name = CharField(max_length=128)
 
@@ -66,12 +69,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class AddAuction(models.Model):
     name_auction = models.CharField(max_length=128)
     user_creator = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='created_auctions')
-    name_bider = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True, blank=True)
-    name_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True, blank=True)
+    name_bider = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='bided_auctions', null=True,
+                                   blank=True)
+    name_buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='listed_auctions', null=True,
+                                   blank=True)
     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
     description = models.TextField(default="No description provided")
     promotion = models.BooleanField(default=False)
@@ -95,7 +99,6 @@ class AddAuction(models.Model):
     minimum_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
 
-
     def is_expired(self):
         return self.auction_end_date and self.auction_end_date <= timezone.now()
 
@@ -109,6 +112,7 @@ class AddAuction(models.Model):
             return self.is_expired() and self.has_bids()
         return False
 
+    # DĚLALO CHYBY - ZBOŽÍ SE NEPŘESOUVALO DO KOŠÍKU
     # def save(self, *args, **kwargs):
     #     # Nastavíme datum začátku aukce na aktuální čas, pokud není nastavené
     #     if not self.auction_start_date:
@@ -134,8 +138,8 @@ class AddAuction(models.Model):
 
 class TransactionEvaluation(models.Model):
     auction = models.ForeignKey(AddAuction, on_delete=models.CASCADE, related_name='evaluations')
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_evaluations')
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_evaluations')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller_reviews')
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buyer_reviews')
     seller_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
     seller_comment = models.TextField(blank=True, null=True)
     buyer_rating = models.IntegerField(choices=[(i, f'{i} stars') for i in range(1, 6)], default=5)
@@ -150,11 +154,13 @@ class Bid(models.Model):
     auction = models.ForeignKey(AddAuction, related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Příhoz uživatele
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Cena po přičtení tohoto příhozu
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True,
+                                blank=True)  # Cena po přičtení tohoto příhozu
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.amount} Kč"
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -175,11 +181,13 @@ class Cart(models.Model):
             print(f"Položka {auction.name_auction} je už v košíku uživatele {user.username}.")
 
         return cart_item
-# toto je navic k puvodnimu Cart
+
+    # toto je navic k puvodnimu Cart
     @classmethod
     def get_cart_total(cls, user):
         total = cls.objects.filter(user=user).aggregate(Sum('price'))['price__sum']
         return total or 0
+
 
 class AuctionImage(models.Model):
     auction = models.ForeignKey(AddAuction, related_name='images', on_delete=models.CASCADE)
@@ -187,6 +195,7 @@ class AuctionImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.auction.name_auction}"
+
 
 class ArchivedPurchase(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -6,23 +6,23 @@
     {% if cart_items %}
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th>Item name</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
+            <tr>
+                <th>Item name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
             </thead>
             <tbody>
-                {% for cart in cart_items %}
-                    <tr>
-                        <td>{{ cart.auction.name_auction }}</td> <!-- Zobrazí název položky -->
-                        <td>{{ cart.price|price_format }} Kč</td> <!-- Zobrazí cenu za kus -->
-                        <td>
-                            <!-- Tlačítko pro odstranění položky -->
-                            <a href="?remove_auction_id={{ cart.auction.id }}" class="btn btn-danger">Remove</a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for cart in cart_items %}
+                <tr>
+                    <td>{{ cart.auction.name_auction }}</td> <!-- Zobrazí název položky -->
+                    <td>{{ cart.price|price_format }} Kč</td> <!-- Zobrazí cenu za kus -->
+                    <td>
+                        <!-- Tlačítko pro odstranění položky -->
+                        <a href="?remove_auction_id={{ cart.auction.id }}" class="btn btn-danger">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
 

@@ -2,56 +2,57 @@
 {% load static %}
 {% load my_filters %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-{% if auction.pk %}
-    <h2>Edit Auction</h2>
-{% else %}
-    <h2>Add Auction Page</h2>
-{% endif %}
+    {% if auction.pk %}
+        <h2>Edit Auction</h2>
+    {% else %}
+        <h2>Add Auction Page</h2>
+    {% endif %}
 
-<!-- Upozornění pro nepřihlášené uživatele -->
-{% if not user.is_authenticated %}
-    <div style="color: red; font-weight: bold; border: 1px solid red; padding: 10px; background-color: #ffdddd;">
-        You cannot add or edit an auction, you are not logged in.
-    </div>
-{% else %}
-    <!-- Formulář pro přihlášené uživatele -->
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">{% if auction.pk %}Edit Auction{% else %}Create Auction{% endif %}</button>
-    </form>
-{% endif %}
-
-
-
+    <!-- Upozornění pro nepřihlášené uživatele -->
+    {% if not user.is_authenticated %}
+        <div style="color: red; font-weight: bold; border: 1px solid red; padding: 10px; background-color: #ffdddd;">
+            You cannot add or edit an auction, you are not logged in.
+        </div>
+    {% else %}
+        <!-- Formulář pro přihlášené uživatele -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">{% if auction.pk %}Save edit Auction{% else %}Create
+                Auction{% endif %}</button>
+        </form>
+    {% endif %}
 
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const auctionTypeField = document.getElementById('id_auction_type');
-    const buyNowPriceField = document.getElementById('id_buy_now_price').parentElement;
-    const startPriceField = document.getElementById('id_start_price').parentElement;
-    const minimumBidField = document.getElementById('id_minimum_bid').parentElement;
 
-    function toggleFields() {
-      if (auctionTypeField.value === 'buy_now') {
-        buyNowPriceField.style.display = 'block';   // Zobrazit "Buy Now" cenu
-        startPriceField.style.display = 'none';     // Skrýt pole pro příhozy
-        minimumBidField.style.display = 'none';
-      } else {
-        buyNowPriceField.style.display = 'none';    // Skrýt "Buy Now" cenu
-        startPriceField.style.display = 'block';    // Zobrazit pole pro příhozy
-        minimumBidField.style.display = 'block';
-      }
-    }
 
-    auctionTypeField.addEventListener('change', toggleFields);
-    toggleFields();  // Spustí se při načtení stránky a nastaví pole podle výběru
-  });
-</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const auctionTypeField = document.getElementById('id_auction_type');
+            const buyNowPriceField = document.getElementById('id_buy_now_price').parentElement;
+            const startPriceField = document.getElementById('id_start_price').parentElement;
+            const minimumBidField = document.getElementById('id_minimum_bid').parentElement;
+
+            function toggleFields() {
+                if (auctionTypeField.value === 'buy_now') {
+                    buyNowPriceField.style.display = 'block';   // Zobrazit "Buy Now" cenu
+                    startPriceField.style.display = 'none';     // Skrýt pole pro příhozy
+                    minimumBidField.style.display = 'none';
+                } else {
+                    buyNowPriceField.style.display = 'none';    // Skrýt "Buy Now" cenu
+                    startPriceField.style.display = 'block';    // Zobrazit pole pro příhozy
+                    minimumBidField.style.display = 'block';
+                }
+            }
+
+            auctionTypeField.addEventListener('change', toggleFields);
+            toggleFields();  // Spustí se při načtení stránky a nastaví pole podle výběru
+        });
+    </script>
 
 
 {% endblock %}

@@ -3,6 +3,7 @@ from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from viewer.models import UserAccounts, AccountType
 
+
 @receiver(post_migrate)
 def create_default_users(sender, **kwargs):
     # Vytvoření nebo získání typů účtů

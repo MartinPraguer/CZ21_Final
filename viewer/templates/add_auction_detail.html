@@ -73,7 +73,7 @@
     {% else %}
         <form method="post" action="{% url 'add_to_cart' auction.pk %}">
             {% csrf_token %}
-            <button type="submit">Add to Cart</button>
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
         </form>
     {% endif %}
 {% endif %}
@@ -131,7 +131,9 @@
         <p>No bids yet.</p>
     {% endif %}
 {% endif %}
-
+<br>
+    <br>
+    <br>
     
 <h2>Rating for this auction</h2>
 
@@ -152,7 +154,7 @@
     <br>
     <br>
     
-<a href="javascript:history.back()" style="text-decoration: none; color: inherit;"><button type="submit" class="">Back to Previous Page</button></a>
+<a href="javascript:history.back()" style="text-decoration: none; color: inherit;"><button type="submit" class="btn btn-primary">Back to Previous Page</button></a>
 
     
   

@@ -5,9 +5,6 @@ from datetime import timedelta
 import random
 import os
 
-
-
-
 PHOTO_DIR = 'media/photos/'
 SAVE_DIR = 'photos_add_auction/'
 
@@ -20,6 +17,7 @@ categorized_photos = {
     'Numismatics': [f for f in photos if f.startswith('mince')],
     'Jewelry': [f for f in photos if f.startswith('šperk')]
 }
+
 
 def add_auction_images(auction, category_photos):
     num_images = random.randint(1, 1)  # Počet obrázků
@@ -40,8 +38,10 @@ def add_auction_images(auction, category_photos):
 
 all_users = []
 
-premium_nicks = ["SkylineWalker", "ThunderBlade", "MysticVoyager", "PixelCrafter", "ShadowHunter23", "NeonNinja", "BlazeRunner", "1234"]
-user_nicks = ["FrozenPhoenix", "CyberSailor", "EchoJumper", "IronWolfX", "CosmicRider", "LunarKnight7", "SwiftFalcon", "CrimsonEcho"]
+premium_nicks = ["SkylineWalker", "ThunderBlade", "MysticVoyager", "PixelCrafter", "ShadowHunter23", "NeonNinja",
+                 "BlazeRunner", "1234"]
+user_nicks = ["FrozenPhoenix", "CyberSailor", "EchoJumper", "IronWolfX", "CosmicRider", "LunarKnight7", "SwiftFalcon",
+              "CrimsonEcho"]
 
 for nick in premium_nicks:
     user, created = User.objects.get_or_create(username=nick)
@@ -62,8 +62,6 @@ for nick in user_nicks:
         user.save()
     all_users.append(user)
 
-
-
 categories = {
     'Paintings': Category.objects.get_or_create(name='Paintings')[0],
     'Statues': Category.objects.get_or_create(name='Statues')[0],
@@ -80,11 +78,10 @@ sample_names = {
 
 sample_descriptions = {
     'Paintings': ["A beautiful piece of art from the 18th century.", "An exquisite oil painting with vibrant colors."],
-    'Statues': [ "A stunning ancient statue with a rich history.", "A captivating bronze sculpture."],
+    'Statues': ["A stunning ancient statue with a rich history.", "A captivating bronze sculpture."],
     'Numismatics': ["Rare coins from the medieval era.", "Silver and gold coins dating back to the Roman Empire."],
     'Jewelry': ["Elegant and unique piece of jewelry, perfect for collectors.", "A dazzling emerald ring set in gold."]
 }
-
 
 
 def create_expired_auctions_without_bids(
@@ -123,25 +120,6 @@ def create_expired_auctions_without_bids(
         add_auction.save()
 
         add_auction_images(add_auction, categorized_photos[category.name])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Vytvoření náhodných příhozů a nastavení kupujícího
@@ -279,17 +257,7 @@ def create_active_auctions(
 
 # Hlavní funkce pro spuštění skriptu
 def run():
-
-
-
-
-
-
-
-
-
     # Definice kategorizovaných fotografií
-
 
     # Vytvoření expirovaných aukcí
     create_expired_auctions_without_bids(
@@ -363,19 +331,18 @@ def run():
 
     print("Data populated successfully!")
 
-
     # Martin Praguer
     user = get_or_create_user(username='Martin Praguer', email='martin.praguer@gmail.com')
     if not About.objects.filter(about_user=user).exists():
         About.objects.create(
             photo='about/Martin Praguer.png',  # Cesta k obrázku
             about_user=user,
-            contact = 'martin.praguer@gmail.com',
-            locket1 = 'Role in the project:',
-            locket2 = 'populate data',
-            locket3 = 'templates and details',
-            locket4 = '',
-            locket5 = '',
+            contact='martin.praguer@gmail.com',
+            locket1='Role in the project:',
+            locket2='populate data',
+            locket3='templates and details',
+            locket4='',
+            locket5='',
         )
 
     # Andrej Schön
@@ -384,12 +351,12 @@ def run():
         About.objects.create(
             photo='about/Andrej Schön.jpg',
             about_user=user,
-            contact = 'a.schon@seznam.cz',
-            locket1 = 'Role in the project:',
-            locket2 = 'account administration',
-            locket3 = 'shopping cart',
-            locket4 = '',
-            locket5 = '',
+            contact='a.schon@seznam.cz',
+            locket1='Role in the project:',
+            locket2='account administration',
+            locket3='shopping cart',
+            locket4='',
+            locket5='',
         )
 
     # Ondřej Vitásek
@@ -398,10 +365,10 @@ def run():
         About.objects.create(
             photo='about/Ondřej Vitásek.jpg',
             about_user=user,
-            contact = 'ondrasek11vitasek@seznam.cz',
-            locket1 = 'Role in the project:',
-            locket2 = 'morale boost',
-            locket3 = 'tester',
-            locket4 = '',
-            locket5 = '',
+            contact='ondrasek11vitasek@seznam.cz',
+            locket1='Role in the project:',
+            locket2='morale boost',
+            locket3='tester',
+            locket4='',
+            locket5='',
         )

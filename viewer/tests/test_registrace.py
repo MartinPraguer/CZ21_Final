@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 class RegistrationTest(TestCase):
     def test_registration_with_valid_data(self):
         # URL pro registraci

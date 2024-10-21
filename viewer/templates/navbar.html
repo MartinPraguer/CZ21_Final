@@ -9,16 +9,19 @@
             </p>
 
             {% if user.profile.avatar %}
-                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img src="{{ user.profile.avatar.url }}" alt="Avatar" class="user-avatar" width="50" height="50"></a>
+                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img
+                        src="{{ user.profile.avatar.url }}" alt="Avatar" class="user-avatar" width="50" height="50"></a>
             {% else %}
-                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50"></a>
+                <a href="{% url 'profile' %}" class="btn btn-link" style="color: #333333;"><img
+                        src="{% static 'avatar.png' %}" alt="Default Avatar" class="user-avatar" width="50" height="50"></a>
             {% endif %}
 
             <a href="{% url 'auctions' %}" class="btn btn-link" style="color: #333333;">Auctions</a>
-            
+
             <form method="post" action="{% url 'logout' %}" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-link" style="color: #333333;">Logout</button> <!-- Tmavě šedý text -->
+                <button type="submit" class="btn btn-link" style="color: #333333;">Logout</button>
+                <!-- Tmavě šedý text -->
             </form>
         </div>
     {% else %}

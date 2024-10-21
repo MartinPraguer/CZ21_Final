@@ -45,6 +45,18 @@ from django.db.models import Avg
 from .forms import SellerEvaluationForm, BuyerEvaluationForm
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @login_required
 def add_evaluation(request, auction_id):
     auction = get_object_or_404(AddAuction, id=auction_id)
@@ -131,7 +143,6 @@ def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     user = request.user
     return render(request, 'profile.html', {'user': user, 'profile': profile})
-
 
 
 @login_required
@@ -246,6 +257,7 @@ class SignUpView(View):
 
         return render(request, './registration/sign_up.html', {'form': form})
 
+
 # platebni brana a odkazy na vyzkouseni Pro předplatné: http://localhost:8000/payment/subscription/
 # Pro košík: http://localhost:8000/payment/cart/
 
@@ -264,7 +276,8 @@ class PaymentView(View):
             'payment_type': payment_type,
             'stripe_public_key': 'YOUR_STRIPE_PUBLIC_KEY',  # Nahraď svým veřejným klíčem
             'cart_total_amount': cart_total_amount,  # Celková cena pro zobrazení
-            'cart_total_amount_in_halere': cart_total_amount_in_halere if payment_type == 'cart' else 25000,  # Cena v haléřích
+            'cart_total_amount_in_halere': cart_total_amount_in_halere if payment_type == 'cart' else 25000,
+            # Cena v haléřích
             'cart_items': Cart.objects.filter(user=user),  # Zobrazení položek v košíku
         }
         return render(request, 'payment.html', context)
@@ -324,7 +337,6 @@ class PaymentView(View):
 
         return JsonResponse({'id': session.id})
 
-
     template_name = 'form.html'
 
 
@@ -364,7 +376,6 @@ class AddAuctionCreateView(CreateView):
         return redirect(reverse('auction_success_view', kwargs={'pk': auction.pk}))
 
 
-
 class AddauctionUpdateView(UpdateView):
     model = AddAuction
     form_class = AddAuctionForm
@@ -399,14 +410,10 @@ class AddauctionDeleteView(DeleteView):
         return redirect(self.get_success_url())  # Přesměrování po úspěšném smazání
 
 
-
-
-
-
-
 def success_delete(request, auction_title):
     # Zobrazí stránku s potvrzením úspěšného smazání
     return render(request, 'success_delete.html', {'auction_title': auction_title})
+
 
 # class AddauctionDetailView(DetailView):
 #     model = AddAuction
@@ -448,9 +455,6 @@ def add_to_cart(request, auction_id):
 
     # Přesměrujeme uživatele na stránku košíku
     return redirect('cart_view')
-
-
-
 
 
 # Funkce pro zobrazení a správu košíku
@@ -514,17 +518,12 @@ def create_auction(request):
     return render(request, 'add_auction_form.html', {'form': form})
 
 
-
-
 def auction_success_view(request, pk):
     # Získej aukci na základě primárního klíče (pk)
     auction = get_object_or_404(AddAuction, pk=pk)
 
     # Předání aukce do kontextu
     return render(request, 'auction_success.html', {'auction': auction})
-
-
-
 
 
 @login_required
@@ -550,7 +549,6 @@ def user_review(request, user_id):
     })
 
 
-
 @login_required
 def user_detail(request, user_id):
     # Kontrola, zda je uživatel Premium nebo Superuser
@@ -560,20 +558,24 @@ def user_detail(request, user_id):
         created_auctions = user.created_auctions.all()  # Aukce vytvořené uživatelem
         bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
         bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
-        average_rating = user.reviews_received.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+
+        # Získání průměrného hodnocení jako kupujícího
+        average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
+
+        # Pokud chceš i hodnocení jako prodávajícího
+        average_seller_rating = user.seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
 
         return render(request, 'user_detail.html', {
             'user': user,
             'created_auctions': created_auctions,
             'bided_auctions': bided_auctions,
             'bought_auctions': bought_auctions,
-            'average_rating': average_rating
+            'average_buyer_rating': average_buyer_rating,
+            'average_seller_rating': average_seller_rating
         })
     else:
         return HttpResponseForbidden("Nemáte oprávnění pro zobrazení detailů uživatele.")
 
-    user = get_object_or_404(User, id=user_id)
-    average_rating = user.reviews_received.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
 
 def detailed_search(request):
     hledany_vyraz = request.GET.get('Search', '').strip()
@@ -735,7 +737,6 @@ def auction_detail(request, pk):
         'hours': hours if not auction_expired else 0,
         'minutes': minutes if not auction_expired else 0
     })
-
 
 
 def about_us(request):

@@ -53,6 +53,7 @@ urlpatterns = [
     path('auctions/', views.auctions, name='auctions'),
 
 
+
     path("", index, name='index'),
     path('paintings/', paintings, name='paintings'),
     path('statues/', statues, name='statues'),
@@ -79,6 +80,7 @@ urlpatterns = [
     path('list_users/', list_users, name='list_users'),
     path('users/<int:user_id>/', user_detail, name='user_detail'),
     path('auction/<int:auction_id>/evaluate/', views.add_evaluation, name='add_evaluation'),
+
 
 
     path('add_to_cart/<int:auction_id>/', add_to_cart, name='add_to_cart'),

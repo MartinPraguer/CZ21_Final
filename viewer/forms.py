@@ -13,8 +13,6 @@ from .models import TransactionEvaluation
 from django.contrib.auth.decorators import login_required
 
 
-
-
 class SellerEvaluationForm(forms.ModelForm):
     class Meta:
         model = TransactionEvaluation
@@ -22,6 +20,7 @@ class SellerEvaluationForm(forms.ModelForm):
         widgets = {
             'seller_rating': forms.RadioSelect(choices=[(i, f'{i} stars') for i in range(1, 6)]),
         }
+
 
 class BuyerEvaluationForm(forms.ModelForm):
     class Meta:
@@ -44,7 +43,9 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'city', 'address', 'zip_code', 'avatar', 'account_type')
+        fields = (
+        'username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'city', 'address', 'zip_code',
+        'avatar', 'account_type')
 
     # Použijeme RegexField, aby PSČ povolovalo pouze číselné hodnoty
     zip_code = forms.CharField(
@@ -52,13 +53,15 @@ class SignUpForm(UserCreationForm):
         required=True,
         validators=[RegexValidator(regex=r'^\d{5}$', message="PSČ musí obsahovat přesně 5 číslic.")]
     )
-        # overeni, jestli uzivatelske jmeno uz existuje
+
+    # overeni, jestli uzivatelske jmeno uz existuje
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("Uživatel s tímto uživatelským jménem již existuje.")
         return username
         # ulozeni uzivatele a jeho profilu
+
     def save(self, commit=True):
         user = super().save(commit=False)
         print(f"DEBUG: Username being saved: {user.username}")  # Zobrazí uživatelské jméno
@@ -83,6 +86,7 @@ class SignUpForm(UserCreationForm):
 
         return user
 
+
 class UserAccountForm(forms.ModelForm):
     class Meta:
         model = UserAccounts
@@ -90,9 +94,10 @@ class UserAccountForm(forms.ModelForm):
 
     account_type = forms.ModelChoiceField(queryset=AccountType.objects.all(), empty_label="Vyberte typ účtu")
 
+
 class AddAuctionForm(ModelForm):
     # Použití MultiFileField pro nahrávání více obrázků
-    images = MultiFileField(min_num=1, max_num=10, max_file_size=1024*1024*5)  # Limity souborů
+    images = MultiFileField(min_num=1, max_num=10, max_file_size=1024 * 1024 * 5)  # Limity souborů
 
     class Meta:
         model = AddAuction
@@ -122,7 +127,8 @@ class BidForm(forms.ModelForm):
         widgets = {
             'amount': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
         }
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def clean_amount(self):
         amount = self.cleaned_data['amount']
         if amount <= 0:
@@ -140,14 +146,17 @@ class AuctionSearchForm(forms.Form):
 
     price_from = forms.DecimalField(required=False, label='Cena od', max_digits=10, decimal_places=2)
     price_to = forms.DecimalField(required=False, label='Cena do', max_digits=10, decimal_places=2)
-    auction_start_date_from = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku od')
-    auction_start_date_to = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Datum začátku do')
+    auction_start_date_from = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}),
+                                              label='Datum začátku od')
+    auction_start_date_to = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}),
+                                            label='Datum začátku do')
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:

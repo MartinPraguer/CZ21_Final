@@ -1,31 +1,21 @@
 from viewer.views import *
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def auction_archives(request):
     # Získání aktuálního času
     current_time = timezone.now()
 
     # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které již skončily
-    buy_now_add_auction = AddAuction.objects.filter(auction_type='buy_now', auction_end_date__lt=current_time).order_by("-created")
+    buy_now_add_auction = AddAuction.objects.filter(auction_type='buy_now', auction_end_date__lt=current_time).order_by(
+        "-created")
 
     # Aukce s propagací, které nejsou "Buy Now", které již skončily
-    promotion_add_auction = AddAuction.objects.filter(promotion=True, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
+    promotion_add_auction = AddAuction.objects.filter(promotion=True, auction_type='place_bid',
+                                                      auction_end_date__lt=current_time).order_by("-created")
 
     # Aukce bez propagace, které nejsou "Buy Now", které již skončily
-    no_promotion_add_auction = AddAuction.objects.filter(promotion=False, auction_type='place_bid', auction_end_date__lt=current_time).order_by("-created")
+    no_promotion_add_auction = AddAuction.objects.filter(promotion=False, auction_type='place_bid',
+                                                         auction_end_date__lt=current_time).order_by("-created")
 
     # Vytvoření paginatoru pro jednotlivé aukce
     paginator_buy_now = Paginator(buy_now_add_auction, 8)  # 8 aukcí na stránku
@@ -192,8 +182,6 @@ def last_auction(request):
     })
 
 
-
-
 def paintings(request):
     # Získání kategorie "Paintings"
     paintings_category = Category.objects.get(name="Paintings")
@@ -316,6 +304,7 @@ def statues(request):
         'promotion_page_obj': promotion_page_obj,
         'no_promotion_page_obj': no_promotion_page_obj
     })
+
 
 def jewelry(request):
     # Získání kategorie "Jewelry"

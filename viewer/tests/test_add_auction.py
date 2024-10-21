@@ -57,7 +57,8 @@ class TestTestaddauction():
         time.sleep(1)  # Zpomalení
 
         # Nahrání souboru
-        self.driver.find_element(By.ID, "id_images").send_keys("C:\\Users\\PraguerNTBK\\Desktop\\Auction gallery -ořez pro favicon.gif")
+        self.driver.find_element(By.ID, "id_images").send_keys(
+            "C:\\Users\\PraguerNTBK\\Desktop\\Auction gallery -ořez pro favicon.gif")
         time.sleep(2)  # Zpomalení po nahrání obrázku
 
         self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()

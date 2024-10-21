@@ -118,7 +118,8 @@
                             {% if auction.images.all %}
                                 <div class="slideshow-container" id="slideshow-{{ auction.pk }}">
                                     {% for image in auction.images.all %}
-                                        <img class="slideshow-image" alt="Image for {{ auction.name_auction }}" src="{{ image.image.url }}">
+                                        <img class="slideshow-image" alt="Image for {{ auction.name_auction }}"
+                                             src="{{ image.image.url }}">
                                     {% endfor %}
                                 </div>
                             {% else %}
@@ -167,11 +168,13 @@
 
                             {% if user.is_superuser %}
                                 <!-- Formuláře pro úpravu a mazání aukcí -->
-                                <form action="{% url 'add_auction_update' auction.pk %}" method="GET" style="display: inline;">
+                                <form action="{% url 'add_auction_update' auction.pk %}" method="GET"
+                                      style="display: inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-primary">Edit</button>
                                 </form>
-                                <form action="{% url 'add_auction_delete' auction.pk %}" method="POST" style="display: inline;">
+                                <form action="{% url 'add_auction_delete' auction.pk %}" method="POST"
+                                      style="display: inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
