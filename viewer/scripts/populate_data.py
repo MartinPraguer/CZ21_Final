@@ -5,7 +5,7 @@ from datetime import timedelta
 import random
 import os
 from django.core.files import File
-from viewer.models import TransactionEvaluation
+from viewer.models import BuyerEvaluation, SellerEvaluation
 
 # Cesty k fotografiím
 PHOTO_DIR = 'media/photos/'
@@ -265,17 +265,30 @@ def generate_evaluation(auction, seller, buyer):
         "Great experience, would buy again!"
     ]
 
-    # Vytvoření hodnocení
-    TransactionEvaluation.objects.create(
+    # # Vytvoření hodnocení
+    # TransactionEvaluation.objects.create(
+    #     auction=auction,
+    #     seller=seller,
+    #     buyer=buyer,
+    #     seller_rating=seller_rating,
+    #     buyer_rating=buyer_rating,
+    #     seller_comment=random.choice(seller_comments),
+    #     buyer_comment=random.choice(buyer_comments),
+    # )
+
+    BuyerEvaluation.objects.create(
         auction=auction,
-        seller=seller,
         buyer=buyer,
-        seller_rating=seller_rating,
         buyer_rating=buyer_rating,
-        seller_comment=random.choice(seller_comments),
         buyer_comment=random.choice(buyer_comments),
     )
 
+    SellerEvaluation.objects.create(
+        auction=auction,
+        seller=seller,
+        seller_rating=seller_rating,
+        seller_comment=random.choice(seller_comments),
+    )
 
 # Hlavní funkce pro spuštění skriptu
 def run():

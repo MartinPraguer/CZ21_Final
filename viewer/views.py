@@ -733,14 +733,28 @@ def auction_detail(request, pk):
     # Kontrola, zda aukce už vypršela
     auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
 
-    if auction_expired:
-        time_left = None
-    else:
-        # Výpočet zbývajícího času
+    # if auction_expired:
+    #     time_left = None
+    # else:
+    #     # Výpočet zbývajícího času
+    #     time_left = auction.auction_end_date - timezone.now()
+    #     days = time_left.days
+    #     hours, remainder = divmod(time_left.seconds, 3600)
+    #     minutes, seconds = divmod(remainder, 60)
+
+    if auction.auction_end_date:
         time_left = auction.auction_end_date - timezone.now()
-        days = time_left.days
-        hours, remainder = divmod(time_left.seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
+
+        if time_left.total_seconds() <= 0:  # Pokud už je aukce ukončená
+            time_left = None
+            days, hours, minutes, seconds = 0, 0, 0, 0  # Nastavíme defaultní hodnoty
+        else:
+            days = time_left.days
+            hours, remainder = divmod(time_left.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+    else:
+        time_left = None
+        days, hours, minutes, seconds = 0, 0, 0, 0  # Nastavíme defaultní hodnoty
 
     # Zjistíme, jestli je aktuální uživatel prodávající nebo kupující
     is_seller = request.user == auction.user_creator
@@ -801,6 +815,63 @@ def auction_detail(request, pk):
         'can_add_evaluation': can_add_evaluation,  # Předáme proměnnou pro kontrolu hodnocení
     })
 
+#
+# def auction_detail(request, pk):
+#     auction = get_object_or_404(AddAuction, pk=pk)
+#
+#     # Zvýšení počtu zobrazení
+#     auction.number_of_views += 1
+#     auction.save()
+#
+#     # Seřazení příhozů podle času, abychom je zobrazili chronologicky
+#     bids = Bid.objects.filter(auction=auction).order_by('-timestamp')
+#
+#     # Získání posledního přihazujícího (pokud nějaký je)
+#     last_bider = bids.first().user if bids.exists() else None
+#
+#     # Kontrola, zda aukce už vypršela
+#     auction_expired = auction.auction_end_date and auction.auction_end_date < timezone.now()
+#
+#     if auction.auction_end_date:
+#         time_left = auction.auction_end_date - timezone.now()
+#
+#         if time_left.total_seconds() <= 0:  # Pokud už je aukce ukončená
+#             time_left = None
+#             days, hours, minutes, seconds = 0, 0, 0, 0  # Nastavíme defaultní hodnoty
+#         else:
+#             days = time_left.days
+#             hours, remainder = divmod(time_left.seconds, 3600)
+#             minutes, seconds = divmod(remainder, 60)
+#     else:
+#         time_left = None
+#         days, hours, minutes, seconds = 0, 0, 0, 0  # Nastavíme defaultní hodnoty
+#
+#     # Zjistíme, jestli je aktuální uživatel prodávající nebo kupující
+#     is_seller = request.user == auction.user_creator
+#     is_buyer = auction.name_buyer and request.user == auction.name_buyer  # Kontrola, jestli má aukce kupujícího
+#     can_add_evaluation = is_seller or is_buyer
+#
+#     # **Nastavení `user_type` pro šablonu**
+#     if is_seller:
+#         user_type = "seller"
+#     elif is_buyer:
+#         user_type = "buyer"
+#     else:
+#         user_type = None  # Pokud není ani kupující, ani prodávající, nemůže hodnotit
+#
+#     return render(request, 'add_auction_detail.html', {
+#         'auction': auction,
+#         'bids': bids,
+#         'time_left': time_left,
+#         'days': days,
+#         'hours': hours,
+#         'minutes': minutes,
+#         'seconds': seconds,
+#         'is_seller': is_seller,
+#         'is_buyer': is_buyer,
+#         'can_add_evaluation': can_add_evaluation,
+#         'user_type': user_type,  # Přidání do šablony
+#     })
 
 
 def about_us(request):

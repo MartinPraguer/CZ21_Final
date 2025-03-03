@@ -150,8 +150,8 @@
 {% else %}
     <p>No ratings have been added yet.</p>
 {% endif %}    
-{% if can_add_evaluation %}
-    <a href="{% url 'add_evaluation' auction.id %}">
+{% if can_add_evaluation and user_type %}
+    <a href="{% url 'add_evaluation' auction.id user_type %}">
         <button type="submit" class="btn btn-primary">Add rating</button>
     </a>
 {% else %}

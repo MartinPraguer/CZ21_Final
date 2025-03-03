@@ -81,7 +81,9 @@ class AddAuction(models.Model):
     promotion = models.BooleanField(default=False)
 
     auction_start_date = models.DateTimeField(null=True, blank=True)
-    auction_end_date = models.DateTimeField(null=True, blank=True)
+    # auction_end_date = models.DateTimeField(null=True, blank=True)
+
+    auction_end_date = models.DateTimeField(null=True, blank=True, default=timezone.now() + timedelta(days=7))
 
     number_of_views = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
