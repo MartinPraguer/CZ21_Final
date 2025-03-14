@@ -9,11 +9,11 @@ def auction_archives(request):
     buy_now_add_auction = AddAuction.objects.filter(auction_type='buy_now', auction_end_date__lt=current_time).order_by(
         "-created")
 
-    # Aukce s propagací, které nejsou "Buy Now", které již skončily
+    # aukce s propagací, které nejsou "Buy Now", které již skončily
     promotion_add_auction = AddAuction.objects.filter(promotion=True, auction_type='place_bid',
                                                       auction_end_date__lt=current_time).order_by("-created")
 
-    # Aukce bez propagace, které nejsou "Buy Now", které již skončily
+    # aukce bez propagace, které nejsou "Buy Now", které již skončily
     no_promotion_add_auction = AddAuction.objects.filter(promotion=False, auction_type='place_bid',
                                                          auction_end_date__lt=current_time).order_by("-created")
 
@@ -75,21 +75,21 @@ def current_auctions(request):
     # Filtrujte pouze inzeráty s aukcemi typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         auction_type='buy_now',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+        auction_end_date__gt=current_time  # aukce, které ještě neskončily
     ).order_by("auction_end_date")
 
-    # Aukce s propagací, které nejsou "Buy Now", a ještě neskončily
+    # aukce s propagací, které nejsou "Buy Now", a ještě neskončily
     promotion_add_auction = AddAuction.objects.filter(
         promotion=True,
         auction_type='place_bid',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+        auction_end_date__gt=current_time  # aukce, které ještě neskončily
     ).order_by("auction_end_date")
 
-    # Aukce bez propagace, které nejsou "Buy Now", a ještě neskončily
+    # aukce bez propagace, které nejsou "Buy Now", a ještě neskončily
     no_promotion_add_auction = AddAuction.objects.filter(
         promotion=False,
         auction_type='place_bid',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+        auction_end_date__gt=current_time  # aukce, které ještě neskončily
     ).order_by("auction_end_date")
 
     # Vytvoření paginatoru pro jednotlivé aukce
@@ -132,7 +132,7 @@ def last_auction(request):
     # Filtrujte všechny aukce typu "Buy Now", které ještě neskončily
     buy_now_add_auction = AddAuction.objects.filter(
         auction_type='buy_now',
-        auction_end_date__gt=current_time  # Aukce, které ještě neskončily
+        auction_end_date__gt=current_time  # aukce, které ještě neskončily
     ).order_by("-created")  # Seřazeno podle data vytvoření, nejnovější první
 
     # Filtrujte aukce s propagací, které nejsou "Buy Now"
@@ -196,7 +196,7 @@ def paintings(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce s propagací, které nejsou "Buy Now"
+    # aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(
         category=paintings_category,
         promotion=True,
@@ -204,7 +204,7 @@ def paintings(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce bez propagace, které nejsou "Buy Now"
+    # aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(
         category=paintings_category,
         promotion=False,
@@ -258,7 +258,7 @@ def statues(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce s propagací, které nejsou "Buy Now"
+    # aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(
         category=statues_category,
         promotion=True,
@@ -266,7 +266,7 @@ def statues(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce bez propagace, které nejsou "Buy Now"
+    # aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(
         category=statues_category,
         promotion=False,
@@ -320,7 +320,7 @@ def jewelry(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce s propagací, které nejsou "Buy Now"
+    # aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(
         category=jewelry_category,
         promotion=True,
@@ -328,7 +328,7 @@ def jewelry(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce bez propagace, které nejsou "Buy Now"
+    # aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(
         category=jewelry_category,
         promotion=False,
@@ -382,7 +382,7 @@ def numismatics(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce s propagací, které nejsou "Buy Now"
+    # aukce s propagací, které nejsou "Buy Now"
     promotion_add_auction = AddAuction.objects.filter(
         category=numismatics_category,
         promotion=True,
@@ -390,7 +390,7 @@ def numismatics(request):
         auction_end_date__gt=current_time
     ).order_by("-created")
 
-    # Aukce bez propagace, které nejsou "Buy Now"
+    # aukce bez propagace, které nejsou "Buy Now"
     no_promotion_add_auction = AddAuction.objects.filter(
         category=numismatics_category,
         promotion=False,

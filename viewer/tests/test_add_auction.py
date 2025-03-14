@@ -47,7 +47,7 @@ class TestTestaddauction():
         dropdown.find_element(By.XPATH, "//option[. = 'Paintings']").click()
         time.sleep(2)  # Zpomalení
 
-        self.driver.find_element(By.ID, "id_description").send_keys("Aukce")
+        self.driver.find_element(By.ID, "id_description").send_keys("aukce")
         time.sleep(1)  # Zpomalení
 
         self.driver.find_element(By.ID, "id_start_price").send_keys("1000")

@@ -173,10 +173,10 @@ def user_detail(request, user_id):
     # Výpočet průměrného hodnocení jako prodávajícího
     average_seller_rating = given_seller_reviews.aggregate(Avg('seller_rating'))['seller_rating__avg']
 
-    # Aukce vytvořené uživatelem (pokud potřebuješ zobrazit)
+    # aukce vytvořené uživatelem (pokud potřebuješ zobrazit)
     created_auctions = AddAuction.objects.filter(user_creator=user)
 
-    # Aukce, kde uživatel přihazoval nebo se účastnil
+    # aukce, kde uživatel přihazoval nebo se účastnil
     participated_auctions = AddAuction.objects.filter(bids__user=user).distinct()
 
     # Předání dat do šablony
@@ -469,7 +469,7 @@ class AddauctionDeleteView(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         auction = self.get_object()  # Získání aukce, která má být smazána
-        auction.delete()  # Aukce je smazána
+        auction.delete()  # aukce je smazána
         return redirect(self.get_success_url())  # Přesměrování po úspěšném smazání
 
 
@@ -618,9 +618,9 @@ def user_detail(request, user_id):
     user_account = UserAccounts.objects.get(user=request.user)
     if user_account.account_type.account_type == 'Premium' or request.user.is_superuser:
         user = get_object_or_404(User, id=user_id)  # Získání detailů uživatele
-        created_auctions = user.created_auctions.all()  # Aukce vytvořené uživatelem
-        bided_auctions = user.bided_auctions.all()  # Aukce, kde uživatel přihazoval
-        bought_auctions = user.listed_auctions.all()  # Aukce, které uživatel koupil
+        created_auctions = user.created_auctions.all()  # aukce vytvořené uživatelem
+        bided_auctions = user.bided_auctions.all()  # aukce, kde uživatel přihazoval
+        bought_auctions = user.listed_auctions.all()  # aukce, které uživatel koupil
 
         # Získání průměrného hodnocení jako kupujícího
         average_buyer_rating = user.buyer_reviews.aggregate(Avg('buyer_rating'))['buyer_rating__avg']
