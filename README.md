@@ -7,7 +7,7 @@ pozn. Projekt není plně dokončen.
 - pip install -r requirements.txt
 - python manage.py makemigrations
 - python manage.py migrate
-- python manage.py runscript populate_data -v3
+- python manage.py runscript populate_date -v3
 - python manage.py runserver
 - admin - jméno/heslo: 1234/1234
 
