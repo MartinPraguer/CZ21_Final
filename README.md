@@ -1,18 +1,23 @@
-# Spouštění aplikace:
+# Auction gallery:
+Projekt aukční webové stránky, tématem je Aukční gallerie - obrazy, sochy, mince a šperky, něco mezi aukro.cz a galerieumeni.cz - podle zadání kurzu Pythonu u SDA Academy: "Projektem je vytvoření systému sloužícího k pořádání aukcí a přihazování na jednotlivé položky. Kromě toho systém umožňuje uživatelům zakládat vlastní účty a vyhodnocovat transakce."
+pozn. Projekt není plně dokončen.
 
+
+# Spouštění aplikace:
 - pip install -r requirements.txt
 - python manage.py makemigrations
 - python manage.py migrate
-- python manage.py runserver
 - python manage.py runscript populate_data -v3
+- python manage.py runserver
 - admin - jméno/heslo: 1234/1234
 
 
 # Auction gallery - průběžné body:
-
-
-
-
+- [ ] opravit zobrazování detailů účtů
+- [ ] zkontrolovat nebo dodělat rankování účtů
+- [ ] dodělat search
+- [ ] udělat logiku prémium účtů s opětovnou platbou
+- [ ] překopat zobrazení promotion a without promotion aukcí
 - [x] počet kliknutí nefunguje
 - [X] přidání volného řádku u kartičky, protože se zkracovala
 - [x] přidání, aby šlo klikat na celou kartičku aukce - nejde klikat na úplný konec kartičky
@@ -29,15 +34,15 @@
 - [x] aby nešlo vytvářet aukci nepřihlášeným uživatelem
 - [x] opravit, aby nešla dát částka pod minimální příhoz
 - [x] users list a detail uživatelů
-- [x] - opravit detailní hledání - chybí description, a otestovat ho - neotestované
+- [ ] opravit detailní hledání - chybí description, a otestovat ho - neotestované
 - [X] napojit Androjovu větev s koupí na to co již máme a udělat pomyslný nákup s tím, že se daná aukce odebere ze seznamu akcí
 - [x] dodělat koupení produktu a vzájemné vyhodnocení kupující/prodávající
 - [x] finalized - testy
 - [x] finalized - populační data
 - [x] finalized - přepsat veškeré texty do angličtiny
-- [ ] finalized - upravit veškeré kódy do finální podoby přes code cosi
+- [x] finalized - upravit veškeré kódy do finální podoby přes code cosi
 - [x] finalized - odstranit z html kódu poznámky
-- [ ] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
+- [x] finalized - upravit a popsat .py soubory, zejména views, vyházet co není potřeba v models.py - ještě to projít
 - [x] opravit názvy tříd
 - [x] přejmenovat záložku Authors na Prodávající/kupující
 - [x] administrace vytvořených účtů, vytvoření adresy, aby šlo měnit adresu
@@ -51,14 +56,14 @@
 - [x] pokazilo se vyhledávání
 - [x] někde se pokazilo přihazování na detailu aukce
 - [X] pokazila se add_auction_add stránka, tak ji opravit - jedeme už add_action_form
-- [X] CRUD - přejmenovat add, protože křičelo - nevím kde to Andrejovi křičelo, u mě všechno OK
+- [X] CRUD - přejmenovat add, protože hlásilo chybu - nevím kde to Andrejovi hlásilo chybu, u mě všechno OK
 - [x] buy now - u kup teď odstranit přidávání příhozů
 - [x] login-log out tlačítko
-- [x] - přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
+- [x] přidat obrázky k přihlášení/odhlášení a registraci - nejde dát obrázek k logout
 - [x] posunout menu doleva
 - [x] ukázat kolik zbývá času do konce aukce
 - [x] na stránce probíhající akce udělat forcyklus přidaných příhozů
-- [-] pořešit hlavy soch
+- [ ] pořešit hlavy soch
 - [x] přidat, aby šlo přidávat vícero obrázku k jedné aukci
 - [x] pokazily se obrázky velkých kategorií, tak to opravit
 - [X] přidat odkazy na jednotlivýcg stránkách a přidat forcyklus na stránky podle kategorie
@@ -67,7 +72,7 @@
 - [x] udělat hodnocení nákupu - prodávající/kupující
 - [x] vytvořit uživatelské účty
 - [x] registrace/přihlášení/odhlášení
-- [ ] rozjet stránky na rosti.cz
+- [x] rozjet stránky na rosti.cz
 - [x] administrace účtů - 3 typy účtů - createsuperuser/promotion/běžný účet
 - [x] předělat CRUD - aby zobrazoval add_auction
 - [x] přepsat advertisement na add_auction
