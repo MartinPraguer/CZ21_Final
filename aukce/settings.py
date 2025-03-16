@@ -139,11 +139,12 @@ STATIC_URL = '/static/'
 
 # Cesta ke složkám s vlastními statickými soubory (např. CSS, JS, obrázky)
 STATICFILES_DIRS = [
-    BASE_DIR / "viewer/static",  # nebo os.path.join(BASE_DIR, 'static') v závislosti na verzi Django
+    BASE_DIR / "static" # BASE_DIR / "viewer/static",  # nebo os.path.join(BASE_DIR, 'static') v závislosti na verzi Django
 ]
 
 # Konečné místo, kam se zkopírují všechny statické soubory při spuštění příkazu collectstatic
-STATIC_ROOT = BASE_DIR / "staticfiles"  # nebo os.path.join(BASE_DIR, 'staticfiles')
+
+  # nebo os.path.join(BASE_DIR, 'staticfiles')
 
 
 MEDIA_URL = '/media/'  # URL pro přístup k mediálním souborům (např. obrázkům)
